@@ -70,10 +70,11 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/animations.css">
 <link rel="stylesheet" href="assets/css/responsive.css">
+<link rel="stylesheet" href="assets/css/travel.css">
 </head>
 <body>
 
-<a class="skip" href="#services">Skip to content</a>
+<a class="skip" href="#plan">Skip to content</a>
 
 <!-- ===================== header ===================== -->
 <header id="site-header">
@@ -82,12 +83,14 @@
   </a>
 
   <nav id="nav" aria-label="Main">
+    <a href="#packages">Packages</a>
+    <a href="#hotels">Hotels</a>
     <a href="#services">Services</a>
     <a href="#process">Process</a>
     <a href="#about">About</a>
     <a href="#testimonials">Testimonials</a>
     <a href="#contact">Contact</a>
-    <a class="nav-cta" href="#contact">Get a Quote →</a>
+    <a class="nav-cta" href="#plan">Plan a Trip &#8594;</a>
   </nav>
 
   <a class="call" href="tel:+919211761885" aria-label="Call BrahmnMitra on +91 92117 61885">
@@ -146,8 +149,8 @@
       <!-- shown only in the no-cinema fallback, where there is no
            scroll-through to carry the visitor into the cabin -->
       <div class="hero-cta">
-        <a class="btn btn-amber" href="#contact">Get a Free Quote</a>
-        <a class="btn btn-glass" href="#services">Explore Services</a>
+        <a class="btn btn-amber" href="#plan">Plan My Trip</a>
+        <a class="btn btn-glass" href="#packages">Explore Journeys</a>
       </div>
     </div>
 
@@ -160,7 +163,7 @@
          past the cinema to #services. It fades out once the visitor has
          scrolled into the content (main.js toggles .gone). Hidden in the
          no-cinema fallback, where there's no long intro to skip. -->
-    <a class="skip-intro" href="#services">Skip intro <span aria-hidden="true">↓</span></a>
+    <a class="skip-intro" href="#plan">Skip intro <span aria-hidden="true">&#8595;</span></a>
 
     <!-- you fly through the window and land here -->
     <div id="reveal">
@@ -171,7 +174,7 @@
         <h2>Window seat secured.<br>Now let's plan the rest.</h2>
         <p class="lead">BrahmnMitra books the flight, builds the itinerary and runs the event — one partner from the first enquiry to the last transfer home. Real people, on the phone, when it matters.</p>
         <div class="cta-row">
-          <a class="btn btn-amber" href="#contact">Get a Free Quote ✈</a>
+          <a class="btn btn-amber" href="#plan">Plan My Trip <span aria-hidden="true">&#9992;</span></a>
           <a class="btn btn-glass" href="https://wa.me/919211761885?text=Hi%20BrahmnMitra%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener">WhatsApp us</a>
         </div>
       </div>
@@ -212,6 +215,75 @@
   <div class="cloud" style="width:280px;height:110px;top:680px;right:-70px;animation-delay:-11s" aria-hidden="true"></div>
   <div class="cloud" style="width:320px;height:120px;top:1560px;left:3%;animation-delay:-19s;opacity:.45" aria-hidden="true"></div>
 
+  <!-- ---------- Phase 1 trip planner ---------- -->
+  <section class="trip-planner" id="plan" aria-labelledby="plan-h">
+    <div class="trip-planner-panel glass glass-strong" data-reveal>
+      <div class="trip-planner-copy">
+        <div>
+          <p class="kicker">Start with your idea</p>
+          <h2 id="plan-h">Tell us where you want to go.</h2>
+        </div>
+        <p>Choose a starting point and a BrahmnMitra travel expert will shape it into a considered itinerary.</p>
+      </div>
+      <form id="trip-planner" class="planner-fields">
+        <div class="planner-field"><label for="planner-destination">Destination</label><select id="planner-destination" name="destination"><option>Loading destinations...</option></select></div>
+        <div class="planner-field"><label for="planner-dates">When</label><input id="planner-dates" name="dates" type="text" placeholder="e.g. October 2026"></div>
+        <div class="planner-field"><label for="planner-travellers">Travellers</label><select id="planner-travellers" name="travellers"><option>2 adults</option><option>Family</option><option>Couple</option><option>Group</option><option>Corporate team</option></select></div>
+        <div class="planner-field"><label for="planner-budget">Budget</label><select id="planner-budget" name="budget"><option>Under Rs. 50,000</option><option>Rs. 50,000 - Rs. 1 lakh</option><option>Rs. 1 lakh - Rs. 2 lakh</option><option>Rs. 2 lakh+</option><option>Let's discuss</option></select></div>
+        <button class="btn btn-amber planner-submit" type="submit">Plan my trip <span aria-hidden="true">&#8594;</span></button>
+      </form>
+      <p id="planner-status" class="planner-status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- ---------- global discovery search ---------- -->
+  <section class="section" id="search" aria-labelledby="search-h">
+    <div class="search-layout">
+      <div data-reveal>
+        <p class="kicker">Discover BrahmnMitra</p>
+        <h2 id="search-h">One search, the whole journey.</h2>
+        <p class="lead">Explore curated destinations, package ideas and stays. Final pricing and availability are always confirmed by our team.</p>
+        <div class="search-box">
+          <label class="sr-only" for="travel-search">Search destinations, packages and curated stays</label>
+          <input id="travel-search" type="search" autocomplete="off" placeholder="Try Kerala, a beach escape, or a heritage stay">
+          <span class="search-icon" aria-hidden="true">&#9906;</span>
+        </div>
+        <span id="search-status" class="search-status" aria-live="polite">Search destinations, packages and curated stays.</span>
+        <div id="search-results" class="search-results" aria-live="polite"></div>
+      </div>
+      <div id="recent-searches" class="recent-searches glass" hidden></div>
+    </div>
+  </section>
+
+  <!-- ---------- packages ---------- -->
+  <section class="section" id="packages" aria-labelledby="packages-h">
+    <div class="catalog-heading" data-reveal>
+      <div><p class="kicker">Curated journeys</p><h2 id="packages-h">A good trip begins with a good shape.</h2><p class="lead">A small starting collection of domestic and international journeys, designed to be tailored around you.</p></div>
+      <div class="catalog-filter"><label for="package-filter">Destination</label><select id="package-filter"><option>Loading destinations...</option></select></div>
+    </div>
+    <div class="filter-chips" role="group" aria-label="Filter packages by region">
+      <button class="filter-chip" type="button" data-region="All" aria-pressed="true">All journeys</button>
+      <button class="filter-chip" type="button" data-region="Domestic" aria-pressed="false">Domestic</button>
+      <button class="filter-chip" type="button" data-region="International" aria-pressed="false">International</button>
+    </div>
+    <div id="package-grid" class="catalog-grid"><div class="catalog-empty glass"><p>Loading curated journeys...</p></div></div>
+  </section>
+
+  <!-- ---------- hotels ---------- -->
+  <section class="section" id="hotels" aria-labelledby="hotels-h">
+    <div class="catalog-heading" data-reveal>
+      <div><p class="kicker">Curated stays</p><h2 id="hotels-h">Stay somewhere worth remembering.</h2><p class="lead">We begin with considered hotel recommendations, then confirm the right room and live availability for your dates.</p></div>
+      <div class="catalog-filter"><label for="hotel-filter">Destination</label><select id="hotel-filter"><option>Loading destinations...</option></select></div>
+    </div>
+    <div id="hotel-grid" class="catalog-grid"><div class="catalog-empty glass"><p>Loading curated stays...</p></div></div>
+  </section>
+  <p class="catalog-disclaimer">*Starting prices are planning guides only and do not represent live inventory, taxes, flights, or confirmed availability. Our team will confirm a complete quote before booking.</p>
+
+  <!-- ---------- destinations ---------- -->
+  <section class="section" id="destinations" aria-labelledby="destinations-h">
+    <div data-reveal><p class="kicker">Destination notes</p><h2 id="destinations-h">More than a pin on a map.</h2><p class="lead">Practical starting notes to help you choose the mood, season and pace for your next journey.</p></div>
+    <div id="destination-grid" class="destination-grid"><div class="catalog-empty glass"><p>Loading destination notes...</p></div></div>
+  </section>
   <!-- ---------- services: EIGHT cards ----------
        The six from the brief, plus the two flight services that are the
        actual business. The old site's H2 here repeated the hero H1 word
@@ -669,6 +741,9 @@
     <nav aria-label="Services">
       <h3 class="fcol">Services</h3>
       <ul>
+        <li><a href="#packages">Packages</a></li>
+        <li><a href="#hotels">Curated Stays</a></li>
+        <li><a href="#destinations">Destinations</a></li>
         <li><a href="#services">Domestic Flights</a></li>
         <li><a href="#services">International Flights</a></li>
         <li><a href="#services">Group Tours</a></li>
@@ -683,6 +758,11 @@
     <nav aria-label="Quick links">
       <h3 class="fcol">Quick Links</h3>
       <ul>
+        <li><a href="#plan">Plan a Trip</a></li>
+        <li><a href="#search">Search</a></li>
+        <li><a href="#packages">Packages</a></li>
+        <li><a href="#hotels">Hotels</a></li>
+        <li><a href="#destinations">Destinations</a></li>
         <li><a href="#top">Home</a></li>
         <li><a href="#services">Services</a></li>
         <li><a href="#process">Process</a></li>
@@ -789,6 +869,7 @@
 <script defer src="assets/js/counter.js"></script>
 <script defer src="assets/js/timeline.js"></script>
 <script defer src="assets/js/form-validation.js"></script>
+<script defer src="assets/js/travel-discovery.js"></script>
 <script defer src="assets/js/main.js"></script>
 
 </body>

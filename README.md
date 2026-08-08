@@ -1775,6 +1775,32 @@ Only after Phase 1 is stable should the project move into the customer account, 
 
 ---
 
+## 46. FUTURE DEVELOPMENT PLANS - 22-POINT PLATFORM ROADMAP
+
+The following items capture the supplied product-development brief. They are **future plans**, not claims about functionality that is currently available.
+
+1. **Customer-facing travel platform** - evolve the marketing website into a transactional journey-planning experience.
+2. **Domestic and international packages** - build searchable, database-driven package catalogues with itinerary, inclusions, availability, reviews and enquiry/booking flows.
+3. **Hotels module** - add curated hotel listings, filters and a design that can later connect to live inventory APIs.
+4. **Brahmnmitra Travel Assistant** - centralise AI-assisted visa, destination-planning and weather-planning tools.
+5. **Recent searches** - retain recent destinations, packages and hotels for both signed-in and anonymous visitors.
+6. **Travel-history recommendations** - suggest relevant destinations using search, travel and booking history.
+7. **Also-visited recommendations** - start with curated relationships and progressively use behavioural and booking data.
+8. **Brahmnmitra Account and Rewards** - provide trips, bookings, saved items, documents, payments, referrals, points and membership tiers.
+9. **Ratings and verified reviews** - allow protected public ratings and reservation-verified traveller reviews.
+10. **Booking and cancellation journeys** - cover quotation, payment, confirmation, documents, trip completion, cancellation and refunds.
+11. **Brahmnmitra Admin / CRM** - provide a protected, role-based workspace for leads, customers, notes, follow-ups and operations.
+12. **Quotation builder** - enable staff to create, price, send, track and convert quotations into bookings.
+13. **Payments** - support advance, partial and final payment tracking with invoices and payment statuses.
+14. **Finance layer** - add reporting for income, expenses, receivables, payables, commissions, refunds and profit/loss; integrate with accounting software where appropriate.
+15. **Supplier and vendor management** - manage hotels, transport, airlines, operators, visa agents, activity providers and guides.
+16. **Staff and permissions** - implement configurable roles for super admins, managers, sales, operations, accounts and content staff.
+17. **Notifications** - create customer and staff notifications, with future email, WhatsApp, SMS and push channels.
+18. **Travel document vault** - securely provide tickets, vouchers, invoices, insurance, visas, itineraries and receipts.
+19. **Global search** - search destinations, packages, hotels, activities, travel guides, blogs and FAQs from one interface.
+20. **SEO-friendly destination pages and Travel Journal** - publish destination hubs, guides, travel tips and reviewed factual content.
+21. **Homepage conversion flow and airplane animation** - centre the homepage on trip planning and refine the existing Three.js/GSAP flight into one smooth, frame-rate-independent animation loop.
+22. **Scalable technical foundation and phased delivery** - plan the public site, admin panel, backend, PostgreSQL, Redis, secure object storage, integrations and database design before extending the platform in controlled phases.
 ## Existing README
 
 The original `README.txt` is intentionally retained for the existing deployment/setup notes.

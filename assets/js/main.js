@@ -60,6 +60,7 @@ if (window.BM) {
   BM.initCounters();
   BM.initTimeline();
   BM.initForm();
+  if (BM.initTravelDiscovery) BM.initTravelDiscovery();
 }
 
 /* ================= the cinematic ================= */
