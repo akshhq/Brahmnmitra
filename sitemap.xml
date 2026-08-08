@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BRAHMNMITRA — sitemap.xml
+
+  Single-page site with anchor navigation, so there is one URL.
+  Submit this in Google Search Console:
+      https://search.google.com/search-console
+  Add the property, verify it, then paste the sitemap URL. That is
+  how you confirm indexing actually happened rather than assuming it.
+
+  Update <lastmod> whenever the content changes materially.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://brahmnmitra.com/</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-label="Hero">
+  <!-- PLACEHOLDER. Replace with a real licensed photo, exported as .webp.
+       Do NOT use an AI-generated image of a famous Indian monument:
+       Indian audiences will spot the wrong number of domes. -->
+  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0B1437"/><stop offset="1" stop-color="#26365E"/>
+  </linearGradient></defs>
+  <rect width="800" height="500" fill="url(#g)"/>
+  <circle cx="640" cy="110" r="52" fill="#F07C29" fill-opacity="0.7"/>
+  <text x="400" y="248" font-family="Archivo,sans-serif" font-size="26" font-weight="700"
+        fill="#FFFFFF" text-anchor="middle">Hero</text>
+  <text x="400" y="284" font-family="Archivo,sans-serif" font-size="15"
+        fill="#93AACB" text-anchor="middle">placeholder — replace with a licensed .webp</text>
+</svg>

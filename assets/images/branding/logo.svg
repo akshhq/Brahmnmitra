@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BRAHMNMITRA — logo.svg  (dark / on-light version)
+
+  TRANSPARENT BACKGROUND. This is the fix for the bug in the brief:
+  the old footer logo sat on a hard orange rectangle because the
+  source file had a baked-in background. There is no <rect> behind
+  this mark — it will sit cleanly on any colour.
+
+  Use logo-white.svg for dark backgrounds (the footer, the night sky).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 132" width="340" height="132" role="img" aria-labelledby="t">
+  <title id="t">BrahmnMitra — Travel Friend</title>
+
+  <!-- the B mark: a wing sweeping out of a roundel -->
+  <g>
+    <circle cx="52" cy="52" r="40" fill="#0B1437"/>
+    <path d="M34 34 h16 a13 13 0 0 1 0 26 h-16 z M34 60 h19 a13 13 0 0 1 0 26 h-19 z"
+          fill="#FFFFFF"/>
+    <!-- the wing -->
+    <path d="M62 46 L96 38 L78 54 L92 56 L64 66 Z" fill="#F07C29"/>
+  </g>
+
+  <!-- wordmark: BRAHMN in orange, MITRA in navy, two lines -->
+  <text x="108" y="52" font-family="Unbounded, Archivo, sans-serif" font-weight="900"
+        font-size="34" letter-spacing="2" fill="#F07C29">BRAHMN</text>
+  <text x="108" y="88" font-family="Unbounded, Archivo, sans-serif" font-weight="900"
+        font-size="34" letter-spacing="2" fill="#0B1437">MITRA</text>
+
+  <!-- strapline -->
+  <text x="110" y="110" font-family="Archivo, sans-serif" font-weight="600"
+        font-size="12" letter-spacing="5" fill="#26365E">TRAVEL FRIEND</text>
+</svg>

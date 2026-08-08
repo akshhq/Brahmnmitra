@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BRAHMNMITRA — logo-white.svg  (knockout / on-dark version)
+
+  For the footer, the night sky, and any dark surface. Transparent
+  background, white wordmark, amber accent retained so the brand
+  still reads as itself.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 132" width="340" height="132" role="img" aria-labelledby="tw">
+  <title id="tw">BrahmnMitra — Travel Friend</title>
+
+  <g>
+    <circle cx="52" cy="52" r="40" fill="#FFFFFF" fill-opacity="0.10"/>
+    <circle cx="52" cy="52" r="40" fill="none" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1.5"/>
+    <path d="M34 34 h16 a13 13 0 0 1 0 26 h-16 z M34 60 h19 a13 13 0 0 1 0 26 h-19 z"
+          fill="#FFFFFF"/>
+    <path d="M62 46 L96 38 L78 54 L92 56 L64 66 Z" fill="#FFB347"/>
+  </g>
+
+  <text x="108" y="52" font-family="Unbounded, Archivo, sans-serif" font-weight="900"
+        font-size="34" letter-spacing="2" fill="#FFB347">BRAHMN</text>
+  <text x="108" y="88" font-family="Unbounded, Archivo, sans-serif" font-weight="900"
+        font-size="34" letter-spacing="2" fill="#FFFFFF">MITRA</text>
+
+  <text x="110" y="110" font-family="Archivo, sans-serif" font-weight="600"
+        font-size="12" letter-spacing="5" fill="#93AACB">TRAVEL FRIEND</text>
+</svg>

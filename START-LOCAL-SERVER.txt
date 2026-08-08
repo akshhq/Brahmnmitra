@@ -1,0 +1,52 @@
+HOW TO PREVIEW THIS SITE LOCALLY (and see the aeroplane animation)
+==================================================================
+
+Opening index.html by double-clicking it (file://) will NOT show the
+3D plane. Browsers block WebGL and scripts on file:// for security.
+You'll see the styled site but the intro drops to its static fallback.
+
+To see the full thing, run a tiny local web server. Pick ONE:
+
+
+--- WINDOWS ---
+
+  1. Open this folder in File Explorer.
+  2. Click the address bar, type  cmd  , press Enter.
+  3. In the black window, paste ONE of these:
+
+        python -m http.server 8000
+
+     (If "python" isn't found, try:  py -m http.server 8000  )
+
+  4. Open your browser to:   http://localhost:8000
+  5. To stop it: press Ctrl+C in the black window.
+
+
+--- MAC / LINUX ---
+
+  1. Open Terminal.
+  2. Drag this folder onto the Terminal window (pastes the path),
+     then type  cd   before it and press Enter. e.g.:
+        cd /Users/you/Downloads/brahmnmitra-site
+  3. Run:
+        python3 -m http.server 8000
+  4. Open:   http://localhost:8000
+  5. Stop:   Ctrl+C
+
+
+--- NO PYTHON? Use Node instead ---
+
+        npx serve
+        npx http-server -p 8000
+
+--- Using VS Code? ---
+
+     Install the "Live Server" extension, right-click index.html,
+     choose "Open with Live Server". Done.
+
+
+IMPORTANT — THE CONTACT FORM
+  A plain local server serves the static site but does NOT run PHP,
+  so enquiry.php won't send email locally. That's expected. The form
+  only works once uploaded to Hostinger (which has PHP). The
+  "Send on WhatsApp instead" button DOES work locally.

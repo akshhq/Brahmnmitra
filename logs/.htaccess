@@ -1,0 +1,23 @@
+# ============================================================
+# BRAHMNMITRA — logs/.htaccess
+# ------------------------------------------------------------
+# enquiries.log holds customers' names, phone numbers and email
+# addresses. It must NEVER be reachable from the web.
+#
+# Without this file, anyone could open
+#     https://brahmnmitra.com/logs/enquiries.log
+# and download your entire customer list.
+#
+# Do not delete this file.
+# ============================================================
+
+# Apache 2.4
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+
+# Apache 2.2 (older shared hosts)
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+</IfModule>

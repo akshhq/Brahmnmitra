@@ -1,0 +1,116 @@
+# ============================================================
+# BRAHMNMITRA — root .htaccess
+# Hostinger shared hosting (Apache). Drop-in, no build step.
+# ============================================================
+
+# ---------- 1. protect the logs ----------
+# Belt and braces: logs/.htaccess also denies access. This is here in
+# case that file is ever lost in an upload.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^logs/ - [F,L]
+  RewriteRule ^includes/ - [F,L]
+</IfModule>
+
+# Never serve a raw log or config, wherever it sits.
+<FilesMatch "\.(log|ini|env)$">
+  Require all denied
+</FilesMatch>
+
+# ---------- 2. canonical host + HTTPS ----------
+# One canonical URL. Without this, https://www. and http:// are
+# separate URLs to Google and the ranking signal is split three ways.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # force HTTPS
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # drop the www.
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+</IfModule>
+
+# ---------- 3. security headers ----------
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  # HSTS: only switch this on once HTTPS is confirmed working, or you
+  # will lock visitors out of a broken certificate for a year.
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # ---- Content-Security-Policy ----
+  # Everything the page actually loads, and nothing else. If you add a new
+  # external script/style/font host later, the browser console will show a
+  # CSP violation for it — that is the policy doing its job, not a bug.
+  # After you upload this, load the live site once with DevTools open and
+  # check the Console for any "Refused to..." lines before you consider it
+  # tested. If none appear, you are clean.
+  #
+  #   script-src   'self' + cdnjs (three.js/GSAP, both pinned by SRI in
+  #                index.html) + one hashed inline script (the hero-photo
+  #                fallback). No 'unsafe-inline' for scripts, ever.
+  #   style-src    'self' + Google Fonts' stylesheet host + 'unsafe-inline'
+  #                (the page uses inline style="" on a handful of decorative
+  #                cloud/glow elements — style injection here can't run
+  #                script, so this is a reasonable, common trade-off).
+  #   font-src     Google Fonts' font-file host.
+  #   img-src      'self' plus data: (canvas-drawn textures in the 3D scene
+  #                round-trip through data: URLs).
+  #   connect-src  'self' only — the enquiry form posts to enquiry.php on
+  #                this origin and nowhere else.
+  #   object-src, base-uri, form-action, frame-ancestors — locked down;
+  #                this site embeds no plugins, no third-party forms, and
+  #                is never meant to be framed by another site.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'sha256-sEhvVkTg2Yz7BCUk8wVA+YphR9LpcdjnbOFCw1gaItk='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+</IfModule>
+
+# ---------- 4. compression ----------
+# The single biggest performance win available on shared hosting.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/ld+json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ---------- 5. caching ----------
+# HTML is never cached (so a copy edit goes live immediately).
+# Assets are cached hard — if you change one, rename it.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType text/css                  "access plus 1 year"
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType image/x-icon              "access plus 1 year"
+  ExpiresByType font/woff2                "access plus 1 year"
+</IfModule>
+
+# ---------- 6. MIME types ----------
+<IfModule mod_mime.c>
+  AddType image/webp                .webp
+  AddType image/avif                .avif
+  AddType font/woff2                .woff2
+  AddType application/ld+json       .jsonld
+</IfModule>
+
+# ---------- 7. error pages ----------
+# Branded, on-domain 404/500 instead of the server's bare default page.
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+
+# ---------- 8. misc ----------
+Options -Indexes
+DirectoryIndex index.html index.php
+AddDefaultCharset UTF-8
+
+# includes/PHPMailer is covered by the ^includes/ block rule above (section 1)
+# — the vendored library is never web-accessible, only require()'d by PHP.

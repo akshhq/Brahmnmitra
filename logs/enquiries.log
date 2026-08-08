@@ -1,0 +1,4 @@
+# BRAHMNMITRA — enquiry backup log
+# Every enquiry is appended here BEFORE the email is attempted, so a
+# mail failure can never lose a customer. Format: ISO-8601 <TAB> JSON.
+# Protected from the web by logs/.htaccess — DO NOT DELETE THAT FILE.

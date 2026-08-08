@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+  ============================================================
+  BRAHMNMITRA  ·  v4
+  Flights · Tours · MICE — domestic & international
+  Contact: +91 92117 61885 · info@brahmnmitra.com
+  ------------------------------------------------------------
+  CRITICAL: every heading and paragraph below is REAL HTML. It
+  is here before any JavaScript runs. View source with JS off
+  and you will see all of it.
+
+  The previous site was a client-rendered React SPA whose raw
+  HTML was an empty React mount div. Crawlers that don't run
+  JavaScript saw a blank page, and the site returned zero
+  results for its own name. Do not reintroduce that.
+
+  Assets:
+    assets/css/style.css          tokens, layout, components
+    assets/css/animations.css     liquid glass + the cinematic
+    assets/css/responsive.css     breakpoints (load LAST)
+    assets/js/main.js             the 747 flight engine
+    assets/js/navigation.js       header + mobile overlay
+    assets/js/counter.js          stat count-up
+    assets/js/timeline.js         process rail + reveals
+    assets/js/form-validation.js  enquiry form
+    enquiry.php                   form backend
+    includes/config.php           <- THE ONLY FILE YOU EDIT
+  ============================================================
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BrahmnMitra — Flights, Tours &amp; MICE in India</title>
+<meta name="description" content="New Delhi travel partner for flights, curated India tours and MICE. Domestic & international, tailor-made, 24/7 support. Call +91 92117 61885.">
+<link rel="canonical" href="https://brahmnmitra.com/">
+<meta name="theme-color" content="#04060C">
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<!-- Open Graph. The old site pointed og:image at the site-builder's
+     default placeholder graphic, so every WhatsApp and LinkedIn share
+     showed a generic image instead of the brand. For a business where
+     deals start on WhatsApp that cost real credibility. This now points
+     at our own 1200x630 branded card. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BrahmnMitra">
+<meta property="og:title" content="BrahmnMitra — Your Trusted Travel Partner">
+<meta property="og:description" content="Flights, curated India tours and MICE — handled end to end by people who pick up the phone. New Delhi. +91 92117 61885.">
+<meta property="og:image" content="https://brahmnmitra.com/assets/images/branding/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="BrahmnMitra — flights, tours and MICE from India">
+<meta property="og:url" content="https://brahmnmitra.com/">
+<meta property="og:locale" content="en_IN">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BrahmnMitra — Your Trusted Travel Partner">
+<meta name="twitter:description" content="Flights, curated India tours and MICE — handled end to end. Call +91 92117 61885.">
+<meta name="twitter:image" content="https://brahmnmitra.com/assets/images/branding/og-image.jpg">
+
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/images/branding/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/images/branding/favicon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/animations.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+<a class="skip" href="#services">Skip to content</a>
+
+<!-- ===================== header ===================== -->
+<header id="site-header">
+  <a class="brand" href="#top" aria-label="BrahmnMitra — home">
+    <span class="dot" aria-hidden="true"></span>BRAHMNMITRA
+  </a>
+
+  <nav id="nav" aria-label="Main">
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#about">About</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="#contact">Contact</a>
+    <a class="nav-cta" href="#contact">Get a Quote →</a>
+  </nav>
+
+  <a class="call" href="tel:+919211761885" aria-label="Call BrahmnMitra on +91 92117 61885">
+    <span aria-hidden="true">✆</span><span class="num"> +91 92117 61885</span>
+  </a>
+
+  <button id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open menu">
+    <span class="bars" aria-hidden="true"><span></span></span>
+  </button>
+</header>
+
+<!-- ===================== the cinematic =====================
+     680vh of scroll. The 747 flies in from deep space, banks into a
+     right turn, presents its window row — and the camera flies you
+     through the glass into the cabin. Under prefers-reduced-motion or
+     without WebGL this collapses to a clean static hero (the
+     .no-cinema rules in animations.css). -->
+<section id="cinema" aria-label="Introduction">
+  <div class="stage" id="top">
+    <!-- HERO PHOTO (optional). Sits BEHIND the night-sky gradient, which
+         is semi-transparent, so a real India photo glows through while the
+         navy overlay keeps the white headline legible.
+
+         To activate: drop three .webp files into assets/images/hero/ using
+         the names below, then add the class "has-photo" to <div class="stage">.
+         Until you do, this <picture> loads nothing visible and the pure
+         gradient shows — the site looks finished either way.
+
+         Use a LICENSED photo (Unsplash/Pexels are fine). Do NOT use an
+         AI-generated shot of a famous monument — the dome count gives it
+         away to Indian audiences. See assets/images/README-IMAGES.txt. -->
+    <picture class="hero-photo" id="hero-photo" aria-hidden="true">
+      <source media="(max-width:600px)"  srcset="assets/images/hero/india-hero-mobile.webp">
+      <source media="(max-width:1024px)" srcset="assets/images/hero/india-hero-tablet.webp">
+      <img id="hero-photo-img" src="assets/images/hero/india-hero.webp" alt="" loading="eager" decoding="async"
+           width="1920" height="1080">
+    </picture>
+    <!-- Same job as the old inline onerror, moved to a real <script> so the
+         Content-Security-Policy below can drop 'unsafe-inline' entirely.
+         This exact script is allow-listed by its SHA-256 hash in .htaccess —
+         if you edit so much as a character here, recompute the hash or the
+         CSP will silently block it. -->
+    <script>document.getElementById('hero-photo-img').addEventListener('error',function(){document.getElementById('hero-photo').style.display='none'},{once:true});</script>
+
+    <div class="bg-night" aria-hidden="true"></div>
+    <div class="bg-day" aria-hidden="true"></div>
+    <div class="sun" aria-hidden="true"></div>
+    <canvas id="sky-canvas" aria-hidden="true"></canvas>
+
+    <div class="hero-copy">
+      <p class="eyebrow">Your Trusted Travel Partner</p>
+      <h1>BRAHMNMITRA</h1>
+      <p class="tagline">Flights, tours and MICE — handled end to end.</p>
+      <p class="sub">Domestic &amp; international · New Delhi · One number, real people.</p>
+
+      <!-- shown only in the no-cinema fallback, where there is no
+           scroll-through to carry the visitor into the cabin -->
+      <div class="hero-cta">
+        <a class="btn btn-amber" href="#contact">Get a Free Quote</a>
+        <a class="btn btn-glass" href="#services">Explore Services</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <span>Scroll to take off</span><span class="line"></span>
+    </div>
+
+    <!-- Visible escape hatch. The intro is ~7 screens tall; some visitors
+         just want the services or the phone number. This jumps straight
+         past the cinema to #services. It fades out once the visitor has
+         scrolled into the content (main.js toggles .gone). Hidden in the
+         no-cinema fallback, where there's no long intro to skip. -->
+    <a class="skip-intro" href="#services">Skip intro <span aria-hidden="true">↓</span></a>
+
+    <!-- you fly through the window and land here -->
+    <div id="reveal">
+      <div class="rcloud" style="width:380px;height:150px;top:10%;left:-100px" aria-hidden="true"></div>
+      <div class="rcloud" style="width:300px;height:120px;bottom:14%;right:-80px" aria-hidden="true"></div>
+      <div class="reveal-inner">
+        <p class="kicker">Welcome aboard</p>
+        <h2>Window seat secured.<br>Now let's plan the rest.</h2>
+        <p class="lead">BrahmnMitra books the flight, builds the itinerary and runs the event — one partner from the first enquiry to the last transfer home. Real people, on the phone, when it matters.</p>
+        <div class="cta-row">
+          <a class="btn btn-amber" href="#contact">Get a Free Quote ✈</a>
+          <a class="btn btn-glass" href="https://wa.me/919211761885?text=Hi%20BrahmnMitra%2C%20I%27d%20like%20a%20quote." target="_blank" rel="noopener">WhatsApp us</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="window-frame" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ===================== stat bar =====================
+     THESE NUMBERS ARE THE CLIENT'S. See README.txt, section STATS.
+     They are the figures supplied in the brief and have NOT been
+     independently verified. -->
+<section id="stats" aria-label="BrahmnMitra in numbers">
+  <div class="stat-grid">
+    <div class="stat">
+      <span class="num" data-count="500" data-suffix="+">500+</span>
+      <span class="label">Happy Clients</span>
+    </div>
+    <div class="stat">
+      <span class="num" data-count="50" data-suffix="+">50+</span>
+      <span class="label">Destinations</span>
+    </div>
+    <div class="stat">
+      <!-- not a number: never animated, just stated -->
+      <span class="num">24/7</span>
+      <span class="label">On-Ground Support</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== content ===================== -->
+<main id="content">
+  <div class="aurora" aria-hidden="true">
+    <span class="a1"></span><span class="a2"></span><span class="a3"></span>
+  </div>
+  <div class="cloud" style="width:360px;height:140px;top:90px;left:-90px" aria-hidden="true"></div>
+  <div class="cloud" style="width:280px;height:110px;top:680px;right:-70px;animation-delay:-11s" aria-hidden="true"></div>
+  <div class="cloud" style="width:320px;height:120px;top:1560px;left:3%;animation-delay:-19s;opacity:.45" aria-hidden="true"></div>
+
+  <!-- ---------- services: EIGHT cards ----------
+       The six from the brief, plus the two flight services that are the
+       actual business. The old site's H2 here repeated the hero H1 word
+       for word — the visitor read the same sentence twice in one scroll.
+       This heading is deliberately different. -->
+  <section class="section" id="services" aria-labelledby="services-h">
+    <div data-reveal>
+      <p class="kicker">What We Offer</p>
+      <h2 id="services-h">Everything, handled.</h2>
+      <p class="lead">From a single seat to a hundred-delegate conference — eight ways we take the weight off your trip.</p>
+    </div>
+
+    <div class="svc-grid">
+
+      <article class="svc-card glass" data-reveal>
+        <span class="glyph" aria-hidden="true">✈</span>
+        <span class="route">DEL ⇄ BOM ⇄ BLR ⇄ CCU</span>
+        <h3>Domestic Flights</h3>
+        <p>Every Indian carrier, every sector — booked at the sharpest fare of the day, not the first one a website shows you.</p>
+        <ul>
+          <li>Fares compared across IndiGo, Air India, Akasa, SpiceJet &amp; more</li>
+          <li>Web check-in, seat selection and meals handled for you</li>
+          <li>Date changes and cancellations guided without the hold music</li>
+        </ul>
+      </article>
+
+      <article class="svc-card intl glass" data-reveal>
+        <span class="glyph" aria-hidden="true">◉</span>
+        <span class="route">DXB · SIN · LHR · JFK</span>
+        <h3>International Flights</h3>
+        <p>Gulf, Southeast Asia, Europe or the Americas — routed smartly so you pay for the journey, not the guesswork.</p>
+        <ul>
+          <li>Multi-city itineraries and smart stopovers planned end to end</li>
+          <li>Baggage, transit and check-in rules explained before you pay</li>
+          <li>Group and family bookings coordinated on one PNR wherever possible</li>
+        </ul>
+      </article>
+
+      <article class="svc-card glass" data-reveal>
+        <span class="glyph" aria-hidden="true">◎</span>
+        <h3>Group Tours</h3>
+        <p>Carefully designed itineraries for leisure groups, corporate delegations, educational tours, and special interest groups.</p>
+      </article>
+
+      <article class="svc-card glass" data-reveal>
+        <span class="glyph" aria-hidden="true">✎</span>
+        <h3>Tailor-Made Journeys</h3>
+        <p>Personalized itineraries based on travel style, interests, duration, and preferences — from luxury to budget.</p>
+      </article>
+
+      <article class="svc-card glass" data-reveal>
+        <span class="glyph" aria-hidden="true">♛</span>
+        <h3>Luxury Travel</h3>
+        <p>Heritage palace stays, private chauffeurs, exclusive experiences &amp; VIP access — experience India in style.</p>
+      </article>
+
+      <article class="svc-card glass" data-reveal>
+        <span class="glyph" aria-hidden="true">⛩</span>
+        <h3>Cultural &amp; Heritage Tours</h3>
+        <p>Golden Triangle, Rajasthan royal circuits, South India temples &amp; traditions — explore India's rich history.</p>
+      </article>
+
+      <article class="svc-card glass" data-reveal>
+        <span class="glyph" aria-hidden="true">◈</span>
+        <h3>MICE &amp; Corporate Travel</h3>
+        <p>Professional handling of conferences, incentive trips, and business delegations with precision and creativity.</p>
+      </article>
+
+      <!-- Ground Transport. The old site's footer listed only five
+           services and silently dropped this one. It is a real service;
+           it appears here AND in the footer. -->
+      <article class="svc-card glass" data-reveal>
+        <span class="glyph" aria-hidden="true">⛟</span>
+        <h3>Ground Transport</h3>
+        <p>Airport transfers, car rentals, private chauffeurs, and ground logistics for seamless travel experiences.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ---------- why ---------- -->
+  <section class="section" id="why" aria-labelledby="why-h">
+    <div data-reveal>
+      <p class="kicker">Why a mitra beats a portal</p>
+      <h2 id="why-h">Booking with a friend in the business</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item glass" data-reveal>
+        <div class="glyph" aria-hidden="true">☎</div>
+        <h3>A human answers</h3>
+        <p>Call at 6 am or 11 pm — you reach a person, not a chatbot. Changes, delays, refunds: one number fixes it.</p>
+      </div>
+      <div class="why-item glass" data-reveal>
+        <div class="glyph" aria-hidden="true">◈</div>
+        <h3>Fares hunted, not searched</h3>
+        <p>We track prices across carriers and dates, and tell you honestly when waiting a day will save you money.</p>
+      </div>
+      <div class="why-item glass" data-reveal>
+        <div class="glyph" aria-hidden="true">✈</div>
+        <h3>Groups made simple</h3>
+        <p>Family weddings, office offsites, tour groups — everyone's tickets, seats and meals handled in one go.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- process: five steps ---------- -->
+  <section class="section" id="process" aria-labelledby="process-h">
+    <div data-reveal>
+      <p class="kicker">Our Process</p>
+      <h2 id="process-h">How We Work</h2>
+      <p class="lead">A simple, proven process to turn your travel vision into reality.</p>
+    </div>
+
+    <!-- horizontal rail on desktop; responsive.css rotates it into a
+         vertical spine below 920px -->
+    <div class="proc">
+      <span class="proc-rail" aria-hidden="true"></span>
+      <ol class="proc-grid">
+        <li class="proc-step">
+          <span class="n" aria-hidden="true">1</span>
+          <div class="txt">
+            <h3>Consultation</h3>
+            <p>Understand your group needs and travel goals</p>
+          </div>
+        </li>
+        <li class="proc-step">
+          <span class="n" aria-hidden="true">2</span>
+          <div class="txt">
+            <h3>Customization</h3>
+            <p>Design a tailored itinerary just for you</p>
+          </div>
+        </li>
+        <li class="proc-step">
+          <span class="n" aria-hidden="true">3</span>
+          <div class="txt">
+            <h3>Planning</h3>
+            <p>Handle all bookings &amp; logistics seamlessly</p>
+          </div>
+        </li>
+        <li class="proc-step">
+          <span class="n" aria-hidden="true">4</span>
+          <div class="txt">
+            <h3>Execution</h3>
+            <p>Deliver a seamless travel experience</p>
+          </div>
+        </li>
+        <li class="proc-step">
+          <span class="n" aria-hidden="true">5</span>
+          <div class="txt">
+            <h3>Support</h3>
+            <p>24/7 assistance throughout the journey</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ---------- about ----------
+       The old site's H2 here said "Your Reliable Partner in Corporate
+       Travel" while the paragraph directly beneath it described "a leading
+       inbound travel provider for international travelers." The heading and
+       the body described two different companies. The heading below now
+       agrees with the body, and both agree with what the business actually
+       sells: flights, tours and MICE, in and out of India. -->
+  <section class="section" id="about" aria-labelledby="about-h">
+    <div data-reveal>
+      <p class="kicker">About BrahmnMitra</p>
+      <h2 id="about-h">One partner for flights, tours and MICE</h2>
+    </div>
+
+    <div class="about-wrap">
+      <div class="about-body" data-reveal>
+        <p>BrahmnMitra is a New Delhi travel and tourism solutions provider working across both directions of the map — booking domestic and international flights, crafting curated journeys through India, and running corporate MICE programmes end to end.</p>
+        <p>For travellers coming to India we build the itinerary: royal palaces to spiritual retreats, vibrant cities to untouched landscapes. For companies and families going out of India we handle the fares, the routing and the logistics — and we pick up the phone when something changes at 2am.</p>
+        <p>Our team combines cultural insight, logistical precision, and personalized service to deliver exceptional travel solutions for groups, families, corporates, and special interest travelers.</p>
+
+        <ul class="proof">
+          <li>Local Expertise with Global Standards</li>
+          <li>End-to-End Travel Management</li>
+          <li>Handpicked Hotels, Guides &amp; Experiences</li>
+          <li>24/7 On-Ground Support</li>
+          <li>Custom Itineraries for Every Group</li>
+          <li>Pan-India &amp; International Network</li>
+        </ul>
+      </div>
+
+      <!-- THE FOUR STATS. See README.txt, section STATS, before shipping.
+           50,000 trips divided by 500 clients = 100 trips per client, i.e.
+           10 per client per year for 10 years without fail. A prospect who
+           does that division stops trusting the rest of the page. These are
+           the client's supplied figures, reproduced as instructed. -->
+      <div class="about-stats" data-reveal>
+        <div class="about-stat glass">
+          <span class="num" data-count="10" data-suffix="+">10+</span>
+          <span class="label">Years of Industry Experience</span>
+        </div>
+        <div class="about-stat glass">
+          <span class="num" data-count="500" data-suffix="+">500+</span>
+          <span class="label">Happy Corporate Clients</span>
+        </div>
+        <div class="about-stat glass">
+          <span class="num" data-count="50000" data-suffix="+">50,000+</span>
+          <span class="label">Trips Managed Successfully</span>
+        </div>
+        <div class="about-stat glass">
+          <span class="num" data-count="98" data-suffix="%">98%</span>
+          <span class="label">Client Retention Rate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- testimonials ----------
+       READ THIS BEFORE YOU GO LIVE. See README.txt, section TESTIMONIALS.
+
+       "Anil Kapoor" is one of the most famous actors in India. The company
+       names — TechNova, Greenfield Industries, Sunrise Exports — are the
+       kind of generic placeholders AI builders generate by default. An
+       Indian visitor will spot the Anil Kapoor line instantly and conclude
+       the whole page is unedited template filler.
+
+       These are reproduced exactly as supplied, as instructed. Replace them
+       with real, permissioned quotes — or delete this entire <section>.
+       An empty space costs you nothing; a caught fake costs you the deal. -->
+  <section class="section" id="testimonials" aria-labelledby="tst-h">
+    <div data-reveal>
+      <p class="kicker">Testimonials</p>
+      <h2 id="tst-h">Trusted by Leading Companies</h2>
+      <p class="lead">Hear what our clients have to say about their experience with BrahmnMitra.</p>
+    </div>
+
+    <div class="tst-grid">
+      <figure class="tst glass" data-reveal>
+        <span class="mark" aria-hidden="true">&ldquo;</span>
+        <blockquote>BrahmnMitra has transformed our corporate travel. Their cost-saving approach and 24/7 support have made them indispensable to our operations.</blockquote>
+        <figcaption>
+          <div class="who">Rajesh Mehta</div>
+          <div class="role">CFO, TechNova Pvt Ltd</div>
+        </figcaption>
+      </figure>
+
+      <figure class="tst glass" data-reveal>
+        <span class="mark" aria-hidden="true">&ldquo;</span>
+        <blockquote>From MICE events to employee travel, BrahmnMitra handles everything seamlessly. Their attention to detail is exceptional.</blockquote>
+        <figcaption>
+          <div class="who">Priya Sharma</div>
+          <div class="role">HR Head, Greenfield Industries</div>
+        </figcaption>
+      </figure>
+
+      <figure class="tst glass" data-reveal>
+        <span class="mark" aria-hidden="true">&ldquo;</span>
+        <blockquote>We've been working with BrahmnMitra for 5 years. Their visa assistance and international travel coordination are top-notch.</blockquote>
+        <figcaption>
+          <div class="who">Anil Kapoor</div>
+          <div class="role">Director, Sunrise Exports</div>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ---------- contact ---------- -->
+  <section class="section" id="contact" aria-labelledby="contact-h">
+    <div data-reveal>
+      <p class="kicker">Get in Touch</p>
+      <h2 id="contact-h">Let's Plan Your Next Journey</h2>
+      <p class="lead">Whether it's a corporate trip, a team offsite, or a dream holiday — reach out and we'll craft the perfect plan for you.</p>
+    </div>
+
+    <div class="contact-wrap">
+
+      <!-- left: the details -->
+      <div class="contact-card glass" data-reveal>
+        <div class="cinfo">
+          <span class="glyph" aria-hidden="true">✆</span>
+          <div>
+            <div class="k">Phone</div>
+            <div class="v"><a href="tel:+919211761885">+91 92117 61885</a></div>
+          </div>
+        </div>
+        <div class="cinfo">
+          <span class="glyph" aria-hidden="true">✉</span>
+          <div>
+            <div class="k">Email</div>
+            <div class="v"><a href="mailto:info@brahmnmitra.com">info@brahmnmitra.com</a></div>
+          </div>
+        </div>
+        <div class="cinfo">
+          <span class="glyph" aria-hidden="true">⌂</span>
+          <div>
+            <div class="k">Office</div>
+            <div class="v">New Delhi, India</div>
+          </div>
+        </div>
+
+        <!-- On mobile, WhatsApp converts far better than a form — most
+             Indian travel enquiries arrive that way. So it gets equal
+             billing here, not a link buried under the submit button. -->
+        <a class="wa-btn"
+           href="https://wa.me/919211761885?text=Hi%20BrahmnMitra%2C%20I%27d%20like%20a%20quote%20for%20a%20trip."
+           target="_blank" rel="noopener">
+          <span aria-hidden="true">✆</span> Message us on WhatsApp
+        </a>
+      </div>
+
+      <!-- right: the enquiry form -->
+      <div class="panel glass glass-strong" data-reveal>
+        <form id="enquiry-form" class="form-grid"
+              action="enquiry.php" method="post" novalidate
+              data-phone="+91 92117 61885" data-whatsapp="919211761885">
+
+          <div class="field">
+            <label for="f-name">Full Name <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-name" name="name" type="text" required autocomplete="name"
+                   aria-describedby="f-name-err" placeholder="e.g. Rohit Verma">
+            <span class="err" id="f-name-err"></span>
+          </div>
+
+          <div class="field">
+            <label for="f-email">Email <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-email" name="email" type="email" required autocomplete="email"
+                   aria-describedby="f-email-err" placeholder="you@example.com">
+            <span class="err" id="f-email-err"></span>
+          </div>
+
+          <div class="field">
+            <label for="f-phone">Phone / WhatsApp <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-phone" name="phone" type="tel" required autocomplete="tel"
+                   aria-describedby="f-phone-err" placeholder="+91 …">
+            <span class="err" id="f-phone-err"></span>
+          </div>
+
+          <div class="field">
+            <label for="f-company">Company</label>
+            <input id="f-company" name="company" type="text" autocomplete="organization"
+                   placeholder="Optional">
+          </div>
+
+          <div class="field full">
+            <label for="f-service">Service Required <span class="req" aria-hidden="true">*</span></label>
+            <select id="f-service" name="service" required aria-describedby="f-service-err">
+              <option value="" selected disabled>Select a service</option>
+              <option value="domestic_flights">Domestic Flights</option>
+              <option value="international_flights">International Flights</option>
+              <option value="group_tours">Group Tours</option>
+              <option value="tailor_made">Tailor-Made Journeys</option>
+              <option value="luxury_travel">Luxury Travel</option>
+              <option value="heritage_tours">Cultural &amp; Heritage Tours</option>
+              <option value="mice_corporate">MICE &amp; Corporate Travel</option>
+              <option value="ground_transport">Ground Transport</option>
+              <option value="other">Other</option>
+            </select>
+            <span class="err" id="f-service-err"></span>
+          </div>
+
+          <!-- Flight-only. Revealed by form-validation.js when the chosen
+               service is a flight; hidden AND un-required otherwise. A
+               hidden required field is a silent dead end — the browser
+               refuses to submit and shows the visitor nothing. -->
+          <div id="flight-block" hidden>
+            <div class="field full">
+              <label id="trip-label">Trip type</label>
+              <div class="trip-pills" role="radiogroup" aria-labelledby="trip-label">
+                <input type="radio" id="t-round" name="trip_type" value="round_trip" checked>
+                <label for="t-round">Round trip</label>
+                <input type="radio" id="t-one" name="trip_type" value="one_way">
+                <label for="t-one">One way</label>
+                <input type="radio" id="t-multi" name="trip_type" value="multi_city">
+                <label for="t-multi">Multi-city</label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="f-from">From <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-from" name="from_city" type="text" aria-describedby="f-from-err"
+                     placeholder="Delhi (DEL)">
+              <span class="err" id="f-from-err"></span>
+            </div>
+
+            <div class="field">
+              <label for="f-to">To <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-to" name="to_city" type="text" aria-describedby="f-to-err"
+                     placeholder="Dubai (DXB)">
+              <span class="err" id="f-to-err"></span>
+            </div>
+
+            <div class="field">
+              <label for="f-depart">Departure date <span class="req" aria-hidden="true">*</span></label>
+              <input id="f-depart" name="depart_date" type="date" aria-describedby="f-depart-err">
+              <span class="err" id="f-depart-err"></span>
+            </div>
+
+            <div class="field" id="return-wrap">
+              <label for="f-return">Return date</label>
+              <input id="f-return" name="return_date" type="date">
+            </div>
+
+            <div class="field">
+              <label for="f-pax">Passengers</label>
+              <input id="f-pax" name="passengers" type="number" min="1" max="99" value="1">
+            </div>
+
+            <div class="field">
+              <label for="f-class">Cabin class</label>
+              <select id="f-class" name="cabin_class">
+                <option value="economy" selected>Economy</option>
+                <option value="premium_economy">Premium Economy</option>
+                <option value="business">Business</option>
+                <option value="first">First</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="f-message">Message</label>
+            <textarea id="f-message" name="message"
+                      placeholder="Flexible dates, preferred airline, 40-person offsite in Goa, wedding group of 12…"></textarea>
+          </div>
+
+          <!-- honeypot: humans never see this; bots fill it. Anything that
+               fills it gets a fake success and is silently discarded. -->
+          <input type="text" name="website" tabindex="-1" autocomplete="off"
+                 aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
+
+          <div id="form-toast" role="status" aria-live="polite"></div>
+
+          <div class="form-actions">
+            <button class="btn btn-amber" type="submit">Send Inquiry</button>
+            <button class="btn btn-glass" type="button" id="wa-send">Send on WhatsApp instead</button>
+          </div>
+
+          <p class="form-note">
+            Prefer talking? Call <a href="tel:+919211761885">+91 92117 61885</a> — we don't charge for asking.
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<!-- ===================== footer ===================== -->
+<footer>
+  <div class="fglow" aria-hidden="true"></div>
+  <div class="inner">
+
+    <div>
+      <div class="fbrand">BRAHMNMITRA</div>
+      <p>Your trusted partner for flights, curated tours and MICE — domestic and international, handled end to end.</p>
+    </div>
+
+    <!-- ALL EIGHT SERVICES. The old footer listed five and silently dropped
+         Ground Transport. Every service offered above is listed here. If you
+         add a service, add it in BOTH places. -->
+    <nav aria-label="Services">
+      <h3 class="fcol">Services</h3>
+      <ul>
+        <li><a href="#services">Domestic Flights</a></li>
+        <li><a href="#services">International Flights</a></li>
+        <li><a href="#services">Group Tours</a></li>
+        <li><a href="#services">Tailor-Made Journeys</a></li>
+        <li><a href="#services">Luxury Travel</a></li>
+        <li><a href="#services">Cultural &amp; Heritage Tours</a></li>
+        <li><a href="#services">MICE &amp; Corporate Travel</a></li>
+        <li><a href="#services">Ground Transport</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-label="Quick links">
+      <h3 class="fcol">Quick Links</h3>
+      <ul>
+        <li><a href="#top">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="fcontact">
+      <h3 class="fcol">Contact</h3>
+      <p>
+        <a href="tel:+919211761885">+91 92117 61885</a><br>
+        <a href="mailto:info@brahmnmitra.com">info@brahmnmitra.com</a><br>
+        <a href="https://wa.me/919211761885" target="_blank" rel="noopener">WhatsApp</a><br>
+        New Delhi, India
+      </p>
+    </div>
+
+    <!-- SOCIAL ICONS: none, deliberately. Add them ONLY for accounts that
+         actually exist and are actually posted to. An icon linking to a
+         dead Instagram is worse than no icon at all. -->
+
+    <p class="fine">© 2026 BrahmnMitra. All rights reserved. Fares subject to airline availability at the time of booking.</p>
+  </div>
+</footer>
+
+<!-- ===================== structured data =====================
+     TravelAgency (a subtype of LocalBusiness). This is what puts the
+     business in Google's local pack. Keep the phone, email and address
+     in step with the markup above and with includes/config.php. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  "@id": "https://brahmnmitra.com/#organization",
+  "name": "BrahmnMitra",
+  "description": "New Delhi travel partner for domestic and international flight booking, curated India tours, tailor-made journeys, luxury travel, cultural and heritage tours, MICE and corporate travel, and ground transport.",
+  "url": "https://brahmnmitra.com/",
+  "logo": "https://brahmnmitra.com/assets/images/branding/logo.svg",
+  "image": "https://brahmnmitra.com/assets/images/branding/og-image.jpg",
+  "telephone": "+91-92117-61885",
+  "email": "info@brahmnmitra.com",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "New Delhi",
+    "addressRegion": "Delhi",
+    "addressCountry": "IN"
+  },
+  "areaServed": [
+    { "@type": "Country", "name": "India" },
+    { "@type": "Place", "name": "Worldwide" }
+  ],
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
+  "sameAs": [],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Travel Services",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Domestic Flights", "description": "Flight booking across every Indian carrier and sector." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "International Flights", "description": "Gulf, Southeast Asia, Europe and the Americas. Multi-city itineraries and smart stopovers." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Group Tours", "description": "Itineraries for leisure groups, corporate delegations, educational tours and special interest groups." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Tailor-Made Journeys", "description": "Personalized itineraries based on travel style, interests, duration and preferences." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Luxury Travel", "description": "Heritage palace stays, private chauffeurs, exclusive experiences and VIP access." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cultural and Heritage Tours", "description": "Golden Triangle, Rajasthan royal circuits, South India temples and traditions." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "MICE and Corporate Travel", "description": "Conferences, incentive trips and business delegations handled with precision." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Ground Transport", "description": "Airport transfers, car rentals, private chauffeurs and ground logistics." } }
+    ]
+  }
+}
+</script>
+
+<!-- ===================== scripts =====================
+     Everything below is DEFERRED. Not one byte of it is needed to
+     read the page: all the content above is already in the HTML.
+
+     three.js and GSAP come from a CDN. If the CDN is unreachable the
+     site does not break — main.js detects the missing globals and
+     drops to the static hero (body.no-cinema), and timeline.js falls
+     back to an IntersectionObserver for the reveals.
+
+     Load order matters: BM.* must be defined before main.js calls it. -->
+<!-- integrity = SHA-512 of the exact file, verified against the published npm
+     packages (three@0.128.0, gsap@3.12.5) byte-for-byte. If you ever bump
+     these versions, the browser will silently refuse to run the new file
+     until you recompute the hash — that's the point, not a bug. -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+        integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+        integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script defer src="assets/js/navigation.js"></script>
+<script defer src="assets/js/counter.js"></script>
+<script defer src="assets/js/timeline.js"></script>
+<script defer src="assets/js/form-validation.js"></script>
+<script defer src="assets/js/main.js"></script>
+
+</body>
+</html>

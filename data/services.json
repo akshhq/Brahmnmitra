@@ -1,0 +1,129 @@
+{
+  "_comment": [
+    "BRAHMNMITRA — data/services.json",
+    "",
+    "The canonical list of what the business sells. This is the SOURCE OF",
+    "TRUTH. The same eight services must appear in four places, and they",
+    "must never disagree:",
+    "",
+    "  1. this file",
+    "  2. the service cards in index.html  (#services)",
+    "  3. the Services column in the footer of index.html",
+    "  4. the <select> in the enquiry form, and the bm_services()",
+    "     whitelist in includes/helpers.php — the 'id' below IS the",
+    "     value the form posts, so they must match exactly",
+    "",
+    "The old site listed six services but only five in the footer: Ground",
+    "Transport was silently missing. Add a service here, and add it in all",
+    "four places, or it will happen again.",
+    "",
+    "Nothing reads this file at runtime — the site is static by design, and",
+    "fetching JSON to build the cards would put the content behind",
+    "JavaScript again, which is exactly the bug we fixed. This is a",
+    "reference document for whoever edits the site next."
+  ],
+
+  "updated": "2026-07-13",
+  "currency": "INR",
+
+  "services": [
+    {
+      "id": "domestic_flights",
+      "title": "Domestic Flights",
+      "category": "flights",
+      "route_hint": "DEL ⇄ BOM ⇄ BLR ⇄ CCU",
+      "description": "Every Indian carrier, every sector — booked at the sharpest fare of the day, not the first one a website shows you.",
+      "points": [
+        "Fares compared across IndiGo, Air India, Akasa, SpiceJet & more",
+        "Web check-in, seat selection and meals handled for you",
+        "Date changes and cancellations guided without the hold music"
+      ],
+      "needs_route": true,
+      "image": "assets/images/services/domestic-flights.webp"
+    },
+    {
+      "id": "international_flights",
+      "title": "International Flights",
+      "category": "flights",
+      "route_hint": "DXB · SIN · LHR · JFK",
+      "description": "Gulf, Southeast Asia, Europe or the Americas — routed smartly so you pay for the journey, not the guesswork.",
+      "points": [
+        "Multi-city itineraries and smart stopovers planned end to end",
+        "Baggage, transit and check-in rules explained before you pay",
+        "Group and family bookings coordinated on one PNR wherever possible"
+      ],
+      "needs_route": true,
+      "image": "assets/images/services/international-flights.webp"
+    },
+    {
+      "id": "group_tours",
+      "title": "Group Tours",
+      "category": "tours",
+      "description": "Carefully designed itineraries for leisure groups, corporate delegations, educational tours, and special interest groups.",
+      "points": [],
+      "needs_route": false,
+      "image": "assets/images/services/group-tours.webp"
+    },
+    {
+      "id": "tailor_made",
+      "title": "Tailor-Made Journeys",
+      "category": "tours",
+      "description": "Personalized itineraries based on travel style, interests, duration, and preferences — from luxury to budget.",
+      "points": [],
+      "needs_route": false,
+      "image": "assets/images/services/tailor-made.webp"
+    },
+    {
+      "id": "luxury_travel",
+      "title": "Luxury Travel",
+      "category": "tours",
+      "description": "Heritage palace stays, private chauffeurs, exclusive experiences & VIP access — experience India in style.",
+      "points": [],
+      "needs_route": false,
+      "image": "assets/images/services/luxury.webp"
+    },
+    {
+      "id": "heritage_tours",
+      "title": "Cultural & Heritage Tours",
+      "category": "tours",
+      "description": "Golden Triangle, Rajasthan royal circuits, South India temples & traditions — explore India's rich history.",
+      "points": [],
+      "needs_route": false,
+      "image": "assets/images/services/heritage.webp"
+    },
+    {
+      "id": "mice_corporate",
+      "title": "MICE & Corporate Travel",
+      "category": "corporate",
+      "description": "Professional handling of conferences, incentive trips, and business delegations with precision and creativity.",
+      "points": [],
+      "needs_route": false,
+      "image": "assets/images/services/mice.webp"
+    },
+    {
+      "id": "ground_transport",
+      "title": "Ground Transport",
+      "category": "logistics",
+      "description": "Airport transfers, car rentals, private chauffeurs, and ground logistics for seamless travel experiences.",
+      "points": [],
+      "needs_route": false,
+      "image": "assets/images/services/transport.webp"
+    }
+  ],
+
+  "process": [
+    { "step": 1, "title": "Consultation",  "description": "Understand your group needs and travel goals" },
+    { "step": 2, "title": "Customization", "description": "Design a tailored itinerary just for you" },
+    { "step": 3, "title": "Planning",      "description": "Handle all bookings & logistics seamlessly" },
+    { "step": 4, "title": "Execution",     "description": "Deliver a seamless travel experience" },
+    { "step": 5, "title": "Support",       "description": "24/7 assistance throughout the journey" }
+  ],
+
+  "contact": {
+    "phone": "+91 92117 61885",
+    "phone_tel": "+919211761885",
+    "whatsapp": "919211761885",
+    "email": "info@brahmnmitra.com",
+    "office": "New Delhi, India"
+  }
+}
