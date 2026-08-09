@@ -1,0 +1,6 @@
+.env
+uploads/*
+!uploads/.gitkeep
+logs/*
+!logs/.htaccess
+!logs/.gitkeep

@@ -14,152 +14,331 @@
    ============================================================ */
 
 /* ============ 1080px — nav collapses to a hamburger ============ */
-@media (max-width:1080px){
-
+@media (max-width: 1080px) {
   /* the desktop link row becomes a full-screen overlay */
-  #nav{
-    position:fixed;inset:0;z-index:90;
-    display:none;
-    flex-direction:column;align-items:center;justify-content:center;gap:6px;
-    background:rgba(6,12,24,.88);
-    backdrop-filter:blur(22px) saturate(160%);
-    -webkit-backdrop-filter:blur(22px) saturate(160%);
-    padding:24px;
+  #nav {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: rgba(6, 12, 24, 0.88);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    padding: 24px;
   }
-  #nav.open{display:flex;animation:navIn .35s cubic-bezier(.22,1,.36,1)}
-  #nav a{
-    color:#EAF2FF;font-size:1.25rem;font-weight:600;letter-spacing:.02em;
-    padding:16px 28px;min-height:44px;display:flex;align-items:center;
+  #nav.open {
+    display: flex;
+    animation: navIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  #nav a:hover,#site-header.on-light #nav a:hover{background:rgba(255,255,255,.10)}
-  #nav a[aria-current="true"],#site-header.on-light #nav a[aria-current="true"]{background:rgba(255,255,255,.14)}
+  #nav a {
+    color: #eaf2ff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 16px 28px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  #nav a:hover,
+  #site-header.on-light #nav a:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  #nav a[aria-current="true"],
+  #site-header.on-light #nav a[aria-current="true"] {
+    background: rgba(255, 255, 255, 0.14);
+  }
   /* the CTA keeps its fill inside the overlay */
-  #nav .nav-cta{margin-top:18px;font-size:1rem;padding:16px 32px;color:#2A1600}
+  #nav .nav-cta {
+    margin-top: 18px;
+    font-size: 1rem;
+    padding: 16px 32px;
+    color: #2a1600;
+  }
 
-  #nav-toggle{display:flex}
+  #nav-toggle {
+    display: flex;
+  }
   /* while the overlay is open the toggle must sit ABOVE it */
-  #nav-toggle[aria-expanded="true"]{position:relative;z-index:95;color:#EAF2FF}
+  #nav-toggle[aria-expanded="true"] {
+    position: relative;
+    z-index: 95;
+    color: #eaf2ff;
+  }
 
   /* the header itself stays a slim pill: brand · call · burger */
-  #site-header{padding:10px 10px 10px 18px}
-  #site-header .call{padding:10px 16px}
+  #site-header {
+    padding: 10px 10px 10px 18px;
+  }
+  #site-header .call {
+    padding: 10px 16px;
+  }
 
   /* page must not scroll behind the overlay */
-  body.nav-open{overflow:hidden}
+  body.nav-open {
+    overflow: hidden;
+  }
 }
 
 /* ============ 1024px — grids step down ============ */
-@media (max-width:1024px){
-  .svc-grid{grid-template-columns:1fr 1fr}
-  .tst-grid{grid-template-columns:1fr 1fr}
-  .about-wrap{grid-template-columns:1fr;gap:44px}
-  .contact-wrap{grid-template-columns:1fr}
-  footer .inner{grid-template-columns:1fr 1fr;gap:36px}
+@media (max-width: 1024px) {
+  .svc-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .tst-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .about-wrap {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+  .contact-wrap {
+    grid-template-columns: 1fr;
+  }
+  footer .inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
 }
 
 /* ============ 920px ============ */
-@media (max-width:920px){
-  .why-grid{grid-template-columns:1fr}
+@media (max-width: 920px) {
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
 
   /* PROCESS: horizontal rail → vertical timeline.
      The rail becomes a spine down the left; each step sits beside it. */
-  .proc-rail{
-    top:0;bottom:0;left:27px;right:auto;
-    width:2px;height:auto;
-    background:linear-gradient(180deg, rgba(255,179,71,.25), rgba(255,179,71,.85), rgba(95,233,245,.7));
+  .proc-rail {
+    top: 0;
+    bottom: 0;
+    left: 27px;
+    right: auto;
+    width: 2px;
+    height: auto;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 179, 71, 0.25),
+      rgba(255, 179, 71, 0.85),
+      rgba(95, 233, 245, 0.7)
+    );
   }
-  .proc-grid{grid-template-columns:1fr;gap:30px}
-  .proc-step{
-    flex-direction:row;align-items:flex-start;text-align:left;gap:20px;
+  .proc-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
   }
-  .proc-step .n{width:56px;height:56px}
-  .proc-step p{max-width:none}
-  .proc-step .txt{padding-top:8px}
+  .proc-step {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 20px;
+  }
+  .proc-step .n {
+    width: 56px;
+    height: 56px;
+  }
+  .proc-step p {
+    max-width: none;
+  }
+  .proc-step .txt {
+    padding-top: 8px;
+  }
 }
 
 /* ============ 840px ============ */
-@media (max-width:840px){
-  .svc-grid{grid-template-columns:1fr}
-  .tst-grid{grid-template-columns:1fr}
+@media (max-width: 840px) {
+  .svc-grid {
+    grid-template-columns: 1fr;
+  }
+  .tst-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ============ 768px — tablet portrait ============ */
-@media (max-width:768px){
-  .stat-grid{gap:20px}
-  .proof{grid-template-columns:1fr}
-  .form-grid{grid-template-columns:1fr}
-  #flight-block{grid-template-columns:1fr}
-  html{scroll-padding-top:84px}
+@media (max-width: 768px) {
+  .stat-grid {
+    gap: 20px;
+  }
+  .proof {
+    grid-template-columns: 1fr;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  #flight-block {
+    grid-template-columns: 1fr;
+  }
+  html {
+    scroll-padding-top: 84px;
+  }
 }
 
 /* ============ 720px ============ */
-@media (max-width:720px){
+@media (max-width: 720px) {
   /* the cabin window is taller in portrait — main.js reads the same
      numbers (26vh x 34vh) to size the clip-path aperture, so if you
      change them here you MUST change portrait() in main.js too. */
-  .window-frame{width:26vh;height:34vh;margin-left:-13vh;margin-top:-17vh}
+  .window-frame {
+    width: 26vh;
+    height: 34vh;
+    margin-left: -13vh;
+    margin-top: -17vh;
+  }
 
-  footer .inner{grid-template-columns:1fr;gap:32px}
+  footer .inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 }
 
 /* ============ 600px ============ */
-@media (max-width:600px){
+@media (max-width: 600px) {
   /* the number is dropped from the header pill; the tel: link stays */
-  #site-header .call .num{display:none}
+  #site-header .call .num {
+    display: none;
+  }
 
   /* stats stack to one column so nothing truncates */
-  .stat-grid{grid-template-columns:1fr;gap:26px;padding:40px 20px}
-  .about-stats{grid-template-columns:1fr}
+  .stat-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding: 40px 20px;
+  }
+  .about-stats {
+    grid-template-columns: 1fr;
+  }
 
-  .form-actions .btn{width:100%;justify-content:center}
-  .wa-btn{width:100%}
+  .form-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .wa-btn {
+    width: 100%;
+  }
 }
 
 /* ============ 400px — small Android ============ */
-@media (max-width:400px){
-  #site-header{padding:9px 9px 9px 15px;gap:9px}
-  #site-header .brand{font-size:12.5px;letter-spacing:.12em;gap:8px}
-  #site-header .call{padding:0;width:44px;height:44px;justify-content:center}
+@media (max-width: 400px) {
+  #site-header {
+    padding: 9px 9px 9px 15px;
+    gap: 9px;
+  }
+  #site-header .brand {
+    font-size: 12.5px;
+    letter-spacing: 0.12em;
+    gap: 8px;
+  }
+  #site-header .call {
+    padding: 0;
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+  }
 
-  .section{padding:66px 16px}
-  .svc-card,.why-item,.tst{padding:24px}
-  #contact .panel,.contact-card{padding:24px 20px}
+  .section {
+    padding: 66px 16px;
+  }
+  .svc-card,
+  .why-item,
+  .tst {
+    padding: 24px;
+  }
+  #contact .panel,
+  .contact-card {
+    padding: 24px 20px;
+  }
 
   /* trip pills wrap rather than squeeze under 44px */
-  .trip-pills{flex-wrap:wrap}
-  .trip-pills label{flex:1 1 100%}
+  .trip-pills {
+    flex-wrap: wrap;
+  }
+  .trip-pills label {
+    flex: 1 1 100%;
+  }
 
-  .btn{padding:14px 22px;font-size:14.5px}
+  .btn {
+    padding: 14px 22px;
+    font-size: 14.5px;
+  }
 }
 
 /* ============ 360px — the floor. Nothing may overflow here. ============ */
-@media (max-width:360px){
-  .hero-copy h1{font-size:2rem;letter-spacing:.03em}
-  .hero-copy .tagline{font-size:.98rem}
-  .reveal-inner h2{font-size:1.5rem}
-  .stat .num{font-size:1.8rem}
-  .kicker{letter-spacing:.24em;font-size:10px}
-  .cta-row{width:100%}
-  .cta-row .btn{width:100%;justify-content:center}
+@media (max-width: 360px) {
+  .hero-copy h1 {
+    font-size: 2rem;
+    letter-spacing: 0.03em;
+  }
+  .hero-copy .tagline {
+    font-size: 0.98rem;
+  }
+  .reveal-inner h2 {
+    font-size: 1.5rem;
+  }
+  .stat .num {
+    font-size: 1.8rem;
+  }
+  .kicker {
+    letter-spacing: 0.24em;
+    font-size: 10px;
+  }
+  .cta-row {
+    width: 100%;
+  }
+  .cta-row .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ============ 1920px — don't let it sprawl ============ */
-@media (min-width:1600px){
-  .section,.stat-grid,footer .inner{max-width:1280px}
+@media (min-width: 1600px) {
+  .section,
+  .stat-grid,
+  footer .inner {
+    max-width: 1280px;
+  }
 }
 
 /* ============ landscape phones: the cinema needs headroom ============ */
-@media (max-height:480px) and (orientation:landscape){
-  .hero-copy h1{font-size:2.4rem}
-  .hero-copy .eyebrow{margin-bottom:14px}
-  .hero-copy .tagline{margin-top:14px}
-  .scroll-hint{display:none}
+@media (max-height: 480px) and (orientation: landscape) {
+  .hero-copy h1 {
+    font-size: 2.4rem;
+  }
+  .hero-copy .eyebrow {
+    margin-bottom: 14px;
+  }
+  .hero-copy .tagline {
+    margin-top: 14px;
+  }
+  .scroll-hint {
+    display: none;
+  }
 }
 
 /* ============ print ============ */
-@media print{
-  #cinema,#site-header,.aurora,.cloud,footer .fglow{display:none !important}
-  #content{background:#fff}
-  .glass{background:#fff;border:1px solid #ccc;box-shadow:none;backdrop-filter:none}
-  body{color:#000}
+@media print {
+  #cinema,
+  #site-header,
+  .aurora,
+  .cloud,
+  footer .fglow {
+    display: none !important;
+  }
+  #content {
+    background: #fff;
+  }
+  .glass {
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  body {
+    color: #000;
+  }
 }

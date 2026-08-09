@@ -47,6 +47,6 @@ To see the full thing, run a tiny local web server. Pick ONE:
 
 IMPORTANT — THE CONTACT FORM
   A plain local server serves the static site but does NOT run PHP,
-  so enquiry.php won't send email locally. That's expected. The form
+  so backend/enquiry.php won't send email locally. That's expected. The form
   only works once uploaded to Hostinger (which has PHP). The
   "Send on WhatsApp instead" button DOES work locally.

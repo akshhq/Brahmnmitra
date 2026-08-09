@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>My BrahmnMitra | BrahmnMitra</title>
+    <meta
+      name="description"
+      content="Your saved travel ideas, planning drafts and preferences with BrahmnMitra."
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&family=Archivo:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/portal.css" />
+  </head>
+  <body class="portal-page">
+    <header class="portal-header">
+      <nav class="portal-nav" aria-label="Platform">
+        <a class="portal-brand" href="index.html">BRAHMNMITRA</a
+        ><a href="packages.html">Packages</a><a href="hotels.html">Hotels</a
+        ><a href="destinations.html">Destinations</a
+        ><a href="travel-assistant.html">Travel Assistant</a
+        ><a aria-current="page" href="account.html">My Account</a
+        ><a href="platform.html">Business Platform</a>
+      </nav>
+    </header>
+    <main class="portal-main">
+      <section class="portal-hero">
+        <p class="kicker">My BrahmnMitra</p>
+        <h1>Your travels, in one considered place.</h1>
+        <p>
+          Keep your saved travel ideas, planning drafts and preferences together
+          while you explore. This private workspace is stored only in this
+          browser; use the contact form for active booking support.
+        </p>
+      </section>
+      <section id="account-workspace" class="workspace-grid">
+        <article class="workspace-card glass">
+          <h2>Your preferences</h2>
+          <form id="profile-form" class="account-form">
+            <label>Name<input name="name" autocomplete="name" /></label>
+            <label
+              >Email<input name="email" type="email" autocomplete="email"
+            /></label>
+            <label
+              >Phone<input name="phone" type="tel" autocomplete="tel"
+            /></label>
+            <label
+              >Travel style<select name="travelStyle">
+                <option value="">Choose one</option>
+                <option>Family & leisure</option>
+                <option>Couples & honeymoon</option>
+                <option>Luxury & wellness</option>
+                <option>Adventure & nature</option>
+                <option>Culture & heritage</option>
+              </select></label
+            >
+            <button class="btn btn-amber" type="submit">
+              Save preferences
+            </button>
+          </form>
+          <p id="profile-status" class="portal-note" aria-live="polite"></p>
+        </article>
+        <article class="workspace-card glass">
+          <h2>Saved travel ideas</h2>
+          <ul id="saved-list"></ul>
+        </article>
+        <article class="workspace-card glass">
+          <h2>Planning drafts</h2>
+          <ul id="plan-list"></ul>
+        </article>
+        <article class="workspace-card glass">
+          <h2>BrahmnMitra Rewards</h2>
+          <p>
+            <strong id="reward-points">0</strong> planning points in this
+            browser. Save a draft itinerary to earn 25 points.
+          </p>
+          <p>
+            Membership, referrals and redemption will be enabled only with a
+            secure customer account.
+          </p>
+        </article>
+        <article class="workspace-card glass">
+          <h2>Recently explored</h2>
+          <ul id="activity-list"></ul>
+        </article>
+        <article class="workspace-card glass">
+          <h2>Bookings &amp; documents</h2>
+          <p>
+            Tickets, invoices, payment history and travel documents require
+            authenticated, server-side access. For an existing booking, contact
+            the team directly.
+          </p>
+          <a class="text-button" href="index.html#contact">Contact support →</a>
+        </article>
+      </section>
+      <section class="portal-cta glass">
+        <p>
+          For an active booking, ticket, invoice or payment question, contact
+          the team directly and we will help.
+        </p>
+        <a class="btn btn-amber" href="index.html#contact">Contact support</a>
+      </section>
+    </main>
+    <script src="assets/js/platform-store.js"></script>
+    <script src="assets/js/account.js"></script>
+  </body>
+</html>

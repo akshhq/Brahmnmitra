@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Travel Packages | BrahmnMitra</title>
+    <meta
+      name="description"
+      content="Explore BrahmnMitra's curated domestic and international travel packages."
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&family=Archivo:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/portal.css" />
+  </head>
+  <body class="portal-page" data-catalog="packages">
+    <header class="portal-header">
+      <nav class="portal-nav" aria-label="Platform">
+        <a class="portal-brand" href="index.html">BRAHMNMITRA</a
+        ><a aria-current="page" href="packages.html">Packages</a
+        ><a href="hotels.html">Hotels</a
+        ><a href="destinations.html">Destinations</a
+        ><a href="travel-assistant.html">Travel Assistant</a
+        ><a href="account.html">My Account</a
+        ><a href="platform.html">Business Platform</a>
+      </nav>
+    </header>
+    <main class="portal-main">
+      <section class="portal-hero">
+        <p class="kicker">Curated journeys</p>
+        <h1>Travel, thoughtfully shaped.</h1>
+        <p>
+          Browse a starting collection of domestic and international package
+          ideas. Every itinerary is tailored and confirmed by a BrahmnMitra
+          travel expert.
+        </p>
+      </section>
+      <section
+        id="catalog-controls"
+        class="catalog-controls"
+        aria-label="Filter packages"
+      ></section>
+      <p id="catalog-status" class="catalog-status" aria-live="polite"></p>
+      <section id="catalog-grid" class="portal-grid" aria-live="polite">
+        <div class="portal-card glass"><p>Loading packages…</p></div>
+      </section>
+      <p class="portal-note">
+        *Starting prices are planning guides, not live inventory. Taxes, flights
+        and availability are confirmed in your quotation.
+      </p>
+    </main>
+    <script src="assets/js/platform-store.js"></script>
+    <script src="assets/js/portal-catalog.js"></script>
+  </body>
+</html>

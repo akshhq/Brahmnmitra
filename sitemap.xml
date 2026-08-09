@@ -2,7 +2,7 @@
 <!--
   BRAHMNMITRA — sitemap.xml
 
-  Single-page site with anchor navigation, so there is one URL.
+  Public travel pages for the static Phase 1 site.
   Submit this in Google Search Console:
       https://search.google.com/search-console
   Add the property, verify it, then paste the sitemap URL. That is
@@ -13,8 +13,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://brahmnmitra.com/</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url><loc>https://brahmnmitra.com/packages.html</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brahmnmitra.com/hotels.html</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brahmnmitra.com/destinations.html</loc><lastmod>2026-08-08</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brahmnmitra.com/travel-assistant.html</loc><lastmod>2026-08-08</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://brahmnmitra.com/account.html</loc><lastmod>2026-08-08</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://brahmnmitra.com/platform.html</loc><lastmod>2026-08-08</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
 </urlset>

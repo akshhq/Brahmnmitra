@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Curated Hotels | BrahmnMitra</title>
+    <meta
+      name="description"
+      content="Discover BrahmnMitra's curated stays for your next journey."
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&family=Archivo:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/portal.css" />
+  </head>
+  <body class="portal-page" data-catalog="hotels">
+    <header class="portal-header">
+      <nav class="portal-nav" aria-label="Platform">
+        <a class="portal-brand" href="index.html">BRAHMNMITRA</a
+        ><a href="packages.html">Packages</a
+        ><a aria-current="page" href="hotels.html">Hotels</a
+        ><a href="destinations.html">Destinations</a
+        ><a href="travel-assistant.html">Travel Assistant</a
+        ><a href="account.html">My Account</a
+        ><a href="platform.html">Business Platform</a>
+      </nav>
+    </header>
+    <main class="portal-main">
+      <section class="portal-hero">
+        <p class="kicker">Curated stays</p>
+        <h1>Stays selected for the journey around them.</h1>
+        <p>
+          Explore considered hotel ideas. We confirm the right room, live price
+          and availability for your exact dates before you book.
+        </p>
+      </section>
+      <section
+        id="catalog-controls"
+        class="catalog-controls"
+        aria-label="Filter hotels"
+      ></section>
+      <p id="catalog-status" class="catalog-status" aria-live="polite"></p>
+      <section id="catalog-grid" class="portal-grid" aria-live="polite">
+        <div class="portal-card glass"><p>Loading curated stays…</p></div>
+      </section>
+      <p class="portal-note">
+        *Starting prices are planning guides, not live inventory. Please request
+        a confirmed quote before booking.
+      </p>
+    </main>
+    <script src="assets/js/platform-store.js"></script>
+    <script src="assets/js/portal-catalog.js"></script>
+  </body>
+</html>

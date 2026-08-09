@@ -4,12 +4,11 @@
 # ============================================================
 
 # ---------- 1. protect the logs ----------
-# Belt and braces: logs/.htaccess also denies access. This is here in
-# case that file is ever lost in an upload.
+# The backend .htaccess also denies access. This root rule remains as a
+# second layer in case that file is ever lost in an upload.
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^logs/ - [F,L]
-  RewriteRule ^includes/ - [F,L]
+  RewriteRule ^backend/(includes|logs)/ - [F,L,NC]
 </IfModule>
 
 # Never serve a raw log or config, wherever it sits.
@@ -61,7 +60,7 @@
   #   font-src     Google Fonts' font-file host.
   #   img-src      'self' plus data: (canvas-drawn textures in the 3D scene
   #                round-trip through data: URLs).
-  #   connect-src  'self' only — the enquiry form posts to enquiry.php on
+  #   connect-src  'self' only — the enquiry form posts to backend/enquiry.php on
   #                this origin and nowhere else.
   #   object-src, base-uri, form-action, frame-ancestors — locked down;
   #                this site embeds no plugins, no third-party forms, and
@@ -112,5 +111,5 @@ Options -Indexes
 DirectoryIndex index.html index.php
 AddDefaultCharset UTF-8
 
-# includes/PHPMailer is covered by the ^includes/ block rule above (section 1)
-# — the vendored library is never web-accessible, only require()'d by PHP.
+# backend/includes/PHPMailer is covered by the backend block rule above.
+# The vendored library is never web-accessible, only require()'d by PHP.

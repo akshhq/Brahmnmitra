@@ -112,11 +112,31 @@
   ],
 
   "process": [
-    { "step": 1, "title": "Consultation",  "description": "Understand your group needs and travel goals" },
-    { "step": 2, "title": "Customization", "description": "Design a tailored itinerary just for you" },
-    { "step": 3, "title": "Planning",      "description": "Handle all bookings & logistics seamlessly" },
-    { "step": 4, "title": "Execution",     "description": "Deliver a seamless travel experience" },
-    { "step": 5, "title": "Support",       "description": "24/7 assistance throughout the journey" }
+    {
+      "step": 1,
+      "title": "Consultation",
+      "description": "Understand your group needs and travel goals"
+    },
+    {
+      "step": 2,
+      "title": "Customization",
+      "description": "Design a tailored itinerary just for you"
+    },
+    {
+      "step": 3,
+      "title": "Planning",
+      "description": "Handle all bookings & logistics seamlessly"
+    },
+    {
+      "step": 4,
+      "title": "Execution",
+      "description": "Deliver a seamless travel experience"
+    },
+    {
+      "step": 5,
+      "title": "Support",
+      "description": "24/7 assistance throughout the journey"
+    }
   ],
 
   "contact": {

@@ -1,0 +1,13 @@
+# BRAHMNMITRA backend safeguards
+# Keep public entry points such as enquiry.php accessible, while denying
+# direct access to implementation details and customer data.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(includes|logs)/ - [F,L,NC]
+</IfModule>
+
+<FilesMatch "\.(log|ini|env)$">
+  Require all denied
+</FilesMatch>
+
+Options -Indexes

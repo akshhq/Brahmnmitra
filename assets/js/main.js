@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 /* ================================================================
    BRAHMNMITRA — cinematic engine v3
 
@@ -27,28 +27,40 @@
    ================================================================ */
 
 /* ================= math helpers ================= */
-const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
 // smoothstep: zero velocity at both ends → no snap where stages meet
-const smooth  = t => { t = clamp01(t); return t * t * (3 - 2 * t); };
+const smooth = (t) => {
+  t = clamp01(t);
+  return t * t * (3 - 2 * t);
+};
 // smootherstep: zero velocity AND zero acceleration at the ends
-const smoother = t => { t = clamp01(t); return t * t * t * (t * (t * 6 - 15) + 10); };
+const smoother = (t) => {
+  t = clamp01(t);
+  return t * t * t * (t * (t * 6 - 15) + 10);
+};
 // map x from [a,b] → [0,1] with smoothstep
 const seg = (x, a, b, easeFn) => (easeFn || smooth)((x - a) / (b - a));
 const lerp = (a, b, t) => a + (b - a) * t;
 
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const webglOK = (() => {
-  try { const c = document.createElement('canvas');
-        return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl'))); }
-  catch (e) { return false; }
+  try {
+    const c = document.createElement("canvas");
+    return !!(
+      window.WebGLRenderingContext &&
+      (c.getContext("webgl") || c.getContext("experimental-webgl"))
+    );
+  } catch (e) {
+    return false;
+  }
 })();
 
 if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 
 /* Reduced motion, no WebGL, or three.js failed to load from the CDN →
    the site degrades to a clean static hero. Everything else still works. */
-if (reduce || !webglOK || typeof THREE === 'undefined') {
-  document.body.classList.add('no-cinema');
+if (reduce || !webglOK || typeof THREE === "undefined") {
+  document.body.classList.add("no-cinema");
 } else {
   initCinema();
 }
@@ -65,19 +77,24 @@ if (window.BM) {
 
 /* ================= the cinematic ================= */
 function initCinema() {
-  const stage  = document.querySelector('.stage');
-  const canvas = document.getElementById('sky-canvas');
-  const cinema = document.getElementById('cinema');
-  const reveal = document.getElementById('reveal');
-  const frame  = document.querySelector('.window-frame');
-  const heroEl = document.querySelector('.hero-copy');
-  const hintEl = document.querySelector('.scroll-hint');
-  const skipEl = document.querySelector('.skip-intro');
-  const dayEl  = document.querySelector('.bg-day');
-  const sunEl  = document.querySelector('.sun');
-  const innerEl = document.querySelector('.reveal-inner');
+  const stage = document.querySelector(".stage");
+  const canvas = document.getElementById("sky-canvas");
+  const cinema = document.getElementById("cinema");
+  const reveal = document.getElementById("reveal");
+  const frame = document.querySelector(".window-frame");
+  const heroEl = document.querySelector(".hero-copy");
+  const hintEl = document.querySelector(".scroll-hint");
+  const skipEl = document.querySelector(".skip-intro");
+  const dayEl = document.querySelector(".bg-day");
+  const sunEl = document.querySelector(".sun");
+  const innerEl = document.querySelector(".reveal-inner");
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+    alpha: true,
+    powerPreference: "high-performance",
+  });
   // cap DPR — high-DPI phones tank the framerate at 3x, and that reads as "janky"
   const DPR = Math.min(window.devicePixelRatio || 1, 2);
   renderer.setPixelRatio(DPR);
@@ -96,23 +113,34 @@ function initCinema() {
   const hemi = new THREE.HemisphereLight(0xbfe0ff, 0x8fa6c0, 0);
   scene.add(ambient, sunLight, hemi);
 
-  const NIGHT_AMB = new THREE.Color(0x2a3a58), DAY_AMB = new THREE.Color(0xa9bdd4);
-  const NIGHT_SUN = new THREE.Color(0x9fb8ff), DAY_SUN = new THREE.Color(0xfff3dc);
-  const NIGHT_FOG = new THREE.Color(0x0b1526), DAY_FOG = new THREE.Color(0xd2e7f8);
+  const NIGHT_AMB = new THREE.Color(0x2a3a58),
+    DAY_AMB = new THREE.Color(0xa9bdd4);
+  const NIGHT_SUN = new THREE.Color(0x9fb8ff),
+    DAY_SUN = new THREE.Color(0xfff3dc);
+  const NIGHT_FOG = new THREE.Color(0x0b1526),
+    DAY_FOG = new THREE.Color(0xd2e7f8);
 
   /* ---- stars ---- */
-  const N = 1500, sp = new Float32Array(N * 3);
+  const N = 1500,
+    sp = new Float32Array(N * 3);
   for (let i = 0; i < N; i++) {
     const r = 400 + Math.random() * 600;
     const th = Math.random() * Math.PI * 2;
     const ph = Math.acos(2 * Math.random() - 1);
-    sp[i*3]   = r * Math.sin(ph) * Math.cos(th);
-    sp[i*3+1] = Math.abs(r * Math.cos(ph)) * 0.7 - 40;
-    sp[i*3+2] = -Math.abs(r * Math.sin(ph) * Math.sin(th)) + 60;
+    sp[i * 3] = r * Math.sin(ph) * Math.cos(th);
+    sp[i * 3 + 1] = Math.abs(r * Math.cos(ph)) * 0.7 - 40;
+    sp[i * 3 + 2] = -Math.abs(r * Math.sin(ph) * Math.sin(th)) + 60;
   }
   const starGeo = new THREE.BufferGeometry();
-  starGeo.setAttribute('position', new THREE.BufferAttribute(sp, 3));
-  const starMat = new THREE.PointsMaterial({ color: 0xcfe0ff, size: 1.6, sizeAttenuation: true, transparent: true, opacity: 1, fog: false });
+  starGeo.setAttribute("position", new THREE.BufferAttribute(sp, 3));
+  const starMat = new THREE.PointsMaterial({
+    color: 0xcfe0ff,
+    size: 1.6,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 1,
+    fog: false,
+  });
   const stars = new THREE.Points(starGeo, starMat);
   scene.add(stars);
 
@@ -123,23 +151,51 @@ function initCinema() {
   scene.add(cloudGroup);
   function addCloud(x, y, z, w, opacity, drift) {
     const mat = new THREE.SpriteMaterial({
-      map: cloudTex[(Math.random() * 4) | 0], transparent: true,
-      opacity: 0, depthWrite: false, fog: true
+      map: cloudTex[(Math.random() * 4) | 0],
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+      fog: true,
     });
     const s = new THREE.Sprite(mat);
     s.scale.set(w, w * 0.44, 1);
     s.position.set(x, y, z);
     s.userData = { peak: opacity, drift, spin: (Math.random() - 0.5) * 0.02 };
-    clouds.push(s); cloudGroup.add(s);
+    clouds.push(s);
+    cloudGroup.add(s);
   }
-  for (let i = 0; i < 16; i++)                                  // far deck
-    addCloud((Math.random()-.5)*900, -30 - Math.random()*50, -700 + Math.random()*260, 200 + Math.random()*220, 0.85, 0.008 + Math.random()*0.012);
-  for (let i = 0; i < 12; i++)                                  // mid deck
-    addCloud((Math.random()-.5)*620, -14 - Math.random()*40, -420 + Math.random()*260, 130 + Math.random()*150, 0.9, 0.02 + Math.random()*0.03);
-  for (let i = 0; i < 7; i++)                                   // high wisps
-    addCloud((Math.random()-.5)*700, 20 + Math.random()*40, -520 + Math.random()*300, 160 + Math.random()*180, 0.5, 0.014 + Math.random()*0.02);
+  for (let i = 0; i < 16; i++)
+    // far deck
+    addCloud(
+      (Math.random() - 0.5) * 900,
+      -30 - Math.random() * 50,
+      -700 + Math.random() * 260,
+      200 + Math.random() * 220,
+      0.85,
+      0.008 + Math.random() * 0.012,
+    );
+  for (let i = 0; i < 12; i++)
+    // mid deck
+    addCloud(
+      (Math.random() - 0.5) * 620,
+      -14 - Math.random() * 40,
+      -420 + Math.random() * 260,
+      130 + Math.random() * 150,
+      0.9,
+      0.02 + Math.random() * 0.03,
+    );
+  for (let i = 0; i < 7; i++)
+    // high wisps
+    addCloud(
+      (Math.random() - 0.5) * 700,
+      20 + Math.random() * 40,
+      -520 + Math.random() * 300,
+      160 + Math.random() * 180,
+      0.5,
+      0.014 + Math.random() * 0.02,
+    );
   // near clouds that sweep past the camera → strong sense of speed
-  addCloud(-120, -22, 40, 380, 0.5, 0.10);
+  addCloud(-120, -22, 40, 380, 0.5, 0.1);
   addCloud(140, -30, 20, 340, 0.45, 0.12);
   addCloud(-60, 30, -20, 300, 0.35, 0.08);
 
@@ -180,20 +236,20 @@ function initCinema() {
     //
     // The aircraft sweeps from far left, closing steadily, turning right
     // (yaw 0 -> 90) until it sits broadside with its window row facing us.
-    [0.00, -32,  13,  -440,     0],   // far left, high, nose-on
-    [0.12, -29,  10,  -338,     3],
-    [0.24, -26,   8,  -256,     7],
-    [0.36, -23,   6,  -190,    13],
-    [0.48, -20,   4,  -137,    21],
-    [0.60, -16,   3,   -95,    32],   // the turn is under way
-    [0.71, -13,   2,   -61,    45],
-    [0.81, -10,   1,   -35,    59],
-    [0.90,  -7,   0,   -14,    73],
-    [0.96,  -5,   0,     1,    83],
-    [1.00,  -3,   0,    12,    90]    // broadside: window row to camera
+    [0.0, -32, 13, -440, 0], // far left, high, nose-on
+    [0.12, -29, 10, -338, 3],
+    [0.24, -26, 8, -256, 7],
+    [0.36, -23, 6, -190, 13],
+    [0.48, -20, 4, -137, 21],
+    [0.6, -16, 3, -95, 32], // the turn is under way
+    [0.71, -13, 2, -61, 45],
+    [0.81, -10, 1, -35, 59],
+    [0.9, -7, 0, -14, 73],
+    [0.96, -5, 0, 1, 83],
+    [1.0, -3, 0, 12, 90], // broadside: window row to camera
   ];
-  const kT   = KEYS.map(k => k[0]);
-  const kYaw = KEYS.map(k => THREE.MathUtils.degToRad(k[4]));
+  const kT = KEYS.map((k) => k[0]);
+  const kYaw = KEYS.map((k) => THREE.MathUtils.degToRad(k[4]));
 
   /* Sample position AND yaw from the SAME keyframes with the same
      blend factor. (An earlier version used CatmullRomCurve.getPointAt()
@@ -209,7 +265,8 @@ function initCinema() {
         // smoothstep the acceleration jumps at each key and the eye reads it
         // as a small lurch — measured peak jerk drops ~10x with this.
         const k = smoother((t - kT[i]) / (kT[i + 1] - kT[i]));
-        const a = KEYS[i], b = KEYS[i + 1];
+        const a = KEYS[i],
+          b = KEYS[i + 1];
         out.set(lerp(a[1], b[1], k), lerp(a[2], b[2], k), lerp(a[3], b[3], k));
         return lerp(kYaw[i], kYaw[i + 1], k);
       }
@@ -219,8 +276,8 @@ function initCinema() {
     return kYaw[kYaw.length - 1];
   }
 
-  const euler = new THREE.Euler(0, 0, 0, 'YXZ');   // yaw, then pitch, then roll
-  const probe = new THREE.Vector3();               // scratch for the look-ahead sample
+  const euler = new THREE.Euler(0, 0, 0, "YXZ"); // yaw, then pitch, then roll
+  const probe = new THREE.Vector3(); // scratch for the look-ahead sample
 
   /* Park the aircraft at its start pose right away. Without this it sits
      at the origin — i.e. parked in front of the camera behind the title —
@@ -246,15 +303,16 @@ function initCinema() {
      The rate is expressed as "fraction of the remaining gap closed
      per second" and applied via pow(), which makes it frame-rate
      independent: identical feel at 60Hz and 144Hz. */
-  let raw = 0, p = 0;
-  const SMOOTH_RATE = 0.0000001;   // ~99.9% of the gap closed each 1/10 s
+  let raw = 0,
+    p = 0;
+  const SMOOTH_RATE = 0.0000001; // ~99.9% of the gap closed each 1/10 s
 
   function readScroll() {
     const r = cinema.getBoundingClientRect();
     const total = cinema.offsetHeight - window.innerHeight;
-    raw = clamp01(total > 0 ? (-r.top) / total : 0);
+    raw = clamp01(total > 0 ? -r.top / total : 0);
   }
-  window.addEventListener('scroll', readScroll, { passive: true });
+  window.addEventListener("scroll", readScroll, { passive: true });
   readScroll();
   p = raw;
 
@@ -263,27 +321,29 @@ function initCinema() {
      scroll does — the cabin is fully open by ~92%, leaving a moment to
      read the welcome copy before the page continues. */
   const T = {
-    heroOut:   [0.01, 0.13],   // title zooms + fades away almost at once
-    dayIn:     [0.03, 0.24],   // night dissolves into daylight
+    heroOut: [0.01, 0.13], // title zooms + fades away almost at once
+    dayIn: [0.03, 0.24], // night dissolves into daylight
     // Spans are proportional to how much VISUAL change each beat produces,
     // so the motion is evenly paced. (Measured: with the camera far away it
     // was doing 84% of the apparent-size change in 22% of the scroll — the
     // flight crawled and then the camera lunged. CAM_HOME is now much closer
     // and the push-in gets a fair slice of the scroll.)
-    planeIn:   [0.09, 0.50],   // the flight: approach, drift, right turn
+    planeIn: [0.09, 0.5], // the flight: approach, drift, right turn
     // The push-in starts only AFTER the aircraft has settled: if they
     // overlap, the two motions compound and apparent size spikes.
-    windowIn:  [0.52, 0.82],   // camera closes on the cabin window
-    frameGrow: [0.72, 0.84],   // frame appears once we're right at the glass
-    framePass: [0.84, 0.91],   // ...then sweeps past as you pass through it
-    cabinOpen: [0.78, 0.90],   // mask: closed → window aperture → full bleed
-    copyIn:    [0.87, 0.97]    // welcome copy rises from inside the cabin
+    windowIn: [0.52, 0.82], // camera closes on the cabin window
+    frameGrow: [0.72, 0.84], // frame appears once we're right at the glass
+    framePass: [0.84, 0.91], // ...then sweeps past as you pass through it
+    cabinOpen: [0.78, 0.9], // mask: closed → window aperture → full bleed
+    copyIn: [0.87, 0.97], // welcome copy rises from inside the cabin
   };
 
   const portrait = () => window.innerWidth / window.innerHeight < 0.85;
 
   /* ================= per-frame update ================= */
-  let W = 0, H = 0, fov = 55;
+  let W = 0,
+    H = 0,
+    fov = 55;
   const clock = new THREE.Clock();
 
   function update() {
@@ -297,11 +357,11 @@ function initCinema() {
     /* --- Act I: hero leaves --- */
     const hOut = seg(p, T.heroOut[0], T.heroOut[1], smoother);
     heroEl.style.opacity = String(1 - hOut);
-    heroEl.style.transform = 'scale(' + (1 - 0.22 * hOut) + ') translateZ(0)';
-    heroEl.style.filter = 'blur(' + (10 * hOut) + 'px)';
+    heroEl.style.transform = "scale(" + (1 - 0.22 * hOut) + ") translateZ(0)";
+    heroEl.style.filter = "blur(" + 10 * hOut + "px)";
     hintEl.style.opacity = String(1 - clamp01(p / 0.05));
     // retire the skip-intro button once we're well into the flight
-    if (skipEl) skipEl.classList.toggle('gone', p > 0.4);
+    if (skipEl) skipEl.classList.toggle("gone", p > 0.4);
 
     /* --- night → day --- */
     const day = seg(p, T.dayIn[0], T.dayIn[1], smoother);
@@ -327,7 +387,11 @@ function initCinema() {
       // delta — so the bank depends on where the aircraft is in its turn,
       // never on how fast the visitor happens to be scrolling.
       const yawAhead = sampleFlight(Math.min(1, fly + 0.02), probe);
-      const targetRoll = THREE.MathUtils.clamp(-(yawAhead - yaw) * 12, -0.55, 0.55);
+      const targetRoll = THREE.MathUtils.clamp(
+        -(yawAhead - yaw) * 12,
+        -0.55,
+        0.55,
+      );
       // frame-rate-independent easing into the bank
       P.roll += (targetRoll - P.roll) * (1 - Math.pow(0.004, dt));
       // gentle nose-down as it descends toward the camera's level
@@ -340,8 +404,9 @@ function initCinema() {
     // idle life: gentle float + engine/beacon animation
     P.bob.position.y = Math.sin(t * 1.15) * 0.32;
     P.bob.rotation.z = Math.sin(t * 0.8) * 0.008;
-    P.beacon.material.opacity = 0.1 + 0.9 * Math.pow(Math.max(0, Math.sin(t * 3.2)), 10);
-    P.strobe.material.opacity = (Math.sin(t * 7.5) > 0.95) ? 1 : 0;
+    P.beacon.material.opacity =
+      0.1 + 0.9 * Math.pow(Math.max(0, Math.sin(t * 3.2)), 10);
+    P.strobe.material.opacity = Math.sin(t * 7.5) > 0.95 ? 1 : 0;
     for (const f of P.fans) f.rotation.z += dt * 14;
 
     /* --- clouds drift, and recycle across the sky --- */
@@ -399,7 +464,11 @@ function initCinema() {
     camera.updateProjectionMatrix();
 
     // the warm target window brightens as we approach
-    P.winMat.color.setRGB(lerp(0.55, 1, win), lerp(0.45, 0.97, win), lerp(0.3, 0.88, win));
+    P.winMat.color.setRGB(
+      lerp(0.55, 1, win),
+      lerp(0.45, 0.97, win),
+      lerp(0.3, 0.88, win),
+    );
 
     /* --- window frame: grows, then passes around the viewer --- */
     const fg = seg(p, T.frameGrow[0], T.frameGrow[1], smoother);
@@ -412,9 +481,9 @@ function initCinema() {
       // scale would start with a velocity step, which reads as a snap.
       const scale = lerp(0.5, 1.0, fg) * (1 + 7 * fp);
       frame.style.opacity = String(Math.min(1, fg * 2.2) * (1 - fp));
-      frame.style.transform = 'translateZ(0) scale(' + scale + ')';
+      frame.style.transform = "translateZ(0) scale(" + scale + ")";
     } else {
-      frame.style.opacity = '0';
+      frame.style.opacity = "0";
     }
 
     /* --- cabin mask opens: window shape → full screen --- */
@@ -428,55 +497,87 @@ function initCinema() {
     // Aperture must match the .window-frame box exactly, or the bezel and
     // the hole it frames will drift apart. Frame is 19vh x 30vh (26x34 on
     // portrait), so convert that to inset percentages of the viewport.
-    const vh = H, vw = W;
-    const fw = (portrait() ? 26 : 19) * vh / 100;   // frame width in px
-    const fh = (portrait() ? 34 : 30) * vh / 100;   // frame height in px
-    const winLR = Math.max(0, (1 - fw / vw) / 2 * 100);
-    const winTB = Math.max(0, (1 - fh / vh) / 2 * 100);
+    const vh = H,
+      vw = W;
+    const fw = ((portrait() ? 26 : 19) * vh) / 100; // frame width in px
+    const fh = ((portrait() ? 34 : 30) * vh) / 100; // frame height in px
+    const winLR = Math.max(0, ((1 - fw / vw) / 2) * 100);
+    const winTB = Math.max(0, ((1 - fh / vh) / 2) * 100);
     // phase 1 (0→.55): closed → window aperture. phase 2 (.55→1): → full bleed
     let tb, lr, rad;
     if (co <= 0.55) {
       const k = smoother(co / 0.55);
-      tb = lerp(50, winTB, k); lr = lerp(50, winLR, k); rad = 400;
+      tb = lerp(50, winTB, k);
+      lr = lerp(50, winLR, k);
+      rad = 400;
     } else {
       const k = smoother((co - 0.55) / 0.45);
-      tb = lerp(winTB, 0, k); lr = lerp(winLR, 0, k); rad = lerp(400, 0, k);
+      tb = lerp(winTB, 0, k);
+      lr = lerp(winLR, 0, k);
+      rad = lerp(400, 0, k);
     }
     if (co >= 0.999) {
-      reveal.style.clipPath = 'inset(0% 0% 0% 0% round 0px)';   // snap: no hairline
+      reveal.style.clipPath = "inset(0% 0% 0% 0% round 0px)"; // snap: no hairline
     } else {
-      reveal.style.clipPath = 'inset(' + tb + '% ' + lr + '% ' + tb + '% ' + lr + '% round ' + rad + 'px)';
+      reveal.style.clipPath =
+        "inset(" +
+        tb +
+        "% " +
+        lr +
+        "% " +
+        tb +
+        "% " +
+        lr +
+        "% round " +
+        rad +
+        "px)";
     }
-    reveal.classList.toggle('open', co > 0.97);
+    reveal.classList.toggle("open", co > 0.97);
 
     /* --- welcome copy rises from inside the cabin --- */
     const ci = seg(p, T.copyIn[0], T.copyIn[1], smoother);
     innerEl.style.opacity = String(ci);
-    innerEl.style.transform = 'translate3d(0,' + lerp(34, 0, ci) + 'px,0) scale(' + lerp(0.78, 1, ci) + ')';
+    innerEl.style.transform =
+      "translate3d(0," +
+      lerp(34, 0, ci) +
+      "px,0) scale(" +
+      lerp(0.78, 1, ci) +
+      ")";
 
     renderer.render(scene, camera);
   }
 
   /* ---- render loop, paused when the stage is off-screen ---- */
   let visible = true;
-  const io = new IntersectionObserver(e => { visible = e[0].isIntersecting; }, { threshold: 0 });
+  const io = new IntersectionObserver(
+    (e) => {
+      visible = e[0].isIntersecting;
+    },
+    { threshold: 0 },
+  );
   io.observe(cinema);
 
   function loop() {
     requestAnimationFrame(loop);
-    if (!visible && Math.abs(raw - p) < 0.001) { clock.getDelta(); return; }  // idle: skip work
+    if (!visible && Math.abs(raw - p) < 0.001) {
+      clock.getDelta();
+      return;
+    } // idle: skip work
     update();
   }
 
-  function baseFov() { return W / H < 0.85 ? 68 : 55; }
+  function baseFov() {
+    return W / H < 0.85 ? 68 : 55;
+  }
   function resize() {
-    W = stage.clientWidth; H = stage.clientHeight;
+    W = stage.clientWidth;
+    H = stage.clientHeight;
     renderer.setSize(W, H, false);
     camera.aspect = W / H;
     camera.updateProjectionMatrix();
     readScroll();
   }
-  window.addEventListener('resize', resize);
+  window.addEventListener("resize", resize);
   resize();
   loop();
 }
@@ -485,9 +586,12 @@ function initCinema() {
    Painted in two passes — a cool shadow body, then sunlit tops
    offset toward the light — so sprites read as volume, not fog. */
 function makeCloudTexture(seed) {
-  const W = 512, H = 256;
-  const c = document.createElement('canvas'); c.width = W; c.height = H;
-  const g = c.getContext('2d');
+  const W = 512,
+    H = 256;
+  const c = document.createElement("canvas");
+  c.width = W;
+  c.height = H;
+  const g = c.getContext("2d");
   const rnd = mulberry32(9871 + seed * 3301);
   const puffs = [];
   const n = 30 + ((rnd() * 12) | 0);
@@ -495,20 +599,42 @@ function makeCloudTexture(seed) {
     const fx = rnd();
     const centrality = 1 - Math.abs(fx - 0.5) * 2;
     const r = 16 + rnd() * 26 + centrality * 40;
-    puffs.push({ x: 55 + fx * (W - 110), y: H * 0.64 - rnd() * centrality * 68, r });
+    puffs.push({
+      x: 55 + fx * (W - 110),
+      y: H * 0.64 - rnd() * centrality * 68,
+      r,
+    });
   }
-  for (const q of puffs) {                       // shadow body
-    const gr = g.createRadialGradient(q.x, q.y + q.r * 0.28, 1, q.x, q.y + q.r * 0.28, q.r);
-    gr.addColorStop(0, 'rgba(184,201,222,0.5)');
-    gr.addColorStop(1, 'rgba(184,201,222,0)');
-    g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  for (const q of puffs) {
+    // shadow body
+    const gr = g.createRadialGradient(
+      q.x,
+      q.y + q.r * 0.28,
+      1,
+      q.x,
+      q.y + q.r * 0.28,
+      q.r,
+    );
+    gr.addColorStop(0, "rgba(184,201,222,0.5)");
+    gr.addColorStop(1, "rgba(184,201,222,0)");
+    g.fillStyle = gr;
+    g.fillRect(0, 0, W, H);
   }
-  for (const q of puffs) {                       // sunlit tops (light from upper-right)
-    const gr = g.createRadialGradient(q.x + q.r * 0.2, q.y - q.r * 0.32, 1, q.x + q.r * 0.2, q.y - q.r * 0.32, q.r * 0.95);
-    gr.addColorStop(0, 'rgba(255,255,255,0.88)');
-    gr.addColorStop(0.5, 'rgba(255,255,255,0.34)');
-    gr.addColorStop(1, 'rgba(255,255,255,0)');
-    g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  for (const q of puffs) {
+    // sunlit tops (light from upper-right)
+    const gr = g.createRadialGradient(
+      q.x + q.r * 0.2,
+      q.y - q.r * 0.32,
+      1,
+      q.x + q.r * 0.2,
+      q.y - q.r * 0.32,
+      q.r * 0.95,
+    );
+    gr.addColorStop(0, "rgba(255,255,255,0.88)");
+    gr.addColorStop(0.5, "rgba(255,255,255,0.34)");
+    gr.addColorStop(1, "rgba(255,255,255,0)");
+    g.fillStyle = gr;
+    g.fillRect(0, 0, W, H);
   }
   const tex = new THREE.CanvasTexture(c);
   tex.anisotropy = 4;
@@ -516,23 +642,29 @@ function makeCloudTexture(seed) {
 }
 function mulberry32(a) {
   return function () {
-    a |= 0; a = a + 0x6D2B79F5 | 0;
-    let t = Math.imul(a ^ a >>> 15, 1 | a);
-    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
 
 /* ================= text-on-fuselage helper ================= */
 function textPlane(text, wWorld, hWorld, opt) {
   opt = opt || {};
-  const w = opt.w || 1024, h = opt.h || 160;
-  const c = document.createElement('canvas'); c.width = w; c.height = h;
-  const g = c.getContext('2d');
+  const w = opt.w || 1024,
+    h = opt.h || 160;
+  const c = document.createElement("canvas");
+  c.width = w;
+  c.height = h;
+  const g = c.getContext("2d");
   g.font = opt.font || "700 110px 'Unbounded', sans-serif";
-  g.textAlign = 'center'; g.textBaseline = 'middle';
-  if (opt.spacing && g.letterSpacing !== undefined) g.letterSpacing = opt.spacing + 'px';
-  g.fillStyle = opt.color || '#0A2540';
+  g.textAlign = "center";
+  g.textBaseline = "middle";
+  if (opt.spacing && g.letterSpacing !== undefined)
+    g.letterSpacing = opt.spacing + "px";
+  g.fillStyle = opt.color || "#0A2540";
   g.fillText(text, w / 2, h / 2 + 4);
   const tex = new THREE.CanvasTexture(c);
   tex.anisotropy = 8;
@@ -542,23 +674,61 @@ function textPlane(text, wWorld, hWorld, opt) {
 
 /* ================= the liveried 747 ================= */
 function buildPlane() {
-  const group = new THREE.Group();     // path position + orientation
-  const bob   = new THREE.Group();     // idle float
+  const group = new THREE.Group(); // path position + orientation
+  const bob = new THREE.Group(); // idle float
   group.add(bob);
 
-  const white = new THREE.MeshStandardMaterial({ color: 0xf7f9fc, metalness: 0.55, roughness: 0.26 });
-  const belly = new THREE.MeshStandardMaterial({ color: 0xb4c1d1, metalness: 0.6,  roughness: 0.32 });
-  const grey  = new THREE.MeshStandardMaterial({ color: 0xccd6e3, metalness: 0.55, roughness: 0.34, side: THREE.DoubleSide });
-  const amber = new THREE.MeshStandardMaterial({ color: 0xffb347, metalness: 0.4,  roughness: 0.34 });
-  const navy  = new THREE.MeshStandardMaterial({ color: 0x0b2545, metalness: 0.4,  roughness: 0.38 });
-  const dark  = new THREE.MeshStandardMaterial({ color: 0x121a27, metalness: 0.3,  roughness: 0.5 });
+  const white = new THREE.MeshStandardMaterial({
+    color: 0xf7f9fc,
+    metalness: 0.55,
+    roughness: 0.26,
+  });
+  const belly = new THREE.MeshStandardMaterial({
+    color: 0xb4c1d1,
+    metalness: 0.6,
+    roughness: 0.32,
+  });
+  const grey = new THREE.MeshStandardMaterial({
+    color: 0xccd6e3,
+    metalness: 0.55,
+    roughness: 0.34,
+    side: THREE.DoubleSide,
+  });
+  const amber = new THREE.MeshStandardMaterial({
+    color: 0xffb347,
+    metalness: 0.4,
+    roughness: 0.34,
+  });
+  const navy = new THREE.MeshStandardMaterial({
+    color: 0x0b2545,
+    metalness: 0.4,
+    roughness: 0.38,
+  });
+  const dark = new THREE.MeshStandardMaterial({
+    color: 0x121a27,
+    metalness: 0.3,
+    roughness: 0.5,
+  });
 
   /* fuselage — lathe profile, nose toward +Z */
   const prof = [
-    [0.03,-26.5],[0.9,-25.6],[1.7,-24.4],[2.35,-22.8],[2.75,-21.0],[2.95,-19.0],
-    [3.0,-16.0],[3.0,13.0],[2.96,15.5],[2.82,18.0],[2.55,20.3],[2.15,22.2],
-    [1.65,23.7],[1.05,24.9],[0.45,25.7],[0.03,26.1]
-  ].map(v => new THREE.Vector2(v[0], v[1]));
+    [0.03, -26.5],
+    [0.9, -25.6],
+    [1.7, -24.4],
+    [2.35, -22.8],
+    [2.75, -21.0],
+    [2.95, -19.0],
+    [3.0, -16.0],
+    [3.0, 13.0],
+    [2.96, 15.5],
+    [2.82, 18.0],
+    [2.55, 20.3],
+    [2.15, 22.2],
+    [1.65, 23.7],
+    [1.05, 24.9],
+    [0.45, 25.7],
+    [0.03, 26.1],
+  ].map((v) => new THREE.Vector2(v[0], v[1]));
   const fus = new THREE.Mesh(new THREE.LatheGeometry(prof, 72), white);
   fus.rotation.x = Math.PI / 2;
   bob.add(fus);
@@ -569,44 +739,77 @@ function buildPlane() {
   hump.position.set(0, 2.15, 11);
   bob.add(hump);
   const glass = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.55, 1.1), dark);
-  glass.position.set(0, 2.95, 19.2); glass.rotation.x = -0.3;
+  glass.position.set(0, 2.95, 19.2);
+  glass.rotation.x = -0.3;
   bob.add(glass);
 
   /* livery bands (cylinder sectors hugging the skin) */
   function band(r, len, z, thetaStart, thetaLen, mat) {
-    const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 56, 1, true, thetaStart, thetaLen), mat);
-    m.rotation.x = Math.PI / 2; m.position.z = z;
+    const m = new THREE.Mesh(
+      new THREE.CylinderGeometry(r, r, len, 56, 1, true, thetaStart, thetaLen),
+      mat,
+    );
+    m.rotation.x = Math.PI / 2;
+    m.position.z = z;
     return m;
   }
-  bob.add(band(3.015, 32, -2.5, -0.95, 1.90, belly));
-  bob.add(band(3.028, 33, -2.5,  1.6414, 0.15, amber));
-  bob.add(band(3.028, 33, -2.5,  4.4818, 0.15, amber));
-  bob.add(band(3.022, 33, -2.5,  Math.PI/2 - 0.035, 0.055, navy));
-  bob.add(band(3.022, 33, -2.5,  3*Math.PI/2 - 0.035, 0.055, navy));
+  bob.add(band(3.015, 32, -2.5, -0.95, 1.9, belly));
+  bob.add(band(3.028, 33, -2.5, 1.6414, 0.15, amber));
+  bob.add(band(3.028, 33, -2.5, 4.4818, 0.15, amber));
+  bob.add(band(3.022, 33, -2.5, Math.PI / 2 - 0.035, 0.055, navy));
+  bob.add(band(3.022, 33, -2.5, (3 * Math.PI) / 2 - 0.035, 0.055, navy));
 
   /* titles + registration */
-  const tOpt = { w: 1024, h: 140, font: "900 96px 'Unbounded', sans-serif", color: '#0B2545', spacing: 10 };
-  [-1, 1].forEach(s => {
-    const m = textPlane('BRAHMNMITRA', 11, 1.35, tOpt);
-    m.position.set(s * 2.73, 1.85, 6.5); m.rotation.y = s * Math.PI / 2;
+  const tOpt = {
+    w: 1024,
+    h: 140,
+    font: "900 96px 'Unbounded', sans-serif",
+    color: "#0B2545",
+    spacing: 10,
+  };
+  [-1, 1].forEach((s) => {
+    const m = textPlane("BRAHMNMITRA", 11, 1.35, tOpt);
+    m.position.set(s * 2.73, 1.85, 6.5);
+    m.rotation.y = (s * Math.PI) / 2;
     bob.add(m);
-    const r = textPlane('VT-BMN', 3.2, 0.55, { w: 512, h: 96, font: "700 62px 'Archivo', sans-serif", color: '#43617F', spacing: 4 });
-    r.position.set(s * 2.94, 0.25, -19.2); r.rotation.y = s * Math.PI / 2;
+    const r = textPlane("VT-BMN", 3.2, 0.55, {
+      w: 512,
+      h: 96,
+      font: "700 62px 'Archivo', sans-serif",
+      color: "#43617F",
+      spacing: 4,
+    });
+    r.position.set(s * 2.94, 0.25, -19.2);
+    r.rotation.y = (s * Math.PI) / 2;
     bob.add(r);
   });
 
   /* wings */
   const ws = new THREE.Shape();
-  ws.moveTo(0, 4.5); ws.lineTo(25.9, -6.6); ws.lineTo(25.9, -8.9); ws.lineTo(0, -4.5); ws.closePath();
-  const wg = new THREE.ExtrudeGeometry(ws, { depth: 0.42, bevelEnabled: true, bevelThickness: 0.14, bevelSize: 0.22, bevelSegments: 2 });
+  ws.moveTo(0, 4.5);
+  ws.lineTo(25.9, -6.6);
+  ws.lineTo(25.9, -8.9);
+  ws.lineTo(0, -4.5);
+  ws.closePath();
+  const wg = new THREE.ExtrudeGeometry(ws, {
+    depth: 0.42,
+    bevelEnabled: true,
+    bevelThickness: 0.14,
+    bevelSize: 0.22,
+    bevelSegments: 2,
+  });
   const wingR = new THREE.Mesh(wg, grey);
-  wingR.rotation.set(Math.PI / 2, 0, 0.09); wingR.position.set(2.4, -0.9, -1);
+  wingR.rotation.set(Math.PI / 2, 0, 0.09);
+  wingR.position.set(2.4, -0.9, -1);
   const wingL = new THREE.Mesh(wg, grey);
-  wingL.rotation.set(Math.PI / 2, 0, -0.09); wingL.scale.x = -1; wingL.position.set(-2.4, -0.9, -1);
+  wingL.rotation.set(Math.PI / 2, 0, -0.09);
+  wingL.scale.x = -1;
+  wingL.position.set(-2.4, -0.9, -1);
   bob.add(wingR, wingL);
-  [wingR, wingL].forEach(w => {
+  [wingR, wingL].forEach((w) => {
     const wl = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.7, 2.4), amber);
-    wl.rotation.x = Math.PI / 2; wl.position.set(25.6, -7.7, -1.05);
+    wl.rotation.x = Math.PI / 2;
+    wl.position.set(25.6, -7.7, -1.05);
     w.add(wl);
   });
 
@@ -615,17 +818,33 @@ function buildPlane() {
   const nac = new THREE.CylinderGeometry(1.12, 1.0, 3.8, 28);
   const lip = new THREE.CylinderGeometry(1.19, 1.19, 0.45, 28);
   const pyl = new THREE.BoxGeometry(0.26, 1.6, 2.4);
-  [[7.5, 2.4], [14, -0.3], [-7.5, 2.4], [-14, -0.3]].forEach(([x, z]) => {
-    const e = new THREE.Mesh(nac, grey);   e.rotation.x = Math.PI / 2; e.position.set(x, -2.45, z);
-    const l = new THREE.Mesh(lip, amber);  l.rotation.x = Math.PI / 2; l.position.set(x, -2.45, z + 1.95);
-    const i = new THREE.Mesh(new THREE.CircleGeometry(1.03, 26), dark); i.position.set(x, -2.45, z + 2.18);
-    const py = new THREE.Mesh(pyl, grey);  py.position.set(x, -1.55, z + 0.6); py.rotation.x = 0.25;
+  [
+    [7.5, 2.4],
+    [14, -0.3],
+    [-7.5, 2.4],
+    [-14, -0.3],
+  ].forEach(([x, z]) => {
+    const e = new THREE.Mesh(nac, grey);
+    e.rotation.x = Math.PI / 2;
+    e.position.set(x, -2.45, z);
+    const l = new THREE.Mesh(lip, amber);
+    l.rotation.x = Math.PI / 2;
+    l.position.set(x, -2.45, z + 1.95);
+    const i = new THREE.Mesh(new THREE.CircleGeometry(1.03, 26), dark);
+    i.position.set(x, -2.45, z + 2.18);
+    const py = new THREE.Mesh(pyl, grey);
+    py.position.set(x, -1.55, z + 0.6);
+    py.rotation.x = 0.25;
     // fan blades
     const fan = new THREE.Group();
     for (let b = 0; b < 12; b++) {
       const bl = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.9, 0.03), grey);
-      bl.position.set(Math.cos(b / 12 * Math.PI * 2) * 0.5, Math.sin(b / 12 * Math.PI * 2) * 0.5, 0);
-      bl.rotation.z = b / 12 * Math.PI * 2;
+      bl.position.set(
+        Math.cos((b / 12) * Math.PI * 2) * 0.5,
+        Math.sin((b / 12) * Math.PI * 2) * 0.5,
+        0,
+      );
+      bl.rotation.z = (b / 12) * Math.PI * 2;
       fan.add(bl);
     }
     fan.position.set(x, -2.45, z + 2.24);
@@ -635,35 +854,58 @@ function buildPlane() {
 
   /* tail */
   const fs = new THREE.Shape();
-  fs.moveTo(0, 0); fs.lineTo(8, 0); fs.lineTo(6.3, 9.2); fs.lineTo(3.6, 9.2); fs.closePath();
-  const fin = new THREE.Mesh(new THREE.ExtrudeGeometry(fs, { depth: 0.5, bevelEnabled: true, bevelThickness: 0.08, bevelSize: 0.1, bevelSegments: 1 }), amber);
-  fin.rotation.y = Math.PI / 2; fin.position.set(-0.25, 2.3, -17.5);
+  fs.moveTo(0, 0);
+  fs.lineTo(8, 0);
+  fs.lineTo(6.3, 9.2);
+  fs.lineTo(3.6, 9.2);
+  fs.closePath();
+  const fin = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(fs, {
+      depth: 0.5,
+      bevelEnabled: true,
+      bevelThickness: 0.08,
+      bevelSize: 0.1,
+      bevelSegments: 1,
+    }),
+    amber,
+  );
+  fin.rotation.y = Math.PI / 2;
+  fin.position.set(-0.25, 2.3, -17.5);
   bob.add(fin);
-  [-1, 1].forEach(s => {
-    const m = textPlane('B', 3, 3, { w: 256, h: 256, font: "900 170px 'Unbounded', sans-serif", color: '#FFFFFF' });
-    m.position.set(s * 0.42, 8.2, -21.6); m.rotation.y = s * Math.PI / 2;
+  [-1, 1].forEach((s) => {
+    const m = textPlane("B", 3, 3, {
+      w: 256,
+      h: 256,
+      font: "900 170px 'Unbounded', sans-serif",
+      color: "#FFFFFF",
+    });
+    m.position.set(s * 0.42, 8.2, -21.6);
+    m.rotation.y = (s * Math.PI) / 2;
     bob.add(m);
   });
   const stab = new THREE.BoxGeometry(11, 0.32, 3.2);
-  [-1, 1].forEach(s => {
+  [-1, 1].forEach((s) => {
     const m = new THREE.Mesh(stab, grey);
-    m.position.set(s * 5.6, 1.9, -23.5); m.rotation.set(0, s * 0.45, s * 0.07);
+    m.position.set(s * 5.6, 1.9, -23.5);
+    m.rotation.set(0, s * 0.45, s * 0.07);
     bob.add(m);
   });
 
   /* windows — the -X row faces the camera after the turn */
   const winGeo = new THREE.CircleGeometry(0.27, 14);
   const winMat = new THREE.MeshBasicMaterial({ color: 0x18222f });
-  const targetMat = new THREE.MeshBasicMaterial({ color: 0x8c7350 });   // brightens on approach
+  const targetMat = new THREE.MeshBasicMaterial({ color: 0x8c7350 }); // brightens on approach
   const marker = new THREE.Object3D();
-  [-1, 1].forEach(s => {
+  [-1, 1].forEach((s) => {
     for (let z = 16; z >= -16; z -= 1.45) {
       if (z > -6.5 && z < 1.5) continue;
-      const isTarget = (s === -1 && Math.abs(z - 6.4) < 0.7);
-      const w = new THREE.Mesh(isTarget ? new THREE.CircleGeometry(0.33, 16) : winGeo,
-                               isTarget ? targetMat : winMat);
+      const isTarget = s === -1 && Math.abs(z - 6.4) < 0.7;
+      const w = new THREE.Mesh(
+        isTarget ? new THREE.CircleGeometry(0.33, 16) : winGeo,
+        isTarget ? targetMat : winMat,
+      );
       w.position.set(s * 2.87, 1.0, z);
-      w.rotation.y = s * Math.PI / 2;
+      w.rotation.y = (s * Math.PI) / 2;
       w.scale.y = 1.25;
       bob.add(w);
       if (isTarget) marker.position.set(-2.9, 1.0, z);
@@ -672,7 +914,7 @@ function buildPlane() {
       const w = new THREE.Mesh(winGeo, winMat);
       w.scale.set(0.7, 0.9, 1);
       w.position.set(s * 1.62, 2.75, z);
-      w.rotation.y = s * Math.PI / 2;
+      w.rotation.y = (s * Math.PI) / 2;
       bob.add(w);
     }
   });
@@ -680,30 +922,46 @@ function buildPlane() {
 
   /* nav lights */
   const glowTex = (() => {
-    const c = document.createElement('canvas'); c.width = c.height = 64;
-    const g = c.getContext('2d');
+    const c = document.createElement("canvas");
+    c.width = c.height = 64;
+    const g = c.getContext("2d");
     const gr = g.createRadialGradient(32, 32, 2, 32, 32, 30);
-    gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
-    g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+    gr.addColorStop(0, "rgba(255,255,255,1)");
+    gr.addColorStop(1, "rgba(255,255,255,0)");
+    g.fillStyle = gr;
+    g.fillRect(0, 0, 64, 64);
     return new THREE.CanvasTexture(c);
   })();
   function lamp(color, x, y, z, s) {
-    const sp = new THREE.Sprite(new THREE.SpriteMaterial({
-      map: glowTex, color, transparent: true, opacity: 0.95,
-      blending: THREE.AdditiveBlending, depthWrite: false
-    }));
-    sp.position.set(x, y, z); sp.scale.set(s, s, 1);
-    bob.add(sp); return sp;
+    const sp = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map: glowTex,
+        color,
+        transparent: true,
+        opacity: 0.95,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    );
+    sp.position.set(x, y, z);
+    sp.scale.set(s, s, 1);
+    bob.add(sp);
+    return sp;
   }
-  lamp(0x33ff66,  28.2, 1.6, -8.4, 2.2);
+  lamp(0x33ff66, 28.2, 1.6, -8.4, 2.2);
   lamp(0xff3344, -28.2, 1.6, -8.4, 2.2);
   const strobe = lamp(0xffffff, 0, 1.0, -26.8, 2.6);
   const beacon = lamp(0xff2233, 0, -3.15, -1, 2.0);
 
   return {
-    group, bob, marker, beacon, strobe, fans,
+    group,
+    bob,
+    marker,
+    beacon,
+    strobe,
+    fans,
     winMat: targetMat,
     roll: 0,
-    outward: new THREE.Vector3(-1, 0, 0)   // window row normal, in model space
+    outward: new THREE.Vector3(-1, 0, 0), // window row normal, in model space
   };
 }

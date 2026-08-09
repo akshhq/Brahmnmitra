@@ -40,6 +40,38 @@ The long-term goal is to evolve Brahmnmitra into:
 
 > **A premium travel brand on the outside + a complete travel-management platform on the inside.**
 
+## Frontend surfaces
+
+- **Public traveller frontend:** `index.html` with dedicated package, hotel,
+  destination, travel-assistant and customer-account pages. Visitors can search
+  and filter the catalogue, save ideas, create a planning draft and retain
+  browser-local preferences and activity.
+- **Operations frontend:** `admin.html` for leads, catalogue, bookings and
+  payment workflow. Staff can add/update leads, create local planning records,
+  and export or restore a browser-local backup. It must be connected to
+  authenticated `/backend` APIs before it is used for real customer data.
+
+## Current feature status
+
+The static release now includes practical, browser-local workflows in addition
+to the protected PHP enquiry endpoint:
+
+| Area               | Available now                                                                                 | Production requirement before using customer data                         |
+| ------------------ | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Catalogue          | Package, hotel and destination search, filters, sort, starting-price cards and saved ideas    | Database catalogue, supplier integrations and live availability           |
+| Trip planning      | Custom travellers, budget, planning preferences, itinerary-draft generator and quote hand-off | Authenticated saved plans and expert/API itinerary service                |
+| Customer workspace | Local preferences, saved ideas, planning drafts, recent activity and planning-point display   | Authentication, encrypted storage, bookings, payments and document access |
+| Staff workspace    | Leads, pipeline status, catalogue drafts, bookings, payment records and JSON backup/restore   | Staff authentication, roles, CSRF protection, audit logs and a database   |
+| Enquiries          | Validated PHP form, optional email delivery, protected log and WhatsApp fallback              | CRM ingestion, consent records and staff assignment                       |
+
+### Browser-local data notice
+
+`assets/js/platform-store.js` and `assets/js/admin.js` use `localStorage` for
+the prototype workflows. Data stays on the current device/browser and can be
+lost if browser storage is cleared. Do not enter passport data, card data,
+government IDs or other sensitive customer information in the static account or
+admin workspace.
+
 ---
 
 # 2. CURRENT PROJECT STRUCTURE
@@ -48,7 +80,12 @@ The long-term goal is to evolve Brahmnmitra into:
 brahmnmitra/
 │
 ├── index.html
-├── enquiry.php
+├── packages.html
+├── hotels.html
+├── destinations.html
+├── travel-assistant.html
+├── account.html
+├── platform.html
 ├── .htaccess
 ├── 404.html
 ├── 500.html
@@ -90,51 +127,56 @@ brahmnmitra/
 ├── data/
 │   └── services.json
 │
-├── includes/
-│   ├── config.php
-│   ├── helpers.php
-│   ├── mailer.php
-│   └── PHPMailer/
-│       ├── Exception.php
-│       ├── PHPMailer.php
-│       └── SMTP.php
-│
-└── logs/
+└── backend/
+    ├── enquiry.php
     ├── .htaccess
-    └── enquiries.log
+    ├── .env.example
+    ├── includes/
+    │   ├── config.php
+    │   ├── helpers.php
+    │   ├── mailer.php
+    │   └── PHPMailer/
+    └── logs/
+        ├── .htaccess
+        └── enquiries.log
 ```
 
 ### Existing files — purpose
 
-| File / Folder | Purpose |
-|---|---|
-| `index.html` | Main public website |
-| `enquiry.php` | Enquiry form backend |
-| `.htaccess` | HTTPS, compression, caching, security headers, CSP and error routing |
-| `404.html` | Branded 404 page |
-| `500.html` | Branded 500 page |
-| `robots.txt` | Search-engine crawler rules |
-| `sitemap.xml` | Search-engine sitemap |
-| `favicon.ico` | Browser favicon |
-| `assets/css/style.css` | Main styling and components |
-| `assets/css/animations.css` | Cinematic / liquid-glass / airplane animation styling |
-| `assets/css/responsive.css` | Responsive layout rules |
-| `assets/js/main.js` | Main frontend logic + Three.js airplane experience |
-| `assets/js/navigation.js` | Header and mobile navigation |
-| `assets/js/counter.js` | Animated statistics |
-| `assets/js/timeline.js` | Process/timeline interactions |
-| `assets/js/form-validation.js` | Client-side enquiry validation |
-| `assets/images/` | Existing visual assets |
-| `data/services.json` | Existing service master list |
-| `includes/config.php` | Email/business configuration |
-| `includes/helpers.php` | Validation, sanitisation, logging and response helpers |
-| `includes/mailer.php` | Email construction/sending |
-| `includes/PHPMailer/` | Vendored PHPMailer library |
-| `logs/enquiries.log` | Backup enquiry log |
-| `logs/.htaccess` | Prevents public access to logs |
-| `START-LOCAL-SERVER.txt` | Existing local-server instructions |
-| `start-windows.bat` | Existing Windows local server launcher |
-| `start-mac-linux.command` | Existing macOS/Linux launcher |
+| File / Folder                   | Purpose                                                              |
+| ------------------------------- | -------------------------------------------------------------------- |
+| `index.html`                    | Main public website                                                  |
+| `backend/enquiry.php`           | Public enquiry form endpoint                                         |
+| `.htaccess`                     | HTTPS, compression, caching, security headers, CSP and error routing |
+| `404.html`                      | Branded 404 page                                                     |
+| `500.html`                      | Branded 500 page                                                     |
+| `robots.txt`                    | Search-engine crawler rules                                          |
+| `sitemap.xml`                   | Search-engine sitemap                                                |
+| `favicon.ico`                   | Browser favicon                                                      |
+| `assets/css/style.css`          | Main styling and components                                          |
+| `assets/css/animations.css`     | Cinematic / liquid-glass / airplane animation styling                |
+| `assets/css/responsive.css`     | Responsive layout rules                                              |
+| `assets/js/main.js`             | Main frontend logic + Three.js airplane experience                   |
+| `assets/js/navigation.js`       | Header and mobile navigation                                         |
+| `assets/js/counter.js`          | Animated statistics                                                  |
+| `assets/js/timeline.js`         | Process/timeline interactions                                        |
+| `assets/js/form-validation.js`  | Client-side enquiry validation                                       |
+| `assets/js/platform-store.js`   | Shared browser-local saved ideas, plans, preferences and activity    |
+| `assets/js/travel-discovery.js` | Homepage catalogue, trip planner and site search                     |
+| `assets/js/portal-catalog.js`   | Filterable package, hotel and destination entry pages                |
+| `assets/js/travel-assistant.js` | Browser-local planning draft generator                               |
+| `assets/js/account.js`          | Customer workspace rendering and preference management               |
+| `assets/images/`                | Existing visual assets                                               |
+| `data/services.json`            | Existing service master list                                         |
+| `backend/includes/config.php`   | Email/business configuration                                         |
+| `backend/includes/helpers.php`  | Validation, sanitisation, logging and response helpers               |
+| `backend/includes/mailer.php`   | Email construction/sending                                           |
+| `backend/includes/PHPMailer/`   | Vendored PHPMailer library                                           |
+| `backend/logs/enquiries.log`    | Backup enquiry log                                                   |
+| `backend/logs/.htaccess`        | Prevents public access to logs                                       |
+| `START-LOCAL-SERVER.txt`        | Existing local-server instructions                                   |
+| `start-windows.bat`             | Existing Windows local server launcher                               |
+| `start-mac-linux.command`       | Existing macOS/Linux launcher                                        |
 
 ---
 
@@ -181,11 +223,11 @@ index.html
    ↓
 Enquiry form
    ↓
-enquiry.php
+backend/enquiry.php
    ↓
 helpers.php
    ↓
-logs/enquiries.log
+backend/logs/enquiries.log
    ↓
 mailer.php / PHPMailer
    ↓
@@ -218,12 +260,12 @@ The existing enquiry system should be retained until the new CRM/booking system 
 
 ### Important
 
-`logs/enquiries.log` contains customer information.
+`backend/logs/enquiries.log` contains customer information.
 
 Do not remove:
 
 ```text
-logs/.htaccess
+backend/logs/.htaccess
 ```
 
 Do not expose the log through a public route.
@@ -235,7 +277,7 @@ Do not expose the log through a public route.
 The primary configuration file is:
 
 ```text
-includes/config.php
+backend/includes/config.php
 ```
 
 Current important settings include:
@@ -1801,9 +1843,9 @@ The following items capture the supplied product-development brief. They are **f
 20. **SEO-friendly destination pages and Travel Journal** - publish destination hubs, guides, travel tips and reviewed factual content.
 21. **Homepage conversion flow and airplane animation** - centre the homepage on trip planning and refine the existing Three.js/GSAP flight into one smooth, frame-rate-independent animation loop.
 22. **Scalable technical foundation and phased delivery** - plan the public site, admin panel, backend, PostgreSQL, Redis, secure object storage, integrations and database design before extending the platform in controlled phases.
+
 ## Existing README
 
 The original `README.txt` is intentionally retained for the existing deployment/setup notes.
 
 This `README.md` is the **updated master product/technical roadmap** and should be treated as the primary development reference going forward.
-

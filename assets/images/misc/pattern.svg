@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
-  <!-- BRAHMNMITRA — subtle tiling pattern for section backgrounds. -->
-  <defs><pattern id="p" width="60" height="60" patternUnits="userSpaceOnUse">
-    <circle cx="30" cy="30" r="1.4" fill="#0B1437" fill-opacity="0.07"/>
-    <circle cx="0"  cy="0"  r="1.4" fill="#0B1437" fill-opacity="0.07"/>
-    <circle cx="60" cy="60" r="1.4" fill="#0B1437" fill-opacity="0.07"/>
-  </pattern></defs>
-  <rect width="60" height="60" fill="url(#p)"/>
-</svg>

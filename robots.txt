@@ -6,8 +6,9 @@ Allow: /
 # Nothing here is useful to a crawler, and the logs contain
 # customer data. (The .htaccess files block these at the server
 # level too — this is only a courtesy to well-behaved bots.)
-Disallow: /logs/
-Disallow: /includes/
-Disallow: /enquiry.php
+Disallow: /backend/includes/
+Disallow: /backend/logs/
+Disallow: /backend/enquiry.php
+Disallow: /admin.html
 
 Sitemap: https://brahmnmitra.com/sitemap.xml
