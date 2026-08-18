@@ -86,7 +86,7 @@
 
 /* ===================== cinematic stage ===================== */
 #cinema {
-  height: 680vh;
+  height: 380vh;
   position: relative;
   background: var(--night-1);
 }
@@ -102,12 +102,9 @@
   inset: 0;
 }
 .bg-night {
-  background: radial-gradient(
-    125% 95% at 50% 0%,
-    #14243f 0%,
-    var(--night-2) 40%,
-    var(--night-1) 80%
-  );
+  background:
+    radial-gradient(130% 90% at 50% 18%, #192e4e 0%, #0d1b2e 45%, #050a12 88%),
+    linear-gradient(180deg, #070d18 0%, #102036 50%, #1b2c44 100%);
 }
 
 /* HERO PHOTO layer — behind everything, revealed only when the stage has
@@ -146,28 +143,30 @@
   opacity: 0;
   background: linear-gradient(
     180deg,
-    #1f6fd0 0%,
-    #4e9de8 24%,
-    #85c2f3 50%,
-    #c1e2fb 76%,
-    #e9f6ff 100%
+    #1353a3 0%,
+    #2f7fd6 22%,
+    #69adfa 48%,
+    #b2d8fc 74%,
+    #ffead0 92%,
+    #fff4e6 100%
   );
 }
 .sun {
   position: absolute;
-  top: 4%;
-  right: 9%;
-  width: 40vmin;
-  height: 40vmin;
+  top: 6%;
+  right: 12%;
+  width: 48vmin;
+  height: 48vmin;
   opacity: 0;
   pointer-events: none;
   background: radial-gradient(
     circle,
-    rgba(255, 253, 244, 0.98) 0%,
-    rgba(255, 244, 210, 0.5) 25%,
-    rgba(255, 238, 196, 0.16) 46%,
-    transparent 68%
+    rgba(255, 255, 248, 1) 0%,
+    rgba(255, 246, 218, 0.6) 22%,
+    rgba(255, 228, 180, 0.22) 44%,
+    transparent 70%
   );
+  filter: drop-shadow(0 0 45px rgba(255, 210, 140, 0.4));
 }
 #sky-canvas {
   position: absolute;
@@ -187,39 +186,48 @@
   color: #f2f7ff;
   padding: 0 20px;
   pointer-events: none;
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
+  z-index: 4;
 }
 .hero-copy .eyebrow {
   font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.42em;
+  font-weight: 700;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
   color: var(--amber);
-  margin-bottom: 26px;
+  margin-bottom: 20px;
+  padding: 6px 18px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 179, 71, 0.12);
+  border: 1px solid rgba(255, 179, 71, 0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 .hero-copy h1 {
   font-family: var(--display);
   font-weight: 900;
-  font-size: clamp(2.1rem, 9vw, 6.6rem);
+  font-size: clamp(2.2rem, 8.5vw, 6.2rem);
   letter-spacing: 0.05em;
-  line-height: 1;
-  background: linear-gradient(180deg, #ffffff 30%, #b9d4f5 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 42px rgba(126, 178, 255, 0.4));
+  line-height: 1.05;
+  color: #ffffff;
+  text-shadow:
+    0 4px 28px rgba(4, 6, 14, 0.85),
+    0 0 50px rgba(30, 80, 160, 0.3);
 }
 .hero-copy .tagline {
-  margin-top: 26px;
-  font-size: clamp(1rem, 2.4vw, 1.45rem);
-  color: #cbdcf3;
-  max-width: 34ch;
+  margin-top: 22px;
+  font-size: clamp(1.05rem, 2.3vw, 1.45rem);
+  color: #dbe7f7;
+  max-width: 36ch;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
 }
 .hero-copy .sub {
-  margin-top: 14px;
-  font-size: 13.5px;
-  color: #8095b5;
-  letter-spacing: 0.05em;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #9ab0cf;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 /* hero CTAs — shown only in the no-cinema fallback, where there is
@@ -556,12 +564,15 @@ body.no-cinema .skip-intro {
 
 /* ============ reduced motion / no-WebGL fallback ============ */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
   html {
-    scroll-behavior: auto;
+    scroll-behavior: auto !important;
   }
 }
 body.no-cinema #cinema {

@@ -109,6 +109,32 @@
     persist();
   }
 
+  function toast(message, type = "info") {
+    let container = document.querySelector(".bm-toast-container");
+    if (!container) {
+      container = document.createElement("div");
+      container.className = "bm-toast-container";
+      container.setAttribute("aria-live", "polite");
+      document.body.appendChild(container);
+    }
+    const el = document.createElement("div");
+    el.className = "bm-toast";
+    const icon = type === "success" ? "✓" : "✦";
+    const iconClass = type === "success" ? "bm-toast-icon success" : "bm-toast-icon";
+    el.innerHTML = `<span class="${iconClass}">${icon}</span><span>${message}</span>`;
+    container.appendChild(el);
+
+    requestAnimationFrame(() => {
+      el.classList.add("bm-toast-visible");
+    });
+
+    setTimeout(() => {
+      el.classList.remove("bm-toast-visible");
+      el.classList.add("bm-toast-leaving");
+      setTimeout(() => el.remove(), 400);
+    }, 3500);
+  }
+
   window.BMPlatform = {
     read,
     updateProfile,
@@ -118,5 +144,6 @@
     savePlan,
     removeSaved,
     removePlan,
+    toast,
   };
 })();

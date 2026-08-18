@@ -183,6 +183,14 @@
       });
       save.textContent = isSaved ? "Saved" : "Save";
       save.setAttribute("aria-pressed", String(isSaved));
+      if (window.BMPlatform.toast) {
+        window.BMPlatform.toast(
+          isSaved
+            ? `Saved "${item.name}" to My Account`
+            : `Removed "${item.name}" from saved ideas`,
+          isSaved ? "success" : "info",
+        );
+      }
       return;
     }
     if (event.target.closest("#catalog-reset") && controls) {

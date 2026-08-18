@@ -82,12 +82,21 @@
     );
     document.getElementById("profile-status").textContent =
       "Preferences saved on this device.";
+    if (window.BMPlatform.toast) {
+      window.BMPlatform.toast("Traveler preferences updated", "success");
+    }
   });
   root.addEventListener("click", (event) => {
     const saved = event.target.closest("[data-remove-saved]");
     const plan = event.target.closest("[data-remove-plan]");
-    if (saved) window.BMPlatform.removeSaved(saved.dataset.removeSaved);
-    if (plan) window.BMPlatform.removePlan(plan.dataset.removePlan);
+    if (saved) {
+      window.BMPlatform.removeSaved(saved.dataset.removeSaved);
+      if (window.BMPlatform.toast) window.BMPlatform.toast("Idea removed", "info");
+    }
+    if (plan) {
+      window.BMPlatform.removePlan(plan.dataset.removePlan);
+      if (window.BMPlatform.toast) window.BMPlatform.toast("Draft plan removed", "info");
+    }
   });
   window.addEventListener("bm:workspace-change", render);
   render();

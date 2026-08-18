@@ -98,15 +98,50 @@ BM.initNavigation = function () {
         : a.removeAttribute("aria-current");
     });
   }
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(spy);
+  /* ---------- smooth anchor scrolling ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", (e) => {
+      const targetId = anchor.getAttribute("href");
+      if (!targetId || targetId === "#") return;
+      const targetEl = targetId === "#top" ? document.body : document.querySelector(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        const headerOffset = 90;
+        const targetPos = targetId === "#top" ? 0 : targetEl.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: targetPos,
+          behavior: "smooth",
+        });
+        if (history.pushState) {
+          history.pushState(null, null, targetId);
+        }
       }
-    },
-    { passive: true },
-  );
-  spy();
+    });
+  });
+
+  /* ---------- back to top button ---------- */
+  let backToTop = document.getElementById("back-to-top");
+  if (!backToTop) {
+    backToTop = document.createElement("button");
+    backToTop.id = "back-to-top";
+    backToTop.type = "button";
+    backToTop.setAttribute("aria-label", "Back to top");
+    backToTop.innerHTML = '<span aria-hidden="true">&#8593;</span>';
+    document.body.appendChild(backToTop);
+  }
+
+  backToTop.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  const checkBackToTop = () => {
+    if (window.pageYOffset > 500) {
+      backToTop.classList.add("visible");
+    } else {
+      backToTop.classList.remove("visible");
+    }
+  };
+
+  window.addEventListener("scroll", checkBackToTop, { passive: true });
+  checkBackToTop();
 };

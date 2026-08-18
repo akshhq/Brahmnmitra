@@ -48,9 +48,15 @@
       `Planned a ${days}-day ${place} journey`,
       "account.html",
     );
+    if (window.BMPlatform?.toast) {
+      window.BMPlatform.toast(
+        `Draft for ${place} saved to My Account (+25 points)`,
+        "success",
+      );
+    }
     result.hidden = false;
     result.innerHTML =
-      '<p class="kicker">Your planning draft</p><h2>' +
+      "<h2>" +
       escape(values.journey || `${place}, thoughtfully paced`) +
       "</h2><p>A starting outline for " +
       escape(travellers) +
