@@ -1,34 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!--
-  ============================================================
-  BRAHMNMITRA  ·  v4
-  Flights · Tours · MICE — domestic & international
-  Contact: +91 92117 61885 · info@brahmnmitra.com
-  ------------------------------------------------------------
-  CRITICAL: every heading and paragraph below is REAL HTML. It
-  is here before any JavaScript runs. View source with JS off
-  and you will see all of it.
-
-  The previous site was a client-rendered React SPA whose raw
-  HTML was an empty React mount div. Crawlers that don't run
-  JavaScript saw a blank page, and the site returned zero
-  results for its own name. Do not reintroduce that.
-
-  Assets:
-    assets/css/style.css          tokens, layout, components
-    assets/css/animations.css     liquid glass + the cinematic
-    assets/css/responsive.css     breakpoints (load LAST)
-    assets/js/main.js             the 747 flight engine
-    assets/js/navigation.js       header + mobile overlay
-    assets/js/counter.js          stat count-up
-    assets/js/timeline.js         process rail + reveals
-    assets/js/form-validation.js  enquiry form
-    backend/enquiry.php           form backend
-    backend/includes/config.php   <- THE ONLY FILE YOU EDIT
-  ============================================================
--->
+    <!-- BrahmnMitra — Flights, Tours & MICE -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -41,11 +14,7 @@
     <meta name="theme-color" content="#04060C" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
 
-    <!-- Open Graph. The old site pointed og:image at the site-builder's
-     default placeholder graphic, so every WhatsApp and LinkedIn share
-     showed a generic image instead of the brand. For a business where
-     deals start on WhatsApp that cost real credibility. This now points
-     at our own 1200x630 branded card. -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="BrahmnMitra" />
     <meta
@@ -106,7 +75,7 @@
   <body>
     <a class="skip" href="#plan">Skip to content</a>
 
-    <!-- ===================== header ===================== -->
+    <!-- Header -->
     <header id="site-header">
       <a class="brand" href="#top" aria-label="BrahmnMitra — home">
         <span class="dot" aria-hidden="true"></span>BRAHMNMITRA
@@ -135,26 +104,10 @@
       </button>
     </header>
 
-    <!-- ===================== the cinematic =====================
-     680vh of scroll. The 747 flies in from deep space, banks into a
-     right turn, presents its window row — and the camera flies you
-     through the glass into the cabin. Under prefers-reduced-motion or
-     without WebGL this collapses to a clean static hero (the
-     .no-cinema rules in animations.css). -->
+    <!-- Cinematic Hero Section -->
     <section id="cinema" aria-label="Introduction">
       <div class="stage" id="top">
-        <!-- HERO PHOTO (optional). Sits BEHIND the night-sky gradient, which
-         is semi-transparent, so a real India photo glows through while the
-         navy overlay keeps the white headline legible.
-
-         To activate: drop three .webp files into assets/images/hero/ using
-         the names below, then add the class "has-photo" to <div class="stage">.
-         Until you do, this <picture> loads nothing visible and the pure
-         gradient shows — the site looks finished either way.
-
-         Use a LICENSED photo (Unsplash/Pexels are fine). Do NOT use an
-         AI-generated shot of a famous monument — the dome count gives it
-         away to Indian audiences. See assets/images/README-IMAGES.txt. -->
+        <!-- Hero Photo (Optional) -->
         <picture class="hero-photo" id="hero-photo" aria-hidden="true">
           <source
             media="(max-width:600px)"
@@ -174,11 +127,6 @@
             height="1080"
           />
         </picture>
-        <!-- Same job as the old inline onerror, moved to a real <script> so the
-         Content-Security-Policy below can drop 'unsafe-inline' entirely.
-         This exact script is allow-listed by its SHA-256 hash in .htaccess —
-         if you edit so much as a character here, recompute the hash or the
-         CSP will silently block it. -->
         <script>
           document.getElementById("hero-photo-img").addEventListener(
             "error",
@@ -202,8 +150,7 @@
             Domestic &amp; international · New Delhi · One number, real people.
           </p>
 
-          <!-- shown only in the no-cinema fallback, where there is no
-           scroll-through to carry the visitor into the cabin -->
+          <!-- Fallback CTA -->
           <div class="hero-cta">
             <a class="btn btn-amber" href="#plan">Plan My Trip</a>
             <a class="btn btn-glass" href="#packages">Explore Journeys</a>
@@ -214,16 +161,12 @@
           <span>Scroll to take off</span><span class="line"></span>
         </div>
 
-        <!-- Visible escape hatch. The intro is ~7 screens tall; some visitors
-         just want the services or the phone number. This jumps straight
-         past the cinema to #services. It fades out once the visitor has
-         scrolled into the content (main.js toggles .gone). Hidden in the
-         no-cinema fallback, where there's no long intro to skip. -->
+        <!-- Skip Intro -->
         <a class="skip-intro" href="#plan"
           >Skip intro <span aria-hidden="true">&#8595;</span></a
         >
 
-        <!-- you fly through the window and land here -->
+        <!-- Reveal Stage -->
         <div id="reveal">
           <div
             class="rcloud"
@@ -261,10 +204,7 @@
       </div>
     </section>
 
-    <!-- ===================== stat bar =====================
-     THESE NUMBERS ARE THE CLIENT'S. See README.txt, section STATS.
-     They are the figures supplied in the brief and have NOT been
-     independently verified. -->
+    <!-- Stat Bar -->
     <section id="stats" aria-label="BrahmnMitra in numbers">
       <div class="stat-grid">
         <div class="stat">
@@ -276,14 +216,13 @@
           <span class="label">Destinations</span>
         </div>
         <div class="stat">
-          <!-- not a number: never animated, just stated -->
           <span class="num">24/7</span>
           <span class="label">On-Ground Support</span>
         </div>
       </div>
     </section>
 
-    <!-- ===================== content ===================== -->
+    <!-- Content -->
     <main id="content">
       <div class="aurora" aria-hidden="true">
         <span class="a1"></span><span class="a2"></span><span class="a3"></span>
@@ -317,7 +256,7 @@
         aria-hidden="true"
       ></div>
 
-      <!-- ---------- Phase 1 trip planner ---------- -->
+      <!-- Trip Planner -->
       <section class="trip-planner" id="plan" aria-labelledby="plan-h">
         <div class="trip-planner-panel glass glass-strong" data-reveal>
           <div class="trip-planner-copy">
@@ -398,7 +337,7 @@
         </div>
       </section>
 
-      <!-- ---------- global discovery search ---------- -->
+      <!-- Discovery Search -->
       <section class="section" id="search" aria-labelledby="search-h">
         <div class="search-layout">
           <div data-reveal>
@@ -432,7 +371,7 @@
         </div>
       </section>
 
-      <!-- ---------- packages ---------- -->
+      <!-- Packages -->
       <section class="section" id="packages" aria-labelledby="packages-h">
         <div class="catalog-heading" data-reveal>
           <div>
@@ -486,7 +425,7 @@
         </div>
       </section>
 
-      <!-- ---------- hotels ---------- -->
+      <!-- Hotels -->
       <section class="section" id="hotels" aria-labelledby="hotels-h">
         <div class="catalog-heading" data-reveal>
           <div>
@@ -513,7 +452,7 @@
         confirm a complete quote before booking.
       </p>
 
-      <!-- ---------- destinations ---------- -->
+      <!-- Destinations -->
       <section
         class="section"
         id="destinations"
@@ -575,11 +514,7 @@
           >Explore the business platform <span aria-hidden="true">→</span></a
         >
       </section>
-      <!-- ---------- services: EIGHT cards ----------
-       The six from the brief, plus the two flight services that are the
-       actual business. The old site's H2 here repeated the hero H1 word
-       for word — the visitor read the same sentence twice in one scroll.
-       This heading is deliberately different. -->
+      <!-- Services -->
       <section class="section" id="services" aria-labelledby="services-h">
         <div data-reveal>
           <h2 id="services-h">Everything, handled.</h2>
@@ -677,9 +612,6 @@
             </p>
           </article>
 
-          <!-- Ground Transport. The old site's footer listed only five
-           services and silently dropped this one. It is a real service;
-           it appears here AND in the footer. -->
           <article class="svc-card glass" data-reveal>
             <span class="glyph" aria-hidden="true">⛟</span>
             <h3>Ground Transport</h3>
@@ -691,7 +623,7 @@
         </div>
       </section>
 
-      <!-- ---------- why ---------- -->
+      <!-- Why Choose Us -->
       <section class="section" id="why" aria-labelledby="why-h">
         <div data-reveal>
           <h2 id="why-h">Booking with a friend in the business</h2>
@@ -724,7 +656,7 @@
         </div>
       </section>
 
-      <!-- ---------- process: five steps ---------- -->
+      <!-- Process -->
       <section class="section" id="process" aria-labelledby="process-h">
         <div data-reveal>
           <h2 id="process-h">How We Work</h2>
@@ -733,8 +665,6 @@
           </p>
         </div>
 
-        <!-- horizontal rail on desktop; responsive.css rotates it into a
-         vertical spine below 920px -->
         <div class="proc">
           <span class="proc-rail" aria-hidden="true"></span>
           <ol class="proc-grid">
@@ -777,13 +707,7 @@
         </div>
       </section>
 
-      <!-- ---------- about ----------
-       The old site's H2 here said "Your Reliable Partner in Corporate
-       Travel" while the paragraph directly beneath it described "a leading
-       inbound travel provider for international travelers." The heading and
-       the body described two different companies. The heading below now
-       agrees with the body, and both agree with what the business actually
-       sells: flights, tours and MICE, in and out of India. -->
+      <!-- About -->
       <section class="section" id="about" aria-labelledby="about-h">
         <div data-reveal>
           <h2 id="about-h">One partner for flights, tours and MICE</h2>
@@ -820,11 +744,6 @@
             </ul>
           </div>
 
-          <!-- THE FOUR STATS. See README.txt, section STATS, before shipping.
-           50,000 trips divided by 500 clients = 100 trips per client, i.e.
-           10 per client per year for 10 years without fail. A prospect who
-           does that division stops trusting the rest of the page. These are
-           the client's supplied figures, reproduced as instructed. -->
           <div class="about-stats" data-reveal>
             <div class="about-stat glass">
               <span class="num" data-count="10" data-suffix="+">10+</span>
@@ -848,18 +767,7 @@
         </div>
       </section>
 
-      <!-- ---------- testimonials ----------
-       READ THIS BEFORE YOU GO LIVE. See README.txt, section TESTIMONIALS.
-
-       "Anil Kapoor" is one of the most famous actors in India. The company
-       names — TechNova, Greenfield Industries, Sunrise Exports — are the
-       kind of generic placeholders AI builders generate by default. An
-       Indian visitor will spot the Anil Kapoor line instantly and conclude
-       the whole page is unedited template filler.
-
-       These are reproduced exactly as supplied, as instructed. Replace them
-       with real, permissioned quotes — or delete this entire <section>.
-       An empty space costs you nothing; a caught fake costs you the deal. -->
+      <!-- Testimonials -->
       <section class="section" id="testimonials" aria-labelledby="tst-h">
         <div data-reveal>
           <h2 id="tst-h">What Our Clients Say</h2>
@@ -908,7 +816,7 @@
         </div>
       </section>
 
-      <!-- ---------- contact ---------- -->
+      <!-- Contact -->
       <section class="section" id="contact" aria-labelledby="contact-h">
         <div data-reveal>
           <h2 id="contact-h">Let's Plan Your Next Journey</h2>
@@ -919,7 +827,7 @@
         </div>
 
         <div class="contact-wrap">
-          <!-- left: the details -->
+          <!-- Contact Details -->
           <div class="contact-card glass" data-reveal>
             <div class="cinfo">
               <span class="glyph" aria-hidden="true">✆</span>
@@ -947,9 +855,6 @@
               </div>
             </div>
 
-            <!-- On mobile, WhatsApp converts far better than a form — most
-             Indian travel enquiries arrive that way. So it gets equal
-             billing here, not a link buried under the submit button. -->
             <a
               class="wa-btn"
               href="https://wa.me/919211761885?text=Hi%20BrahmnMitra%2C%20I%27d%20like%20a%20quote%20for%20a%20trip."
@@ -960,7 +865,7 @@
             </a>
           </div>
 
-          <!-- right: the enquiry form -->
+          <!-- Enquiry Form -->
           <div class="panel glass glass-strong" data-reveal>
             <form
               id="enquiry-form"
@@ -1063,10 +968,7 @@
                 <span class="err" id="f-service-err"></span>
               </div>
 
-              <!-- Flight-only. Revealed by form-validation.js when the chosen
-               service is a flight; hidden AND un-required otherwise. A
-               hidden required field is a silent dead end — the browser
-               refuses to submit and shows the visitor nothing. -->
+              <!-- Flight Details Block -->
               <div id="flight-block" hidden>
                 <div class="field full">
                   <label id="trip-label">Trip type</label>
@@ -1179,8 +1081,7 @@
                 ></textarea>
               </div>
 
-              <!-- honeypot: humans never see this; bots fill it. Anything that
-               fills it gets a fake success and is silently discarded. -->
+              <!-- Honeypot -->
               <input
                 type="text"
                 name="website"
@@ -1218,7 +1119,7 @@
       </section>
     </main>
 
-    <!-- ===================== footer ===================== -->
+    <!-- Footer -->
     <footer>
       <div class="fglow" aria-hidden="true"></div>
       <div class="inner">
@@ -1230,9 +1131,6 @@
           </p>
         </div>
 
-        <!-- ALL EIGHT SERVICES. The old footer listed five and silently dropped
-         Ground Transport. Every service offered above is listed here. If you
-         add a service, add it in BOTH places. -->
         <nav aria-label="Services">
           <h3 class="fcol">Services</h3>
           <ul>
@@ -1283,10 +1181,6 @@
           </p>
         </div>
 
-        <!-- SOCIAL ICONS: none, deliberately. Add them ONLY for accounts that
-         actually exist and are actually posted to. An icon linking to a
-         dead Instagram is worse than no icon at all. -->
-
         <p class="fine">
           © 2026 BrahmnMitra. All rights reserved. Fares subject to airline
           availability at the time of booking.
@@ -1294,10 +1188,7 @@
       </div>
     </footer>
 
-    <!-- ===================== structured data =====================
-     TravelAgency (a subtype of LocalBusiness). This is what puts the
-     business in Google's local pack. Keep the phone, email and address
-     in step with the markup above and with backend/includes/config.php. -->
+    <!-- Structured Data -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -1409,20 +1300,7 @@
       }
     </script>
 
-    <!-- ===================== scripts =====================
-     Everything below is DEFERRED. Not one byte of it is needed to
-     read the page: all the content above is already in the HTML.
-
-     three.js and GSAP come from a CDN. If the CDN is unreachable the
-     site does not break — main.js detects the missing globals and
-     drops to the static hero (body.no-cinema), and timeline.js falls
-     back to an IntersectionObserver for the reveals.
-
-     Load order matters: BM.* must be defined before main.js calls it. -->
-    <!-- integrity = SHA-512 of the exact file, verified against the published npm
-     packages (three@0.128.0, gsap@3.12.5) byte-for-byte. If you ever bump
-     these versions, the browser will silently refuse to run the new file
-     until you recompute the hash — that's the point, not a bug. -->
+    <!-- Scripts -->
     <script
       defer
       src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
@@ -1454,3 +1332,4 @@
     <script defer src="assets/js/main.js"></script>
   </body>
 </html>
+

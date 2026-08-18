@@ -1,21 +1,7 @@
-/* ============================================================
-   BRAHMNMITRA — responsive.css
-   ------------------------------------------------------------
-   Mobile-first is the writing style; this file holds the
-   overrides. Load LAST so it wins.
+/* BrahmnMitra — responsive.css */
 
-   Tested breakpoints (per spec):
-     360px   most common Android width in India
-     768px   tablet portrait
-     1280px  laptop
-     1920px  desktop
-
-   Every tap target stays >= 44x44px at every width.
-   ============================================================ */
-
-/* ============ 1080px — nav collapses to a hamburger ============ */
+/* 1080px — Mobile navigation overlay */
 @media (max-width: 1080px) {
-  /* the desktop link row becomes a full-screen overlay */
   #nav {
     position: fixed;
     inset: 0;
@@ -52,7 +38,6 @@
   #site-header.on-light #nav a[aria-current="true"] {
     background: rgba(255, 255, 255, 0.14);
   }
-  /* the CTA keeps its fill inside the overlay */
   #nav .nav-cta {
     margin-top: 18px;
     font-size: 1rem;
@@ -63,14 +48,12 @@
   #nav-toggle {
     display: flex;
   }
-  /* while the overlay is open the toggle must sit ABOVE it */
   #nav-toggle[aria-expanded="true"] {
     position: relative;
     z-index: 95;
     color: #eaf2ff;
   }
 
-  /* the header itself stays a slim pill: brand · call · burger */
   #site-header {
     padding: 10px 10px 10px 18px;
   }
@@ -78,13 +61,12 @@
     padding: 10px 16px;
   }
 
-  /* page must not scroll behind the overlay */
   body.nav-open {
     overflow: hidden;
   }
 }
 
-/* ============ 1024px — grids step down ============ */
+/* 1024px — Grids layout adjustment */
 @media (max-width: 1024px) {
   .svc-grid {
     grid-template-columns: 1fr 1fr;
@@ -105,14 +87,12 @@
   }
 }
 
-/* ============ 920px ============ */
+/* 920px — Vertical process timeline */
 @media (max-width: 920px) {
   .why-grid {
     grid-template-columns: 1fr;
   }
 
-  /* PROCESS: horizontal rail → vertical timeline.
-     The rail becomes a spine down the left; each step sits beside it. */
   .proc-rail {
     top: 0;
     bottom: 0;
@@ -149,7 +129,7 @@
   }
 }
 
-/* ============ 840px ============ */
+/* 840px — Single column cards */
 @media (max-width: 840px) {
   .svc-grid {
     grid-template-columns: 1fr;
@@ -159,7 +139,7 @@
   }
 }
 
-/* ============ 768px — tablet portrait ============ */
+/* 768px — Tablet layout */
 @media (max-width: 768px) {
   .stat-grid {
     gap: 20px;
@@ -178,11 +158,8 @@
   }
 }
 
-/* ============ 720px ============ */
+/* 720px — Mobile window & footer */
 @media (max-width: 720px) {
-  /* the cabin window is taller in portrait — main.js reads the same
-     numbers (26vh x 34vh) to size the clip-path aperture, so if you
-     change them here you MUST change portrait() in main.js too. */
   .window-frame {
     width: 26vh;
     height: 34vh;
@@ -196,14 +173,12 @@
   }
 }
 
-/* ============ 600px ============ */
+/* 600px — Mobile forms and stats */
 @media (max-width: 600px) {
-  /* the number is dropped from the header pill; the tel: link stays */
   #site-header .call .num {
     display: none;
   }
 
-  /* stats stack to one column so nothing truncates */
   .stat-grid {
     grid-template-columns: 1fr;
     gap: 26px;
@@ -222,7 +197,7 @@
   }
 }
 
-/* ============ 400px — small Android ============ */
+/* 400px — Small screens */
 @media (max-width: 400px) {
   #site-header {
     padding: 9px 9px 9px 15px;
@@ -253,7 +228,6 @@
     padding: 24px 20px;
   }
 
-  /* trip pills wrap rather than squeeze under 44px */
   .trip-pills {
     flex-wrap: wrap;
   }
@@ -267,7 +241,7 @@
   }
 }
 
-/* ============ 360px — the floor. Nothing may overflow here. ============ */
+/* 360px — Base mobile width */
 @media (max-width: 360px) {
   .hero-copy h1 {
     font-size: 2rem;
@@ -295,7 +269,7 @@
   }
 }
 
-/* ============ 1920px — don't let it sprawl ============ */
+/* 1600px+ — Large screens */
 @media (min-width: 1600px) {
   .section,
   .stat-grid,
@@ -304,7 +278,7 @@
   }
 }
 
-/* ============ landscape phones: the cinema needs headroom ============ */
+/* Landscape phones */
 @media (max-height: 480px) and (orientation: landscape) {
   .hero-copy h1 {
     font-size: 2.4rem;
@@ -320,7 +294,7 @@
   }
 }
 
-/* ============ print ============ */
+/* Print styles */
 @media print {
   #cinema,
   #site-header,
@@ -342,3 +316,4 @@
     color: #000;
   }
 }
+

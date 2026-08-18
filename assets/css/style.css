@@ -1,39 +1,20 @@
-/* ============================================================
-   BRAHMNMITRA — style.css
-   ------------------------------------------------------------
-   Tokens, layout and every component EXCEPT motion.
-   Motion lives in animations.css. Breakpoints live in
-   responsive.css. Load order matters:
-       style.css → animations.css → responsive.css
-   ============================================================ */
+/* BrahmnMitra — style.css */
 
-/* ===================== tokens ===================== */
 :root {
-  /* night → the cinematic sky */
+  /* Colors */
   --night-1: #04060c;
   --night-2: #0b1526;
-
-  /* accents */
   --amber: #ffb347;
   --amber-deep: #ff9e2c;
   --cyan: #5fe9f5;
   --violet: #8a7bff;
-
-  /* daylight */
   --sky-top: #8cc6fb;
   --sky-mid: #bfe2fc;
   --sky-low: #e8f5ff;
-
-  /* ink — WCAG AA on every background used below.
-     --ink       on white = 13.6:1   (body, headings)
-     --ink-soft  on white =  5.6:1   (secondary body — passes AA)
-     Amber is NEVER used for body text: #FFB347 on white is ~1.6:1.
-     It is reserved for button FILLS (dark text on top), icons and
-     large display type on the night background. */
   --ink: #0a2540;
   --ink-soft: #42618a;
 
-  /* liquid glass */
+  /* Glass tokens */
   --glass-bg: rgba(255, 255, 255, 0.3);
   --glass-bg-strong: rgba(255, 255, 255, 0.44);
   --glass-stroke: rgba(255, 255, 255, 0.55);
@@ -43,13 +24,14 @@
     inset 0 -1px 0 rgba(255, 255, 255, 0.25);
   --blur: 22px;
 
+  /* Typography & shape */
   --display: "Unbounded", sans-serif;
   --body: "Archivo", sans-serif;
   --r-lg: 28px;
   --r-md: 18px;
   --r-pill: 999px;
 
-  /* standardized easing tokens - natural exponential deceleration */
+  /* Easing */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
@@ -80,7 +62,7 @@ body {
   color: var(--night-1);
 }
 
-/* Custom luxury glass scrollbar */
+/* Custom glass scrollbar */
 ::-webkit-scrollbar {
   width: 9px;
   height: 9px;
@@ -111,7 +93,7 @@ a {
   color: inherit;
 }
 
-/* focus is always visible — never removed, only restyled */
+/* Focus styles */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -123,7 +105,7 @@ summary:focus-visible {
   border-radius: 8px;
 }
 
-/* skip link — first tab stop, for keyboard + screen-reader users */
+/* Accessibility skip link */
 .skip {
   position: absolute;
   left: -9999px;
@@ -151,7 +133,7 @@ summary:focus-visible {
   border: 0;
 }
 
-/* ===================== header ===================== */
+/* Header */
 #site-header {
   position: fixed;
   z-index: 80;
@@ -166,7 +148,6 @@ summary:focus-visible {
   padding: 11px 12px 11px 20px;
   border-radius: var(--r-pill);
   color: #eaf2ff;
-  /* dark glass while over the night sky */
   background: rgba(12, 22, 38, 0.42);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
@@ -200,7 +181,7 @@ summary:focus-visible {
   animation: pulse 2.6s ease-in-out infinite;
 }
 
-/* desktop nav */
+/* Desktop nav */
 #nav {
   display: flex;
   align-items: center;
@@ -225,7 +206,6 @@ summary:focus-visible {
   font-weight: 600;
 }
 
-/* the quote button is a FILL, not a link — per spec */
 .nav-cta {
   font-weight: 600;
   font-size: 14px;
@@ -258,7 +238,6 @@ summary:focus-visible {
     inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
-/* the phone: a tel: link, always reachable */
 #site-header .call {
   font-weight: 600;
   font-size: 13.5px;
@@ -284,7 +263,7 @@ summary:focus-visible {
   transform: translateY(-1px);
 }
 
-/* hamburger — hidden on desktop, shown by responsive.css */
+/* Mobile nav toggle */
 #nav-toggle {
   display: none;
   width: 44px;
@@ -336,7 +315,6 @@ summary:focus-visible {
   transform: translateY(-5px) rotate(-45deg);
 }
 
-/* light glass once we're in the sky */
 #site-header.on-light {
   color: var(--ink);
   background: rgba(255, 255, 255, 0.42);
@@ -363,7 +341,7 @@ summary:focus-visible {
   border-color: rgba(10, 37, 64, 0.14);
 }
 
-/* ===================== buttons ===================== */
+/* Buttons */
 .btn {
   font-family: var(--body);
   font-weight: 600;
@@ -379,7 +357,7 @@ summary:focus-visible {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  min-height: 44px; /* tap target floor */
+  min-height: 44px;
   transition:
     transform 0.3s var(--ease-spring),
     box-shadow 0.3s var(--ease-out),
@@ -396,7 +374,7 @@ summary:focus-visible {
     var(--amber) 45%,
     var(--amber-deep)
   );
-  color: #2a1600; /* dark ink on amber = 8.9:1, passes AA */
+  color: #2a1600;
   box-shadow:
     0 16px 36px -14px rgba(255, 158, 44, 0.75),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
@@ -407,7 +385,6 @@ summary:focus-visible {
     0 24px 48px -14px rgba(255, 158, 44, 0.9),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
-/* glass button */
 .btn-glass {
   background: rgba(255, 255, 255, 0.38);
   backdrop-filter: blur(14px) saturate(170%);
@@ -432,7 +409,7 @@ summary:focus-visible {
   transform: none;
 }
 
-/* ===================== content world ===================== */
+/* Content layout */
 #content {
   position: relative;
   z-index: 10;
@@ -484,9 +461,7 @@ h2 {
   line-height: 1.65;
 }
 
-/* ===================== stat bar ===================== */
-/* Sits directly under the cabin reveal, on a contrasting dark band
-   so it reads as a hard fact strip, not decoration. */
+/* Stat bar */
 #stats {
   position: relative;
   z-index: 11;
@@ -495,7 +470,6 @@ h2 {
   overflow: hidden;
 }
 #stats::after {
-  /* a slow amber wash, no motion needed */
   content: "";
   position: absolute;
   inset: 0;
@@ -538,7 +512,7 @@ h2 {
   font-weight: 600;
 }
 
-/* ===================== services ===================== */
+/* Services */
 .svc-grid {
   margin-top: 48px;
   display: grid;
@@ -603,7 +577,6 @@ h2 {
   font-size: 0.95rem;
 }
 
-/* the two flight cards keep subtle badge colors */
 .svc-card.intl .glyph {
   color: var(--cyan);
 }
@@ -638,7 +611,7 @@ h2 {
   box-shadow: 0 4px 10px -3px rgba(95, 233, 245, 0.7);
 }
 
-/* ===================== why ===================== */
+/* Why BrahmnMitra */
 .why-grid {
   margin-top: 48px;
   display: grid;
@@ -683,8 +656,7 @@ h2 {
   font-size: 0.95rem;
 }
 
-/* ===================== process ===================== */
-/* Horizontal rail on desktop, vertical on mobile (responsive.css). */
+/* Process Timeline */
 .proc {
   margin-top: 56px;
   position: relative;
@@ -754,7 +726,7 @@ h2 {
   max-width: 22ch;
 }
 
-/* ===================== about ===================== */
+/* About */
 .about-wrap {
   margin-top: 48px;
   display: grid;
@@ -802,7 +774,6 @@ h2 {
   );
 }
 .proof li::after {
-  /* the tick */
   content: "";
   position: absolute;
   left: 6px;
@@ -814,7 +785,7 @@ h2 {
   transform: rotate(-45deg);
 }
 
-/* the four About stats — glass tiles, counted up on scroll */
+/* About stats counters */
 .about-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -844,7 +815,7 @@ h2 {
   line-height: 1.4;
 }
 
-/* ===================== testimonials ===================== */
+/* Testimonials */
 .tst-grid {
   margin-top: 48px;
   display: grid;
@@ -893,7 +864,7 @@ h2 {
   line-height: 1.45;
 }
 
-/* ===================== contact ===================== */
+/* Contact */
 .contact-wrap {
   margin-top: 44px;
   display: grid;
@@ -902,7 +873,6 @@ h2 {
   align-items: start;
 }
 
-/* left column: the details */
 .contact-card {
   border-radius: calc(var(--r-lg) + 6px);
   padding: clamp(26px, 3.4vw, 38px);
@@ -957,8 +927,6 @@ h2 {
   text-decoration: underline;
 }
 
-/* WhatsApp — on mobile this converts better than the form, so it is
-   given equal billing, not buried under it. */
 .wa-btn {
   display: inline-flex;
   align-items: center;
@@ -987,7 +955,7 @@ h2 {
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-/* right column: the form */
+/* Contact Form */
 #contact .panel {
   border-radius: calc(var(--r-lg) + 6px);
   padding: clamp(26px, 4vw, 44px);
@@ -1005,8 +973,6 @@ h2 {
 .field.full {
   grid-column: 1/-1;
 }
-/* Real <label> on every input. Placeholders are hints, never labels:
-   they vanish on typing and screen readers skip them. */
 .field label {
   font-size: 12.5px;
   font-weight: 600;
@@ -1015,7 +981,7 @@ h2 {
 }
 .field .req {
   color: #b4520a;
-} /* 4.8:1 on the glass — passes AA */
+}
 .field input,
 .field select,
 .field textarea {
@@ -1072,7 +1038,7 @@ h2 {
   display: none;
 }
 
-/* trip pills — the flight-side control, kept from the original */
+/* Trip selector pills */
 .trip-pills {
   display: flex;
   gap: 10px;
@@ -1117,7 +1083,7 @@ h2 {
   outline-offset: 2px;
 }
 
-/* the flight-only block: shown when Service = a flight service */
+/* Flight only fields */
 #flight-block {
   grid-column: 1/-1;
   display: grid;
@@ -1171,7 +1137,6 @@ h2 {
   display: block;
   animation: toastIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
-/* Failure NEVER dead-ends: the warn state carries the phone + WhatsApp. */
 #form-toast.warn {
   background: rgba(255, 244, 226, 0.75);
   border-color: rgba(240, 180, 93, 0.9);
@@ -1182,7 +1147,7 @@ h2 {
   font-weight: 700;
 }
 
-/* ===================== footer ===================== */
+/* Footer */
 footer {
   position: relative;
   z-index: 10;
@@ -1262,7 +1227,7 @@ footer .fine {
   color: #7288a8;
 }
 
-/* ===================== back to top button ===================== */
+/* Back to top button */
 #back-to-top {
   position: fixed;
   bottom: 24px;
@@ -1308,7 +1273,7 @@ footer .fine {
   transform: translateY(0) scale(0.95);
 }
 
-/* ===================== toast notification system ===================== */
+/* Toast notifications */
 .bm-toast-container {
   position: fixed;
   bottom: 24px;

@@ -1,7 +1,5 @@
 "use strict";
-
-/* Shared browser-local state for the two Phase 1 frontends. This is a
- * convenience layer, not authentication or secure customer storage. */
+// BrahmnMitra — Browser-Local Workspace Store
 (() => {
   const storageKey = "bm_travel_workspace_v2";
   const defaults = {

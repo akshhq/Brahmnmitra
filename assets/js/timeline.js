@@ -1,24 +1,11 @@
 "use strict";
-/* ============================================================
-   BRAHMNMITRA — timeline.js
-   ------------------------------------------------------------
-   Two jobs:
-     1. the Process rail draws itself in as you reach it, and the
-        five step markers pop in one after the other
-     2. every [data-reveal] glass panel rises + un-blurs on scroll
-        (this is the liquid-glass entrance from the original build)
-
-   GSAP/ScrollTrigger is used when present; if the CDN is blocked
-   we fall back to an IntersectionObserver so the content still
-   appears. Under prefers-reduced-motion nothing animates at all —
-   panels are simply visible from the start.
-   ============================================================ */
+// BrahmnMitra — Scroll Reveals & Process Rail Animation
 
 window.BM = window.BM || {};
 
 const BM_REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* ---------- 1. glass panels rise in ---------- */
+// Glass reveals on scroll
 BM.initReveals = function () {
   const panels = document.querySelectorAll("[data-reveal]");
   if (!panels.length) return;
@@ -81,16 +68,9 @@ BM.initReveals = function () {
     panels.forEach((el) => io.observe(el));
   }
 
-  /* ---------- cursor-tracked specular highlight ----------
-     A soft light follows the pointer across each glass panel. Only on
-     devices that actually have a hover-capable pointer — on a phone
-     this would fire on every tap and just look like a flicker. */
+  // Cursor-tracked specular highlight
   if (matchMedia("(hover:hover)").matches) {
     document.querySelectorAll(".glass").forEach((card) => {
-      // A trackpad/high-poll-rate mouse can fire pointermove far more often
-      // than the screen repaints. Stash the latest position and let one
-      // rAF per frame do the actual style write, instead of one write per
-      // raw event — same visual result, far fewer style recalculations.
       let pending = false,
         lastX = 0,
         lastY = 0;
@@ -117,7 +97,7 @@ BM.initReveals = function () {
   }
 };
 
-/* ---------- 2. the process timeline ---------- */
+// Process timeline animation
 BM.initTimeline = function () {
   const proc = document.querySelector(".proc");
   if (!proc) return;
@@ -134,8 +114,6 @@ BM.initTimeline = function () {
     return;
   }
 
-  // The rail is drawn with a scaleX (scaleY on the mobile vertical
-  // layout — see responsive.css, where the rail rotates to a spine).
   const vertical = matchMedia("(max-width:920px)").matches;
   const axis = vertical ? "scaleY" : "scaleX";
   const origin = vertical ? "top center" : "left center";

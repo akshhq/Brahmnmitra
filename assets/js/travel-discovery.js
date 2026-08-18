@@ -1,11 +1,5 @@
 "use strict";
-/* ============================================================
-   BRAHMNMITRA - travel-discovery.js
-   ------------------------------------------------------------
-   Phase 1 catalogue UI. Records remain in data/travel-catalog.json
-   so they can move to an API later without rewriting the page.
-   Nothing here confirms live inventory, prices, or availability.
-   ============================================================ */
+// BrahmnMitra — Homepage Travel Discovery & Trip Planner
 
 window.BM = window.BM || {};
 

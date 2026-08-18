@@ -1,22 +1,5 @@
 <?php
-/* ============================================================
-   BRAHMNMITRA — includes/mailer.php
-   ------------------------------------------------------------
-   Composes and sends the enquiry email via PHPMailer
-   (includes/PHPMailer — vendored as plain files, no Composer,
-   so this still drops straight into Hostinger with no build step).
-
-   Transport: PHPMailer connects over authenticated SMTP when
-   SMTP_HOST is set in config.php, and falls back to PHP's mail()
-   automatically when it is blank — so a fresh upload with nothing
-   configured still sends mail exactly as before, just through a
-   more capable, better-tested library.
-
-   Header safety: every value that reaches PHPMailer has already
-   had CR/LF stripped by bm_field() in helpers.php (defence in
-   depth — PHPMailer also rejects header-injection attempts itself,
-   throwing rather than silently sending a malformed message).
-   ============================================================ */
+// BrahmnMitra — Enquiry Email Dispatcher via PHPMailer
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
@@ -31,23 +14,16 @@ require_once __DIR__ . "/PHPMailer/PHPMailer.php";
 require_once __DIR__ . "/PHPMailer/SMTP.php";
 
 /**
- * Send one enquiry.
- *
- * @param  array $d  The cleaned, validated fields.
- * @return bool      True if the mailer accepted it for delivery.
+ * Send enquiry notification email.
  */
 function bm_send_enquiry(array $d)
 {
-    /* ---------- subject ----------
-       Written so the inbox is scannable at a glance: the service and
-       the name, so Naveen knows what he is opening before he opens it. */
     $subject = "Enquiry · " . $d["service_label"];
     if ($d["is_flight"] && $d["from_city"] !== "" && $d["to_city"] !== "") {
         $subject .= " · " . $d["from_city"] . " → " . $d["to_city"];
     }
     $subject .= " · " . $d["name"];
 
-    /* ---------- body ---------- */
     $L = [];
     $L[] = "NEW ENQUIRY — " . BIZ_NAME;
     $L[] = str_repeat("=", 52);
@@ -90,9 +66,6 @@ function bm_send_enquiry(array $d)
     $mail = new PHPMailer(true);
 
     try {
-        /* ---------- transport ----------
-           SMTP when configured, PHP's own mail() otherwise. Either way
-           the caller sees the same true/false contract as before. */
         if (defined("SMTP_HOST") && SMTP_HOST !== "") {
             $mail->isSMTP();
             $mail->Host = SMTP_HOST;
@@ -106,7 +79,6 @@ function bm_send_enquiry(array $d)
                     : PHPMailer::ENCRYPTION_STARTTLS;
             $mail->SMTPDebug = defined("SMTP_DEBUG") ? (int) SMTP_DEBUG : 0;
             if ($mail->SMTPDebug > 0) {
-                // Debug output goes to the same protected log, never to the browser.
                 $mail->Debugoutput = function ($str) {
                     bm_log(["smtp_debug" => trim((string) $str)]);
                 };
@@ -116,21 +88,15 @@ function bm_send_enquiry(array $d)
         }
 
         $mail->CharSet = "UTF-8";
-        $mail->Encoding = "base64"; // matches the old =?UTF-8?B?...?= subject encoding, keeps the → intact
+        $mail->Encoding = "base64";
 
         $mail->setFrom(FROM_EMAIL, FROM_NAME);
         $mail->addAddress(TO_EMAIL);
 
-        /* Reply-To is set to the visitor when they gave an email, so hitting
-         Reply in the inbox goes to the customer, not to the website. */
         if ($d["email"] !== "") {
             $mail->addReplyTo($d["email"], $d["name"]);
         }
 
-        /* The envelope sender. Without this, a shared-host MTA stamps the
-           mail with the server's default address and it is far more likely
-           to be filtered as spam. PHPMailer sets this from `From` by
-           default over mail(); this makes it explicit either way. */
         $mail->Sender = FROM_EMAIL;
 
         $mail->isHTML(false);
@@ -140,9 +106,6 @@ function bm_send_enquiry(array $d)
 
         return $mail->send();
     } catch (PHPMailerException $e) {
-        // Never let a mailer exception surface to the visitor — the log
-        // already has the enquiry (bm_log runs before this is called),
-        // so nothing is lost. Record why sending failed for diagnosis.
         bm_log([
             "mail_error" =>
                 $mail->ErrorInfo !== "" ? $mail->ErrorInfo : $e->getMessage(),

@@ -1,18 +1,5 @@
 "use strict";
-/* ============================================================
-   BRAHMNMITRA — counter.js
-   ------------------------------------------------------------
-   Counts the stat numbers up when their bar scrolls into view.
-
-   Reduced motion: the final number is shown IMMEDIATELY. It is
-   never hidden and never animated — the figure is the content,
-   the count-up is only decoration.
-
-   Markup contract:
-     <span class="num" data-count="500" data-suffix="+">500+</span>
-   The element's text content is already the final value, so if
-   JavaScript never runs the number is still correct and visible.
-   ============================================================ */
+// BrahmnMitra — Animated Statistics Counter
 
 window.BM = window.BM || {};
 

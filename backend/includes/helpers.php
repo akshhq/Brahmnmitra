@@ -1,23 +1,12 @@
 <?php
-/* ============================================================
-   BRAHMNMITRA — includes/helpers.php
-   ------------------------------------------------------------
-   Sanitisation, validation, logging and the response writer.
-
-   Security posture: the browser's validation is a courtesy to
-   the visitor. THIS file is what actually decides whether a
-   submission is accepted. Anything arriving here is assumed
-   hostile until proven otherwise.
-   ============================================================ */
+// BrahmnMitra — Backend Helper Functions
 
 if (!defined("BM_OK")) {
     http_response_code(403);
     exit("Forbidden");
 }
 
-/* ---------- input ---------- */
-
-/** mb-safe truncate (a non-mb server would cut a UTF-8 char in half) */
+// Input sanitization & header-injection guards
 function bm_cut($v, $max)
 {
     return function_exists("mb_substr")
@@ -25,13 +14,6 @@ function bm_cut($v, $max)
         : substr($v, 0, $max);
 }
 
-/**
- * Read one POST field, safely.
- *
- * CR and LF are stripped from every value. This is the header-injection
- * guard: a field that reaches an email header carrying "\r\nBcc: ..."
- * would otherwise turn this form into an open relay.
- */
 function bm_field($key, $max = 200)
 {
     $v = isset($_POST[$key]) ? trim((string) $_POST[$key]) : "";
@@ -39,7 +21,6 @@ function bm_field($key, $max = 200)
     return bm_cut($v, $max);
 }
 
-/** The message body may keep its newlines — it never touches a header. */
 function bm_text($key, $max = 2000)
 {
     $v = isset($_POST[$key]) ? trim((string) $_POST[$key]) : "";
@@ -47,8 +28,7 @@ function bm_text($key, $max = 2000)
     return bm_cut($v, $max);
 }
 
-/* ---------- validation ---------- */
-
+// Validation helpers
 function bm_valid_phone($p)
 {
     return (bool) preg_match('/^[0-9+\-\s()]{7,20}$/', $p);
@@ -59,14 +39,12 @@ function bm_valid_email($e)
 }
 function bm_valid_date($d)
 {
-    // strictly YYYY-MM-DD, and a date that actually exists
     if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $d, $m)) {
         return false;
     }
     return checkdate((int) $m[2], (int) $m[3], (int) $m[1]);
 }
 
-/** The services the form is allowed to submit. Anything else is rejected. */
 function bm_services()
 {
     return [
@@ -99,9 +77,7 @@ function bm_cabins()
     ];
 }
 
-/* ---------- rate limiting ----------
-   A crude but effective flood guard. Counts this IP's entries in the
-   log over the last hour. No database needed. */
+// Rate limiting (max requests per IP per hour)
 function bm_rate_limited($ip)
 {
     if (!defined("RATE_LIMIT_PER_HOUR") || RATE_LIMIT_PER_HOUR <= 0) {
@@ -136,9 +112,7 @@ function bm_rate_limited($ip)
     return $hits >= RATE_LIMIT_PER_HOUR;
 }
 
-/* ---------- logging ----------
-   Written BEFORE the email is attempted. If mail() fails, the enquiry
-   is still on disk and the business has not lost a customer. */
+// Enquiry logging & automatic log rotation
 function bm_log(array $data)
 {
     $dir = dirname(LOG_FILE);
@@ -156,15 +130,6 @@ function bm_log(array $data)
     return @file_put_contents(LOG_FILE, $line, FILE_APPEND | LOCK_EX) !== false;
 }
 
-/**
- * Rotate enquiries.log once it passes LOG_MAX_BYTES, and prune archives
- * older than LOG_KEEP_DAYS. Runs on every write, but the size check is a
- * single filesize() call, so the cost is negligible next to a form POST.
- *
- * No cron job required — this is a self-contained, no-build-step site,
- * so rotation happens inline rather than depending on a Hostinger cron
- * that someone has to remember to set up.
- */
 function bm_rotate_log_if_needed()
 {
     if (!defined("LOG_MAX_BYTES") || LOG_MAX_BYTES <= 0) {
@@ -179,12 +144,9 @@ function bm_rotate_log_if_needed()
         @mkdir($archiveDir, 0755, true);
     }
 
-    // Timestamped so two rotations on the same day never collide.
     $dest = $archiveDir . "/enquiries-" . date("Y-m-d_His") . ".log";
     @rename(LOG_FILE, $dest);
 
-    // Prune anything past LOG_KEEP_DAYS. A plain filename scan, no
-    // dependency on filesystem mtime having survived a backup/restore.
     if (defined("LOG_KEEP_DAYS") && LOG_KEEP_DAYS > 0) {
         $cutoff = time() - LOG_KEEP_DAYS * 86400;
         foreach (glob($archiveDir . "/enquiries-*.log") ?: [] as $file) {
@@ -195,8 +157,7 @@ function bm_rotate_log_if_needed()
     }
 }
 
-/* ---------- response ---------- */
-
+// Response helpers (JSON or fallback HTML)
 function bm_wants_json()
 {
     return isset($_SERVER["HTTP_ACCEPT"]) &&
@@ -208,14 +169,6 @@ function bm_e($s)
     return htmlspecialchars((string) $s, ENT_QUOTES, "UTF-8");
 }
 
-/**
- * Reply and stop.
- *
- * JSON for the fetch() path. A styled HTML page for the no-JavaScript
- * path — a visitor with JS off must still get a clear answer, and on
- * failure must still be given the phone number and WhatsApp link. A
- * dead form is a lost customer.
- */
 function bm_respond($ok, $message = "", $http = 200)
 {
     if (bm_wants_json()) {

@@ -1,9 +1,4 @@
-/* ============================================================
-   BRAHMNMITRA - travel.css
-   ------------------------------------------------------------
-   Phase 1 discovery components. Loaded after the existing site
-   styles; responsive rules stay near their base components.
-   ============================================================ */
+/* BrahmnMitra — travel.css */
 
 .trip-planner {
   position: relative;
@@ -527,8 +522,7 @@
   line-height: 1.5;
 }
 
-/* The service row uses flex rather than a fixed grid so the final two cards
-   are centred on wide screens instead of being stranded at the left edge. */
+/* Centered service cards */
 .svc-grid {
   display: flex;
   flex-wrap: wrap;

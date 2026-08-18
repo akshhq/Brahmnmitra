@@ -1,12 +1,5 @@
 "use strict";
-/* ============================================================
-   BRAHMNMITRA — navigation.js
-   ------------------------------------------------------------
-   · flips the header from dark glass (over the night sky) to
-     light glass (once we're in daylight)
-   · hamburger → full-screen overlay on mobile
-   · scroll-spy: marks the section you're currently reading
-   ============================================================ */
+// BrahmnMitra — Header and Navigation
 
 window.BM = window.BM || {};
 
@@ -19,9 +12,7 @@ BM.initNavigation = function () {
     nav.querySelectorAll('a[href^="#"]'),
   );
 
-  /* ---------- dark glass → light glass ----------
-     The header sits over the night sky during the cinematic and over
-     daylight afterwards. One class swap, CSS does the transition. */
+  // Theme shift on scroll
   const flip = () => {
     const top = content.getBoundingClientRect().top;
     header.classList.toggle("on-light", top < 80);
@@ -46,13 +37,12 @@ BM.initNavigation = function () {
     open ? closeNav() : openNav();
   });
 
-  // tapping any link inside the overlay closes it
+  // Close on link click
   nav.addEventListener("click", (e) => {
     if (e.target.closest("a")) closeNav();
   });
 
-  // Escape closes it and returns focus to the button — keyboard users
-  // must never get trapped behind a full-screen overlay.
+  // Close on Escape key
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
       closeNav();
@@ -60,8 +50,7 @@ BM.initNavigation = function () {
     }
   });
 
-  // if the viewport grows past the breakpoint while the overlay is open,
-  // drop it — otherwise it hangs around invisibly and blocks the page
+  // Reset overlay on desktop breakpoint
   const mq = matchMedia("(min-width:1081px)");
   const onMQ = (e) => {
     if (e.matches) closeNav();
@@ -70,9 +59,7 @@ BM.initNavigation = function () {
     ? mq.addEventListener("change", onMQ)
     : mq.addListener(onMQ);
 
-  /* ---------- scroll-spy ----------
-     Highlights the nav item for whichever section owns the upper third
-     of the viewport. Uses aria-current, so screen readers get it too. */
+  // Scroll spy
   const sections = links
     .map((a) => document.querySelector(a.getAttribute("href")))
     .filter(Boolean);
@@ -98,7 +85,8 @@ BM.initNavigation = function () {
         : a.removeAttribute("aria-current");
     });
   }
-  /* ---------- smooth anchor scrolling ---------- */
+
+  // Smooth anchor scrolling
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", (e) => {
       const targetId = anchor.getAttribute("href");

@@ -1,20 +1,5 @@
 "use strict";
-/* ============================================================
-   BRAHMNMITRA — form-validation.js
-   ------------------------------------------------------------
-   Client-side validation is a COURTESY, not security. Everything
-   here is re-checked in backend/enquiry.php, which is the only thing that
-   actually decides whether a submission is accepted.
-
-   Behaviour:
-     · Service = a flight service  → the route/date/pax block appears
-     · Service = a tour service    → it stays hidden and is not required
-     · Submit  → POST to backend/enquiry.php, JSON response
-     · Failure → the visitor is NEVER dead-ended: the error message
-                 carries the phone number and a WhatsApp link
-     · WhatsApp button → builds a pre-filled enquiry from the fields
-                         and opens wa.me. Works with no backend at all.
-   ============================================================ */
+// BrahmnMitra — Enquiry Form Validation & WhatsApp Hand-off
 
 window.BM = window.BM || {};
 
@@ -27,31 +12,20 @@ BM.initForm = function () {
   const retWrap = document.getElementById("return-wrap");
   const service = form.elements["service"];
 
-  /* ---------- element handles ----------
-     ALWAYS via form.elements[...]. Two traps otherwise:
-       · form.name       -> the form's own name ATTRIBUTE (a string),
-                            not the <input name="name">. Silently wrong.
-       · form.depart_date -> undefined here, because the field lives
-                            inside <div id="flight-block" hidden> and the
-                            named shortcut does not resolve for it.
-     Either one throws and kills the whole form. Use form.elements. */
   const elName = form.elements["name"];
   const elDepart = form.elements["depart_date"];
   const elReturn = form.elements["return_date"];
 
-  // pulled from the markup so there is ONE source of truth for the number
-  const PHONE = form.dataset.phone || ""; // "+91 92117 61885"
-  const WA = form.dataset.whatsapp || ""; // "919211761885"
+  const PHONE = form.dataset.phone || "";
+  const WA = form.dataset.whatsapp || "";
 
-  /* ---------- which services need a route + dates? ---------- */
+  // Flight services require route & date inputs
   const FLIGHT_SERVICES = ["domestic_flights", "international_flights"];
   const isFlight = () => FLIGHT_SERVICES.indexOf(service.value) !== -1;
 
   function syncFlightBlock() {
     const on = isFlight();
     flightEl.hidden = !on;
-    // Required only while visible. A hidden required field is a silent
-    // dead end: the browser refuses to submit and shows nothing.
     ["from_city", "to_city", "depart_date"].forEach((n) => {
       form.elements[n].required = on;
       form.elements[n].disabled = !on;
@@ -60,7 +34,7 @@ BM.initForm = function () {
   service.addEventListener("change", syncFlightBlock);
   syncFlightBlock();
 
-  /* ---------- dates: no past departures ---------- */
+  // Departure date constraints (prevent past dates)
   const today = new Date().toISOString().split("T")[0];
   elDepart.min = today;
   elReturn.min = today;
@@ -140,10 +114,7 @@ BM.initForm = function () {
       : "smooth";
   }
 
-  /* ---------- the WhatsApp summary ----------
-     Built from whatever is filled in. Nothing is required: a half-filled
-     form still produces a usable message, because on mobile this is how
-     most Indian travel enquiries actually arrive. */
+  // Build WhatsApp enquiry message
   function summary() {
     const d = Object.fromEntries(new FormData(form).entries());
     const svc = service.options[service.selectedIndex];
@@ -191,7 +162,7 @@ BM.initForm = function () {
     });
   }
 
-  /* ---------- submit ---------- */
+  // Handle AJAX submission
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!validateAll()) return;
@@ -224,7 +195,6 @@ BM.initForm = function () {
       retWrap.classList.remove("hidden");
       syncFlightBlock();
     } catch (err) {
-      // NEVER a dead end. The visitor always leaves with a way to reach us.
       toast.classList.add("warn");
       toast.innerHTML =
         "Could not send just now — tap " +

@@ -1,20 +1,7 @@
 "use strict";
-/* ================================================================
-   BRAHMNMITRA — Luxury Aviation Cinematic Engine (v5)
-   
-   Features & Craftsmanship:
-   · Procedural Flagship Luxury Aircraft with High-Precision PBR Materials
-   · Swept Airfoil Wings with Dihedral, Blended Winglets & Navigation Lights
-   · 4 High-Bypass Turbofan Engines with Spinning 3D Fan Blades & Exhaust Glow
-   · Double-Deck Illuminated Passenger Windows & Panoramic Cockpit Canopy
-   · Continuous 3D Catmull-Rom Spline Flight Trajectory with Aerodynamic Banking
-   · Interactive 3D Cursor Parallax & Gyroscopic Flight Response during Idle
-   · Dynamic Dawn/Sunrise Sky Lighting, Volumetric Clouds & Wingtip Contrails
-   · Reciprocal Dolly into Passenger Cabin Window with Smooth Bezel Transition
-   · Critically Damped Exponential Smoothing for 60fps Butter-Smooth Motion
-   ================================================================ */
+// BrahmnMitra — 3D Aviation Cinematic Engine
 
-/* ================= math helpers ================= */
+// Math helpers
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const smooth = (t) => {
   t = clamp01(t);
@@ -42,14 +29,14 @@ const webglOK = (() => {
 
 if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 
-/* Fallback for reduced motion or unavailable WebGL */
+// Fallback for reduced motion or unavailable WebGL
 if (reduce || !webglOK || typeof THREE === "undefined") {
   document.body.classList.add("no-cinema");
 } else {
   initCinema();
 }
 
-/* Base interactive modules */
+// Initialize modules
 if (window.BM) {
   BM.initNavigation();
   BM.initReveals();
@@ -59,7 +46,7 @@ if (window.BM) {
   if (BM.initTravelDiscovery) BM.initTravelDiscovery();
 }
 
-/* ================= the cinematic engine ================= */
+// Cinematic 3D engine
 function initCinema() {
   const stage = document.querySelector(".stage");
   const canvas = document.getElementById("sky-canvas");
@@ -96,7 +83,7 @@ function initCinema() {
   const CAM_HOME = new THREE.Vector3(0, 3.2, 58);
   camera.position.copy(CAM_HOME);
 
-  /* ---- lighting system (rich dusk / twilight → radiant golden sunrise) ---- */
+  // Lighting
   const ambient = new THREE.AmbientLight(0x384c70, 1.4);
   const sunLight = new THREE.DirectionalLight(0xffeedd, 2.2);
   sunLight.position.set(70, 85, 60);
@@ -114,7 +101,7 @@ function initCinema() {
   const NIGHT_FOG = new THREE.Color(0x0c192e),
     DAY_FOG = new THREE.Color(0xdcebf8);
 
-  /* ---- starfield ---- */
+  // Starfield
   const STAR_COUNT = 1400;
   const starPositions = new Float32Array(STAR_COUNT * 3);
   for (let i = 0; i < STAR_COUNT; i++) {
@@ -138,7 +125,7 @@ function initCinema() {
   const stars = new THREE.Points(starGeo, starMat);
   scene.add(stars);
 
-  /* ---- cloud decks ---- */
+  // Cloud decks
   const cloudTex = [0, 1, 2, 3].map(makeCloudTexture);
   const clouds = [];
   const cloudGroup = new THREE.Group();
@@ -164,7 +151,6 @@ function initCinema() {
     cloudGroup.add(s);
   }
 
-  // Horizon & high-altitude cloud decks
   for (let i = 0; i < 16; i++) {
     addCloud(
       (Math.random() - 0.5) * 900,
@@ -185,17 +171,16 @@ function initCinema() {
       0.018 + Math.random() * 0.024,
     );
   }
-  // Soft atmospheric flyby clouds
   addCloud(-110, -16, 25, 360, 0.42, 0.08);
   addCloud(130, -22, 10, 320, 0.38, 0.09);
   addCloud(-50, 26, -30, 280, 0.3, 0.06);
 
-  /* ---- the flagship luxury aircraft ---- */
+  // Procedural 3D aircraft
   const glowTexture = makeGlowTexture();
   const P = buildPlane(glowTexture);
   scene.add(P.group);
 
-  /* ---- contrail particle ribbons ---- */
+  // Contrail particle ribbons
   const contrailGroup = new THREE.Group();
   scene.add(contrailGroup);
   const contrailMat = new THREE.SpriteMaterial({
@@ -212,17 +197,15 @@ function initCinema() {
   contrailRight.scale.set(7.5, 1.4, 1);
   contrailGroup.add(contrailLeft, contrailRight);
 
-  /* ---- 3D Catmull-Rom flight trajectory choreography ---- */
-  // Initial state: starts in clear majestic beauty posture (X: 0, Y: 0.5, Z: 6)
-  // As user scrolls: banks smoothly into sweeping turn, orbits across frame, levels out to window
+  // Flight trajectory waypoints & Catmull-Rom spline
   const FLIGHT_WAYPOINTS = [
-    new THREE.Vector3(0, 0.8, 4),      // 0.00: Hero idle position in clear frame
-    new THREE.Vector3(-4.5, 1.8, -12), // 0.18: Acceleration & climb
-    new THREE.Vector3(-14, 3.8, -55),  // 0.36: Banking turn right
-    new THREE.Vector3(-18, 4.5, -115), // 0.52: Peak high-altitude sweep
-    new THREE.Vector3(-14, 3.2, -60),  // 0.68: Descending into broadside alignment
-    new THREE.Vector3(-7.2, 1.2, -14), // 0.82: Level cruising alongside camera
-    new THREE.Vector3(-3.2, 0, 10),    // 1.00: Settle at cabin window alignment
+    new THREE.Vector3(0, 0.8, 4),
+    new THREE.Vector3(-4.5, 1.8, -12),
+    new THREE.Vector3(-14, 3.8, -55),
+    new THREE.Vector3(-18, 4.5, -115),
+    new THREE.Vector3(-14, 3.2, -60),
+    new THREE.Vector3(-7.2, 1.2, -14),
+    new THREE.Vector3(-3.2, 0, 10),
   ];
   const flightCurve = new THREE.CatmullRomCurve3(FLIGHT_WAYPOINTS, false, "centripetal");
 
@@ -234,7 +217,6 @@ function initCinema() {
     t = clamp01(t);
     flightCurve.getPoint(t, outPos);
     flightCurve.getTangent(t, tanSample).normalize();
-    // Continuous yaw from initial beauty angle (-0.42 rad) to broadside (+1.57 rad / 90 deg)
     const yaw = THREE.MathUtils.lerp(-0.42, Math.PI / 2, smoother(t));
     return yaw;
   }
@@ -244,14 +226,14 @@ function initCinema() {
   euler.set(-0.03, -0.42, -0.06);
   P.group.quaternion.setFromEuler(euler);
 
-  /* ---- camera rig & vectors ---- */
+  // Camera rig
   const wpos = new THREE.Vector3();
   const camTarget = new THREE.Vector3();
   const camLook = new THREE.Vector3();
   const outWorld = new THREE.Vector3();
   const HOME_LOOK = new THREE.Vector3(0, 1.2, 0);
 
-  /* ---- mouse parallax tracker ---- */
+  // Mouse parallax tracker
   let mouseX = 0, mouseY = 0;
   let targetMouseX = 0, targetMouseY = 0;
   window.addEventListener(
@@ -263,7 +245,7 @@ function initCinema() {
     { passive: true },
   );
 
-  /* ================= damped scroll ================== */
+  // Damped scroll
   let raw = 0, p = 0;
   const SMOOTH_RATE = 0.0000001;
 
@@ -276,19 +258,19 @@ function initCinema() {
   readScroll();
   p = raw;
 
-  /* ================= stage timing ================= */
+  // Stage timing keyframes
   const T = {
-    heroOut: [0.00, 0.20],   // Hero copy eases out with blur
-    dayIn: [0.05, 0.45],     // Dusk sky shifts to radiant golden dawn
-    planeIn: [0.00, 0.68],   // Dynamic flight maneuver along spline
-    windowIn: [0.62, 0.88],  // Reciprocal camera dolly to passenger window
-    frameGrow: [0.76, 0.90], // Frame bezel scales into position
-    framePass: [0.89, 0.96], // Frame sweeps past viewer into cabin
-    cabinOpen: [0.82, 0.95], // Cabin wall reveals inner content
-    copyIn: [0.90, 1.00],    // Welcome headline arrives
+    heroOut: [0.00, 0.20],
+    dayIn: [0.05, 0.45],
+    planeIn: [0.00, 0.68],
+    windowIn: [0.62, 0.88],
+    frameGrow: [0.76, 0.90],
+    framePass: [0.89, 0.96],
+    cabinOpen: [0.82, 0.95],
+    copyIn: [0.90, 1.00],
   };
 
-  /* ================= render loop ================= */
+  // Render loop
   let W = 0, H = 0, fov = 50;
   const clock = new THREE.Clock();
 
@@ -296,15 +278,13 @@ function initCinema() {
     const dt = Math.min(clock.getDelta(), 0.05);
     const t = clock.elapsedTime;
 
-    // Smooth scroll interpolation
     p += (raw - p) * (1 - Math.pow(SMOOTH_RATE, dt));
     if (Math.abs(raw - p) < 0.00015) p = raw;
 
-    // Smooth mouse parallax
     mouseX += (targetMouseX - mouseX) * (1 - Math.pow(0.001, dt));
     mouseY += (targetMouseY - mouseY) * (1 - Math.pow(0.001, dt));
 
-    /* --- Act I: Hero copy & hint --- */
+    // Act I: Hero copy & hint
     const hOut = seg(p, T.heroOut[0], T.heroOut[1], smoother);
     heroEl.style.opacity = String(1 - hOut);
     heroEl.style.transform = `scale(${1 - 0.18 * hOut}) translateY(${-36 * hOut}px) translateZ(0)`;
@@ -312,7 +292,7 @@ function initCinema() {
     hintEl.style.opacity = String(1 - clamp01(p / 0.08));
     if (skipEl) skipEl.classList.toggle("gone", p > 0.32);
 
-    /* --- Atmosphere: Twilight → Radiant Sunrise Daylight --- */
+    // Atmosphere transition
     const day = seg(p, T.dayIn[0], T.dayIn[1], smoother);
     dayEl.style.opacity = String(day);
     sunEl.style.opacity = String(day * 0.98);
@@ -330,55 +310,45 @@ function initCinema() {
       c.material.opacity = (0.25 + 0.75 * day) * c.userData.peak;
     }
 
-    /* --- Act II: Spline Flight & Aerodynamic Banking --- */
+    // Act II: Spline flight & aerodynamic banking
     const fly = seg(p, T.planeIn[0], T.planeIn[1], smoother);
     {
       const yaw = sampleFlightState(fly, P.group.position);
-
-      // Look-ahead for smooth roll banking
       const flyAhead = Math.min(1, fly + 0.035);
       flightCurve.getPoint(flyAhead, probePos);
       const yawAhead = THREE.MathUtils.lerp(-0.42, Math.PI / 2, smoother(flyAhead));
 
-      // Aerodynamic roll derived from turn rate + mouse parallax
       const turnRate = -(yawAhead - yaw) * 9.5;
       const targetRoll = THREE.MathUtils.clamp(turnRate - 0.06 * (1 - fly), -0.62, 0.62);
       P.roll += (targetRoll - P.roll) * (1 - Math.pow(0.004, dt));
 
-      // Smooth pitch down/up as altitude evolves + interactive mouse pitch
       const pitch =
         lerp(-0.04, 0.008, smooth(fly)) + mouseY * 0.035 * (1 - fly);
 
-      // Interactive mouse yaw & roll during idle
       const mouseYaw = mouseX * 0.05 * (1 - fly);
       const mouseRoll = -mouseX * 0.08 * (1 - fly);
       euler.set(pitch, yaw + mouseYaw, P.roll + mouseRoll);
       P.group.quaternion.setFromEuler(euler);
     }
 
-    // Aircraft idle turbulence & life
     P.bob.position.y = Math.sin(t * 1.4) * 0.22;
     P.bob.position.x = Math.cos(t * 0.9) * 0.12;
     P.bob.rotation.z = Math.sin(t * 0.95) * 0.008;
     P.bob.rotation.x = Math.sin(t * 1.1) * 0.005;
 
-    // Aviation beacons & strobes
-    // Red beacon pulse
+    // Beacons & strobes
     const beaconPulse = Math.pow(Math.max(0, Math.sin(t * 3.2)), 12);
     P.beaconTop.material.opacity = 0.2 + 0.8 * beaconPulse;
     P.beaconBelly.material.opacity = 0.2 + 0.8 * beaconPulse;
 
-    // Dual-flash wingtip strobes
     const strobeTime = (t * 1.2) % 1.0;
     const isStrobe = (strobeTime < 0.06) || (strobeTime > 0.14 && strobeTime < 0.20);
     P.strobeLeft.material.opacity = isStrobe ? 1.0 : 0.05;
     P.strobeRight.material.opacity = isStrobe ? 1.0 : 0.05;
     if (P.strobeTail) P.strobeTail.material.opacity = isStrobe ? 1.0 : 0.05;
 
-    // High-speed spinning turbine fan blades
     for (const f of P.fans) f.rotation.z += dt * 28;
 
-    // Wingtip contrails when banking & turning
     const contrailOpacity =
       THREE.MathUtils.clamp(Math.abs(P.roll) * 2.2 + 0.15 * fly, 0, 0.75) *
       (1 - seg(p, 0.65, 0.88));
@@ -395,14 +365,13 @@ function initCinema() {
         .add(P.group.position);
     }
 
-    // Atmospheric drift
     for (const c of clouds) {
       c.position.x += c.userData.drift * dt * 60;
       if (c.position.x > 520) c.position.x = -520;
     }
     stars.rotation.y += dt * 0.0025;
 
-    /* --- Act III: Reciprocal Dolly into Cabin Window --- */
+    // Act III: Reciprocal dolly into cabin window
     const win = seg(p, T.windowIn[0], T.windowIn[1], smoother);
     P.marker.getWorldPosition(wpos);
 
@@ -410,7 +379,6 @@ function initCinema() {
     camTarget.copy(wpos).addScaledVector(outWorld, 8.8);
     camTarget.y += 0.28;
 
-    // Camera mouse parallax at home position
     const homeWithParallax = CAM_HOME.clone();
     homeWithParallax.x += mouseX * 2.8 * (1 - win);
     homeWithParallax.y += -mouseY * 1.8 * (1 - win);
@@ -430,14 +398,13 @@ function initCinema() {
     camera.fov = fov;
     camera.updateProjectionMatrix();
 
-    // Target cabin window illuminates with golden warm passenger light
     P.winMat.color.setRGB(
       lerp(0.65, 1.0, win),
       lerp(0.52, 0.95, win),
       lerp(0.32, 0.85, win),
     );
 
-    /* --- Window frame bezel & pass-through --- */
+    // Window frame bezel & pass-through
     const fg = seg(p, T.frameGrow[0], T.frameGrow[1], smoother);
     const fp = seg(p, T.framePass[0], T.framePass[1], smoother);
     if (fg > 0) {
@@ -448,11 +415,10 @@ function initCinema() {
       frame.style.opacity = "0";
     }
 
-    // Hand-off from 3D to cabin view
     const handoff = seg(p, T.framePass[0], T.framePass[1], smoother);
     canvas.style.opacity = String(1 - handoff);
 
-    /* --- Cabin wall aperture expansion --- */
+    // Cabin aperture expansion
     const co = seg(p, T.cabinOpen[0], T.cabinOpen[1], smoother);
     const vh = H, vw = W;
     const isPortrait = vw / vh < 0.85;
@@ -467,7 +433,7 @@ function initCinema() {
     reveal.style.clipPath = `inset(${pY}px ${pX}px ${pY}px ${pX}px round ${rad}px)`;
     reveal.style.opacity = String(co > 0.01 ? 1 : 0);
 
-    /* --- Act IV: Welcome copy rises inside cabin --- */
+    // Act IV: Welcome copy reveal
     const ci = seg(p, T.copyIn[0], T.copyIn[1], smoother);
     innerEl.style.opacity = String(ci);
     innerEl.style.transform = `translateY(${lerp(38, 0, ci)}px) translateZ(0)`;
@@ -494,7 +460,7 @@ function initCinema() {
   requestAnimationFrame(update);
 }
 
-/* ================= cloud texture generator ================= */
+// Cloud texture generator
 function makeCloudTexture(seed) {
   const c = document.createElement("canvas");
   c.width = 512;
@@ -540,7 +506,7 @@ function makeGlowTexture() {
   return new THREE.CanvasTexture(c);
 }
 
-/* ================= text-on-fuselage helper ================= */
+// Text on fuselage texture helper
 function textPlane(text, wWorld, hWorld, opt) {
   opt = opt || {};
   const w = opt.w || 1024,
@@ -563,14 +529,14 @@ function textPlane(text, wWorld, hWorld, opt) {
   return new THREE.Mesh(new THREE.PlaneGeometry(wWorld, hWorld), mat);
 }
 
-/* ================= build the luxury flagship 3D aircraft ================= */
+// Build 3D aircraft model
 function buildPlane(glowTex) {
   const glow = glowTex || makeGlowTexture();
   const group = new THREE.Group();
   const bob = new THREE.Group();
   group.add(bob);
 
-  /* High-end PBR materials with clearcoat & soft gloss */
+  // Materials
   const whiteLacquer = new THREE.MeshStandardMaterial({
     color: 0xfcfdff,
     metalness: 0.12,
@@ -615,7 +581,7 @@ function buildPlane(glowTex) {
     roughness: 0.25,
   });
 
-  /* 1. Fuselage — High-fidelity Aerodynamic Lathe profile */
+  // 1. Fuselage
   const prof = [
     [0.02, -28.0],
     [0.55, -27.4],
@@ -639,7 +605,7 @@ function buildPlane(glowTex) {
   fus.rotation.x = Math.PI / 2;
   bob.add(fus);
 
-  /* 2. Aerodynamic Upper Deck & Cockpit Canopy */
+  // 2. Cockpit canopy
   const hump = new THREE.Mesh(
     new THREE.SphereGeometry(1, 48, 32),
     whiteLacquer,
@@ -648,14 +614,12 @@ function buildPlane(glowTex) {
   hump.position.set(0, 2.22, 10.8);
   bob.add(hump);
 
-  // Wraparound cockpit glass windshield
   const glassGeo = new THREE.CylinderGeometry(1.68, 1.95, 1.4, 24, 1, false, -1.2, 2.4);
   const glass = new THREE.Mesh(glassGeo, cockpitGlass);
   glass.rotation.x = 0.72;
   glass.position.set(0, 2.76, 19.8);
   bob.add(glass);
 
-  // Cockpit frame mullions
   const glassFrame = new THREE.Mesh(
     new THREE.BoxGeometry(0.08, 1.25, 0.8),
     amberGold,
@@ -664,7 +628,7 @@ function buildPlane(glowTex) {
   glassFrame.rotation.x = -0.38;
   bob.add(glassFrame);
 
-  /* 3. Livery Bands & Belly Wrap */
+  // 3. Livery bands
   function band(r, len, z, thetaStart, thetaLen, mat) {
     const m = new THREE.Mesh(
       new THREE.CylinderGeometry(r, r, len, 80, 1, true, thetaStart, thetaLen),
@@ -674,12 +638,9 @@ function buildPlane(glowTex) {
     m.position.z = z;
     return m;
   }
-  // Titanium lower belly
   bob.add(band(3.15, 34, -2.0, -0.92, 1.84, bellyTitanium));
-  // Radiant gold cheatlines
   bob.add(band(3.165, 36, -2.0, 1.62, 0.14, amberGold));
   bob.add(band(3.165, 36, -2.0, 4.48, 0.14, amberGold));
-  // Deep navy window accent band
   bob.add(
     band(3.158, 36, -2.0, Math.PI / 2 - 0.038, 0.06, navyCheatline),
   );
@@ -687,7 +648,7 @@ function buildPlane(glowTex) {
     band(3.158, 36, -2.0, (3 * Math.PI) / 2 - 0.038, 0.06, navyCheatline),
   );
 
-  /* 4. Fuselage Branding & Titles */
+  // 4. Fuselage branding
   const tOpt = {
     w: 1024,
     h: 140,
@@ -713,7 +674,7 @@ function buildPlane(glowTex) {
     bob.add(r);
   });
 
-  /* 5. Swept Wings & Blended Winglets */
+  // 5. Wings & winglets
   const ws = new THREE.Shape();
   ws.moveTo(0, 5.2);
   ws.lineTo(27.0, -6.5);
@@ -728,24 +689,21 @@ function buildPlane(glowTex) {
     bevelSegments: 3,
   });
 
-  // Right Wing with positive dihedral
   const wingR = new THREE.Mesh(wg, wingGrey);
   wingR.rotation.set(Math.PI / 2, 0.06, 0.095);
   wingR.position.set(2.4, -0.85, -0.8);
 
-  // Left Wing with matching dihedral
   const wingL = new THREE.Mesh(wg, wingGrey);
   wingL.rotation.set(Math.PI / 2, -0.06, -0.095);
   wingL.scale.x = -1;
   wingL.position.set(-2.4, -0.85, -0.8);
   bob.add(wingR, wingL);
 
-  // Blended Winglets with aerodynamic upward sweep
   const wlShape = new THREE.Shape();
-  wlShape.moveTo(0, 0);        // base fore
-  wlShape.lineTo(-2.8, 0);     // base aft
-  wlShape.lineTo(-1.6, 3.2);   // tip aft
-  wlShape.lineTo(-0.4, 3.2);   // tip fore
+  wlShape.moveTo(0, 0);
+  wlShape.lineTo(-2.8, 0);
+  wlShape.lineTo(-1.6, 3.2);
+  wlShape.lineTo(-0.4, 3.2);
   wlShape.closePath();
   const wlGeo = new THREE.ExtrudeGeometry(wlShape, {
     depth: 0.16,
@@ -756,15 +714,15 @@ function buildPlane(glowTex) {
   });
 
   const wlR = new THREE.Mesh(wlGeo, amberGold);
-  wlR.rotation.set(0, 0, -0.22); // Canted outward
+  wlR.rotation.set(0, 0, -0.22);
   wlR.position.set(27.6, -0.6, -6.8);
 
   const wlL = new THREE.Mesh(wlGeo, amberGold);
-  wlL.rotation.set(0, 0, 0.22); // Canted outward
+  wlL.rotation.set(0, 0, 0.22);
   wlL.position.set(-27.6, -0.6, -6.8);
   bob.add(wlR, wlL);
 
-  /* 6. 4 High-Bypass Turbofan Engines with Spinning Fans */
+  // 6. Turbofan engines
   const fans = [];
   const nac = new THREE.CylinderGeometry(1.18, 1.05, 4.2, 36);
   const lip = new THREE.CylinderGeometry(1.26, 1.26, 0.52, 36);
@@ -780,16 +738,13 @@ function buildPlane(glowTex) {
     e.rotation.x = Math.PI / 2;
     e.position.set(x, -2.52, z);
 
-    // Polished gold intake lip
     const l = new THREE.Mesh(lip, amberGold);
     l.rotation.x = Math.PI / 2;
     l.position.set(x, -2.52, z + 2.15);
 
-    // Turbine dark inlet
     const i = new THREE.Mesh(new THREE.CircleGeometry(1.08, 32), turbineDark);
     i.position.set(x, -2.52, z + 2.38);
 
-    // Core exhaust nozzle
     const ex = new THREE.Mesh(
       new THREE.CylinderGeometry(0.72, 0.88, 0.8, 24),
       exhaustCore,
@@ -797,12 +752,10 @@ function buildPlane(glowTex) {
     ex.rotation.x = Math.PI / 2;
     ex.position.set(x, -2.52, z - 2.2);
 
-    // Pylon
     const py = new THREE.Mesh(pyl, bellyTitanium);
     py.position.set(x, -1.6, z + 0.7);
     py.rotation.x = 0.22;
 
-    // 3D Turbine Fan Assembly
     const fan = new THREE.Group();
     const cone = new THREE.Mesh(
       new THREE.ConeGeometry(0.32, 0.65, 18),
@@ -823,7 +776,7 @@ function buildPlane(glowTex) {
         0,
       );
       bl.rotation.z = (b / 18) * Math.PI * 2;
-      bl.rotation.y = 0.28; // Aerodynamic twist
+      bl.rotation.y = 0.28;
       fan.add(bl);
     }
     fan.position.set(x, -2.52, z + 2.42);
@@ -832,7 +785,7 @@ function buildPlane(glowTex) {
     bob.add(e, l, i, ex, py, fan);
   });
 
-  /* 7. Swept Tailfin & Horizontal Stabilizers */
+  // 7. Tailfin & stabilizers
   const fs = new THREE.Shape();
   fs.moveTo(0, 0);
   fs.lineTo(8.6, 0);
@@ -888,16 +841,15 @@ function buildPlane(glowTex) {
   stabL.position.set(-1.6, 1.85, -21.8);
   bob.add(stabR, stabL);
 
-  /* 8. Passenger Windows & Target Cabin Transition Window */
+  // 8. Passenger windows
   const winGeo = new THREE.CircleGeometry(0.3, 18);
   const winMat = new THREE.MeshBasicMaterial({ color: 0x162232 });
   const targetMat = new THREE.MeshBasicMaterial({ color: 0xa88a62 });
   const marker = new THREE.Object3D();
 
   [-1, 1].forEach((s) => {
-    // Main deck passenger windows
     for (let z = 16.5; z >= -16.5; z -= 1.42) {
-      if (z > -6.8 && z < 1.8) continue; // Wing root cutout
+      if (z > -6.8 && z < 1.8) continue;
       const isTarget = s === -1 && Math.abs(z - 6.4) < 0.7;
       const w = new THREE.Mesh(
         isTarget ? new THREE.CircleGeometry(0.36, 20) : winGeo,
@@ -909,7 +861,6 @@ function buildPlane(glowTex) {
       bob.add(w);
       if (isTarget) marker.position.set(-3.08, 1.05, z);
     }
-    // Upper deck passenger windows
     for (let z = 5.5; z <= 17.5; z += 1.48) {
       const w = new THREE.Mesh(winGeo, winMat);
       w.scale.set(0.72, 0.92, 1);
@@ -920,7 +871,7 @@ function buildPlane(glowTex) {
   });
   bob.add(marker);
 
-  /* 9. Aviation Lights & Navigation Sprites */
+  // 9. Aviation lights
   function lamp(color, x, y, z, s) {
     const sp = new THREE.Sprite(
       new THREE.SpriteMaterial({
@@ -938,15 +889,12 @@ function buildPlane(glowTex) {
     return sp;
   }
 
-  // Navigation lights (Starboard Green, Port Red)
   const navGreen = lamp(0x22ff66, 28.6, 0.4, -7.5, 2.2);
   const navRed = lamp(0xff2244, -28.6, 0.4, -7.5, 2.2);
 
-  // Anti-collision flashing beacons
   const beaconTop = lamp(0xff1824, 0, 4.2, 4.0, 2.4);
   const beaconBelly = lamp(0xff1824, 0, -3.4, -0.8, 2.4);
 
-  // High-intensity wingtip strobes
   const strobeLeft = lamp(0xffffff, -28.6, 0.6, -7.8, 2.2);
   const strobeRight = lamp(0xffffff, 28.6, 0.6, -7.8, 2.2);
   const strobeTail = lamp(0xffffff, 0, 1.2, -27.6, 1.8);

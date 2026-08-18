@@ -1,20 +1,6 @@
-/* ============================================================
-   BRAHMNMITRA — animations.css
-   ------------------------------------------------------------
-   Everything that MOVES lives here:
-     · the liquid-glass primitive (refraction + specular sheen)
-     · the cinematic stage (747 flight, cabin window, reveal)
-     · every @keyframes in the site
-     · the reduced-motion / no-WebGL fallback
+/* BrahmnMitra — animations.css */
 
-   DO NOT retune the numbers in the cinematic section without
-   reading README.txt first — the pacing, the flight path and
-   the window aperture are locked to constants in main.js.
-   ============================================================ */
-
-/* ============ liquid glass primitive ============
-   Layered: translucent body + backdrop refraction + specular
-   rim + a moving sheen. Used by the nav, cards, form, footer. */
+/* Liquid glass primitive */
 .glass {
   position: relative;
   background: var(--glass-bg);
@@ -25,7 +11,6 @@
   overflow: hidden;
   isolation: isolate;
 }
-/* refraction: a soft light-bend gradient over the top-left */
 .glass::before {
   content: "";
   position: absolute;
@@ -44,7 +29,6 @@
       transparent 62%
     );
 }
-/* specular sheen that drifts across the surface */
 .glass::after {
   content: "";
   position: absolute;
@@ -84,7 +68,7 @@
   background: var(--glass-bg-strong);
 }
 
-/* ===================== cinematic stage ===================== */
+/* Cinematic Stage */
 #cinema {
   height: 380vh;
   position: relative;
@@ -107,9 +91,6 @@
     linear-gradient(180deg, #070d18 0%, #102036 50%, #1b2c44 100%);
 }
 
-/* HERO PHOTO layer — behind everything, revealed only when the stage has
-   .has-photo. By default the <picture> is present but the gradient above
-   is fully opaque, so nothing shows and the site is unaffected. */
 .hero-photo {
   position: absolute;
   inset: 0;
@@ -122,9 +103,6 @@
   object-fit: cover;
   object-position: center 40%;
 }
-/* When a photo IS active, let it glow through: the night gradient becomes a
-   translucent navy wash (still dark enough for AA on the white H1), and a
-   deeper vignette anchors the headline. */
 .stage.has-photo .bg-night {
   background:
     linear-gradient(
@@ -230,8 +208,6 @@
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
-/* hero CTAs — shown only in the no-cinema fallback, where there is
-   no scroll-through to carry the visitor into the cabin */
 .hero-cta {
   margin-top: 34px;
   display: none;
@@ -280,7 +256,6 @@ body.no-cinema .hero-cta {
   }
 }
 
-/* skip-intro: subtle ghost pill, top-right, out of the headline's way */
 .skip-intro {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 84px);
@@ -318,18 +293,15 @@ body.no-cinema .hero-cta {
 .skip-intro .line {
   display: none;
 }
-/* once the visitor is into the content, retire it */
 .skip-intro.gone {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
-/* no long intro to skip in the fallback */
 body.no-cinema .skip-intro {
   display: none;
 }
 
-/* the cabin window we pass through */
 .window-frame {
   position: absolute;
   left: 50%;
@@ -343,7 +315,6 @@ body.no-cinema .skip-intro {
   margin-top: -15vh;
   border-radius: 44% 44% 44% 44% / 40% 40% 40% 40%;
   background: transparent;
-  /* bezel + the recess it sits in */
   box-shadow:
     0 0 0 1.5vh #e9edf2,
     0 0 0 2.4vh #cbd4de,
@@ -352,7 +323,6 @@ body.no-cinema .skip-intro {
   will-change: transform, opacity;
 }
 
-/* the cabin interior you land in */
 #reveal {
   position: absolute;
   inset: 0;
@@ -417,8 +387,7 @@ body.no-cinema .skip-intro {
   flex-wrap: wrap;
 }
 
-/* ===================== aurora + clouds ===================== */
-/* aurora field — slow futuristic colour drift behind the glass */
+/* Aurora & Clouds */
 .aurora {
   position: absolute;
   inset: 0;
@@ -517,7 +486,7 @@ body.no-cinema .skip-intro {
   }
 }
 
-/* ===================== misc keyframes ===================== */
+/* Keyframes */
 @keyframes pulse {
   0%,
   100% {
@@ -540,7 +509,6 @@ body.no-cinema .skip-intro {
   }
 }
 
-/* nav: mobile overlay */
 @keyframes navIn {
   from {
     opacity: 0;
@@ -552,7 +520,6 @@ body.no-cinema .skip-intro {
   }
 }
 
-/* process timeline: the line draws itself as you scroll past */
 @keyframes railGrow {
   from {
     transform: scaleX(0);
@@ -562,7 +529,7 @@ body.no-cinema .skip-intro {
   }
 }
 
-/* ============ reduced motion / no-WebGL fallback ============ */
+/* Reduced motion & fallback */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -614,3 +581,4 @@ body.no-cinema .reveal-inner {
   opacity: 1 !important;
   transform: none !important;
 }
+
