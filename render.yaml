@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: brahmnmitra-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: TIMEZONE
+        value: Asia/Kolkata
+      - key: ALLOWED_ORIGIN
+        value: "https://brahmnmitra.com,https://admin.brahmnmitra.com"
+      - key: TO_EMAIL
+        value: info@brahmnmitra.com
+      - key: FROM_EMAIL
+        value: enquiry@brahmnmitra.com
+      - key: FROM_NAME
+        value: BrahmnMitra Website
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_SECURE
+        value: tls
+      - key: SMTP_USERNAME
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false

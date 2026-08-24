@@ -10,11 +10,9 @@
 .trip-planner-panel {
   padding: clamp(24px, 4vw, 38px);
   border-radius: calc(var(--r-lg) + 6px);
-  background: linear-gradient(
-    125deg,
-    rgba(255, 255, 255, 0.66),
-    rgba(226, 242, 255, 0.48)
-  );
+  background: rgba(11, 23, 44, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: var(--glass-shadow), var(--glass-inner);
 }
 .trip-planner-copy {
   display: flex;
@@ -26,6 +24,7 @@
 .trip-planner-copy h2 {
   font-size: clamp(1.35rem, 3.4vw, 2.25rem);
   max-width: 17ch;
+  color: #fff;
 }
 .trip-planner-copy p {
   max-width: 46ch;
@@ -48,7 +47,7 @@
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--cyan);
 }
 .planner-field select,
 .planner-field input,
@@ -56,18 +55,18 @@
   width: 100%;
   min-height: 48px;
   padding: 12px 14px;
-  border: 1px solid rgba(10, 37, 64, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 13px;
   font: inherit;
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.64);
+  color: #fff;
+  background: rgba(6, 14, 28, 0.85);
   outline: 0;
 }
 .planner-field select:focus,
 .planner-field input:focus,
 .catalog-filter select:focus {
   border-color: var(--cyan);
-  box-shadow: 0 0 0 4px rgba(95, 233, 245, 0.18);
+  box-shadow: 0 0 0 4px rgba(95, 233, 245, 0.22);
 }
 .planner-submit {
   min-height: 48px;
@@ -100,20 +99,23 @@
 .search-box input {
   width: 100%;
   min-height: 58px;
-  border: 1px solid rgba(10, 37, 64, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 18px;
   padding: 16px 50px 16px 18px;
   font: inherit;
   font-size: 1.05rem;
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.6);
+  color: #fff;
+  background: rgba(6, 14, 28, 0.85);
   box-shadow: var(--glass-inner);
   outline: 0;
+}
+.search-box input::placeholder {
+  color: #6b84a6;
 }
 .search-box input:focus {
   border-color: var(--cyan);
   box-shadow:
-    0 0 0 4px rgba(95, 233, 245, 0.18),
+    0 0 0 4px rgba(95, 233, 245, 0.22),
     var(--glass-inner);
 }
 .search-icon {
@@ -122,8 +124,16 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: 20px;
-  color: var(--ink-soft);
+  color: var(--amber);
   pointer-events: none;
+}
+.search-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  display: block;
 }
 .search-status {
   display: block;
@@ -145,15 +155,17 @@
   gap: 3px 12px;
   align-items: center;
   padding: 13px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.46);
-  color: var(--ink);
+  background: rgba(11, 23, 44, 0.85);
+  color: #fff;
   font: inherit;
   cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
 }
 .search-result:hover {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(16, 32, 60, 0.95);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateX(3px);
 }
 .search-result .search-type {
@@ -162,11 +174,12 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #0b63c5;
+  color: var(--cyan);
 }
 .search-result strong {
   font-family: var(--display);
   font-size: 0.82rem;
+  color: #fff;
 }
 .search-result span:last-child {
   font-size: 0.84rem;
@@ -179,6 +192,9 @@
   flex-wrap: wrap;
   gap: 9px;
   align-items: center;
+  background: rgba(11, 23, 44, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: var(--glass-shadow), var(--glass-inner);
 }
 .recent-label {
   width: 100%;
@@ -186,27 +202,31 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--cyan);
 }
 .recent-chip,
 .filter-chip {
-  border: 1px solid rgba(10, 37, 64, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--r-pill);
   padding: 9px 13px;
-  background: rgba(255, 255, 255, 0.55);
-  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+  color: #eaf2ff;
   font: inherit;
   font-size: 0.86rem;
   cursor: pointer;
+  transition: all 0.25s ease;
 }
 .recent-chip:hover,
 .filter-chip:hover {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
 }
 .filter-chip[aria-pressed="true"] {
-  background: var(--night-2);
-  color: #fff;
-  border-color: var(--night-2);
+  background: linear-gradient(150deg, #ffd79a, var(--amber));
+  color: #1a0f00;
+  border-color: var(--amber);
+  box-shadow: 0 4px 12px -3px rgba(255, 158, 44, 0.6);
 }
 
 .catalog-heading {
@@ -229,7 +249,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--cyan);
 }
 .filter-chips {
   display: flex;
@@ -249,14 +269,19 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  background: rgba(11, 23, 44, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: var(--glass-shadow), var(--glass-inner);
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.35s ease;
+    box-shadow 0.35s ease,
+    border-color 0.3s ease;
 }
 .travel-card:hover {
   transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.28);
   box-shadow:
-    0 30px 58px -32px rgba(9, 32, 64, 0.6),
+    0 30px 58px -32px rgba(0, 0, 0, 0.8),
     var(--glass-inner);
 }
 .card-art {
@@ -267,7 +292,7 @@
   position: relative;
   overflow: hidden;
   color: #fff;
-  background: linear-gradient(130deg, #183b60, #5a91be);
+  background: linear-gradient(130deg, #0f2b48, #2a557c);
 }
 .card-art::before,
 .card-art::after {
@@ -340,7 +365,7 @@
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  color: var(--ink-soft);
+  color: var(--cyan);
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -352,10 +377,11 @@
   font-size: 1rem;
   line-height: 1.38;
   margin-top: 13px;
+  color: #fff;
 }
 .card-duration {
   margin-top: 6px;
-  color: #0b63c5;
+  color: var(--cyan);
   font-weight: 600;
   font-size: 0.87rem;
 }
@@ -397,7 +423,7 @@
 .card-price strong {
   font-family: var(--display);
   font-size: 1.02rem;
-  color: var(--ink);
+  color: #ffffff;
 }
 .card-note {
   font-size: 0.75rem;
@@ -417,7 +443,7 @@
   line-height: 1.55;
 }
 .star-rating {
-  color: #b55d00;
+  color: var(--amber);
   letter-spacing: 0.08em;
 }
 .amenities {
@@ -430,9 +456,9 @@
 .amenities li {
   padding: 5px 8px;
   border-radius: 8px;
-  background: rgba(11, 99, 197, 0.08);
+  background: rgba(95, 233, 245, 0.12);
   font-size: 0.73rem;
-  color: #16598c;
+  color: var(--cyan);
 }
 .text-button {
   align-self: flex-start;
@@ -441,13 +467,15 @@
   border: 0;
   background: transparent;
   font: inherit;
-  color: #0b63c5;
+  color: var(--amber);
   font-weight: 700;
   font-size: 0.87rem;
   cursor: pointer;
   text-align: left;
+  transition: color 0.2s ease;
 }
 .text-button:hover {
+  color: #ffd79a;
   text-decoration: underline;
 }
 .catalog-empty {
@@ -455,6 +483,8 @@
   border-radius: var(--r-lg);
   padding: 35px;
   text-align: center;
+  background: rgba(11, 23, 44, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 .catalog-empty .text-button {
   margin: 12px auto 0;
@@ -474,17 +504,21 @@
   border-radius: var(--r-lg);
   display: flex;
   flex-direction: column;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  background: rgba(11, 23, 44, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: var(--glass-shadow), var(--glass-inner);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s;
 }
 .destination-card:hover {
   transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.28);
 }
 .destination-index {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #0b63c5;
+  color: var(--cyan);
 }
 .destination-card > p {
   margin-top: 12px;
@@ -497,21 +531,19 @@
   gap: 12px;
   margin-top: 23px;
   padding-top: 16px;
-  border-top: 1px solid rgba(10, 37, 64, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 .destination-card dt {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--cyan);
 }
 .destination-card dd {
-  margin-top: 4px;
-  font-size: 0.86rem;
-  line-height: 1.45;
-  color: var(--ink);
-  font-weight: 600;
+  margin-top: 3px;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
 }
 .catalog-disclaimer {
   max-width: 1160px;

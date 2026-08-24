@@ -2,11 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Destinations | BrahmnMitra</title>
     <meta
       name="description"
-      content="Explore destinations and travel-season notes from BrahmnMitra."
+      content="Explore curated destinations and travel-season notes from BrahmnMitra."
+    />
+    <link rel="canonical" href="https://brahmnmitra.com/destinations.html" />
+    <link rel="icon" href="favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="assets/images/branding/favicon.png"
+      type="image/png"
     />
     <link
       rel="stylesheet"
@@ -17,15 +24,23 @@
   </head>
   <body class="portal-page" data-catalog="destinations">
     <header class="portal-header">
-      <nav class="portal-nav" aria-label="Platform">
-        <a class="portal-brand" href="index.html"><span class="dot" aria-hidden="true"></span>BRAHMNMITRA</a
-        ><a href="packages.html">Packages</a><a href="hotels.html">Hotels</a
-        ><a aria-current="page" href="destinations.html">Destinations</a
-        ><a href="travel-assistant.html">Travel Assistant</a
-        ><a href="account.html">My Account</a
-        ><a href="platform.html">Business Platform</a>
+      <nav class="portal-nav" aria-label="Main Navigation">
+        <a class="portal-brand" href="index.html">
+          <span class="dot" aria-hidden="true"></span>BRAHMNMITRA
+        </a>
+        <a href="packages.html">Packages</a>
+        <a href="hotels.html">Hotels</a>
+        <a aria-current="page" href="destinations.html">Destinations</a>
+        <a href="travel-assistant.html">Travel Assistant</a>
+        <a href="account.html">My Account</a>
+        <a href="index.html#contact">Contact</a>
+        <button class="theme-toggle-btn" type="button" aria-label="Toggle dark/light theme">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <span>Day</span>
+        </button>
       </nav>
     </header>
+
     <main class="portal-main">
       <section class="portal-hero">
         <h1>Choose the place, then make it yours.</h1>
@@ -41,9 +56,52 @@
       ></section>
       <p id="catalog-status" class="catalog-status" aria-live="polite"></p>
       <section id="catalog-grid" class="portal-grid" aria-live="polite">
-        <div class="portal-card glass"><p>Loading destinations…</p></div>
+        <div class="skeleton-card glass">
+          <div class="skeleton-bar" style="height: 16px; width: 45%;"></div>
+          <div class="skeleton-bar" style="height: 22px; width: 80%;"></div>
+          <div class="skeleton-bar" style="height: 48px; width: 100%;"></div>
+          <div class="skeleton-bar" style="height: 32px; width: 100%; margin-top: auto;"></div>
+        </div>
+        <div class="skeleton-card glass">
+          <div class="skeleton-bar" style="height: 16px; width: 45%;"></div>
+          <div class="skeleton-bar" style="height: 22px; width: 80%;"></div>
+          <div class="skeleton-bar" style="height: 48px; width: 100%;"></div>
+          <div class="skeleton-bar" style="height: 32px; width: 100%; margin-top: auto;"></div>
+        </div>
+        <div class="skeleton-card glass">
+          <div class="skeleton-bar" style="height: 16px; width: 45%;"></div>
+          <div class="skeleton-bar" style="height: 22px; width: 80%;"></div>
+          <div class="skeleton-bar" style="height: 48px; width: 100%;"></div>
+          <div class="skeleton-bar" style="height: 32px; width: 100%; margin-top: auto;"></div>
+        </div>
+        <div class="skeleton-card glass">
+          <div class="skeleton-bar" style="height: 16px; width: 45%;"></div>
+          <div class="skeleton-bar" style="height: 22px; width: 80%;"></div>
+          <div class="skeleton-bar" style="height: 48px; width: 100%;"></div>
+          <div class="skeleton-bar" style="height: 32px; width: 100%; margin-top: auto;"></div>
+        </div>
       </section>
     </main>
+
+    <footer class="portal-footer">
+      <div class="portal-footer-inner">
+        <div class="portal-footer-brand">
+          <span class="fbrand">BRAHMNMITRA</span>
+          <p>Flights, curated tours &amp; MICE — handled end to end.</p>
+        </div>
+        <div class="portal-footer-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="refund-policy.html">Refund &amp; Cancellation</a>
+          <a href="index.html">Home</a>
+        </div>
+        <p class="portal-footer-copy">
+          &copy; 2026 BrahmnMitra. Registered Travel Solutions Provider, New
+          Delhi, India. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
     <script src="assets/js/platform-store.js"></script>
     <script src="assets/js/portal-catalog.js"></script>
   </body>

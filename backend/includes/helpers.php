@@ -6,6 +6,33 @@ if (!defined("BM_OK")) {
     exit("Forbidden");
 }
 
+// CORS headers & preflight handling
+function bm_handle_cors()
+{
+    $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+    $allowed = defined('ALLOWED_ORIGIN') ? ALLOWED_ORIGIN : '*';
+
+    if ($allowed === '*') {
+        header("Access-Control-Allow-Origin: *");
+    } else {
+        $allowed_list = array_map('trim', explode(',', $allowed));
+        if (in_array($origin, $allowed_list, true)) {
+            header("Access-Control-Allow-Origin: " . $origin);
+            header("Vary: Origin");
+        } else {
+            header("Access-Control-Allow-Origin: " . $allowed_list[0]);
+        }
+    }
+
+    header("Access-Control-Allow-Methods: POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Accept, X-Requested-With");
+
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        http_response_code(204);
+        exit();
+    }
+}
+
 // Input sanitization & header-injection guards
 function bm_cut($v, $max)
 {

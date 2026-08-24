@@ -1,0 +1,3 @@
+# Block all web crawlers from indexing the admin subdomain
+User-agent: *
+Disallow: /

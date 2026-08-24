@@ -507,25 +507,59 @@ function makeGlowTexture() {
 }
 
 // Text on fuselage texture helper
+function drawTextOnCanvas(c, text, w, h, opt) {
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, w, h);
+  g.font = opt.font || "700 68px 'Unbounded', sans-serif";
+  g.fillStyle = opt.color || "#081C36";
+  g.textBaseline = "middle";
+
+  const spacing = opt.spacing || 0;
+  const chars = text.split("");
+  const widths = chars.map((ch) => g.measureText(ch).width);
+  const totalWidth =
+    widths.reduce((a, b) => a + b, 0) + (chars.length - 1) * spacing;
+
+  let startX = (w - totalWidth) / 2;
+  g.textAlign = "left";
+  for (let i = 0; i < chars.length; i++) {
+    g.fillText(chars[i], startX, h / 2);
+    startX += widths[i] + spacing;
+  }
+}
+
 function textPlane(text, wWorld, hWorld, opt) {
   opt = opt || {};
-  const w = opt.w || 1024,
-    h = opt.h || 160;
+  const w = opt.w || 2048,
+    h = opt.h || 200;
   const c = document.createElement("canvas");
   c.width = w;
   c.height = h;
-  const g = c.getContext("2d");
-  g.font = opt.font || "800 110px 'Unbounded', sans-serif";
-  g.textAlign = "center";
-  g.textBaseline = "middle";
-  if (opt.spacing && g.letterSpacing !== undefined) {
-    g.letterSpacing = opt.spacing + "px";
-  }
-  g.fillStyle = opt.color || "#091E38";
-  g.fillText(text, w / 2, h / 2 + 4);
+  drawTextOnCanvas(c, text, w, h, opt);
   const tex = new THREE.CanvasTexture(c);
   tex.anisotropy = 8;
-  const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true });
+  const mat = new THREE.MeshBasicMaterial({
+    map: tex,
+    transparent: true,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+  });
+
+  if (document.fonts) {
+    if (document.fonts.load) {
+      document.fonts.load(opt.font || "700 68px 'Unbounded'").then(() => {
+        drawTextOnCanvas(c, text, w, h, opt);
+        tex.needsUpdate = true;
+      }).catch(() => {});
+    }
+    if (document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        drawTextOnCanvas(c, text, w, h, opt);
+        tex.needsUpdate = true;
+      });
+    }
+  }
+
   return new THREE.Mesh(new THREE.PlaneGeometry(wWorld, hWorld), mat);
 }
 
@@ -559,14 +593,19 @@ function buildPlane(glowTex) {
     roughness: 0.18,
   });
   const navyCheatline = new THREE.MeshStandardMaterial({
-    color: 0x091c36,
-    metalness: 0.3,
-    roughness: 0.28,
+    color: 0x092244,
+    metalness: 0.25,
+    roughness: 0.3,
   });
   const cockpitGlass = new THREE.MeshStandardMaterial({
-    color: 0x08121e,
-    metalness: 0.92,
-    roughness: 0.08,
+    color: 0x07111e,
+    metalness: 0.96,
+    roughness: 0.04,
+  });
+  const engineChrome = new THREE.MeshStandardMaterial({
+    color: 0xe8eef5,
+    metalness: 0.88,
+    roughness: 0.12,
   });
   const turbineDark = new THREE.MeshStandardMaterial({
     color: 0x12161f,
@@ -650,26 +689,26 @@ function buildPlane(glowTex) {
 
   // 4. Fuselage branding
   const tOpt = {
-    w: 1024,
-    h: 140,
-    font: "900 94px 'Unbounded', sans-serif",
+    w: 2048,
+    h: 200,
+    font: "700 70px 'Unbounded', sans-serif",
     color: "#081C36",
-    spacing: 12,
+    spacing: 5,
   };
   [-1, 1].forEach((s) => {
-    const m = textPlane("BRAHMNMITRA", 11.8, 1.42, tOpt);
-    m.position.set(s * 2.88, 1.95, 6.2);
+    const m = textPlane("BRAHMNMITRA", 10.24, 1.0, tOpt);
+    m.position.set(s * 2.98, 1.95, 6.2);
     m.rotation.y = (s * Math.PI) / 2;
     bob.add(m);
 
-    const r = textPlane("VT-BMN", 3.4, 0.58, {
-      w: 512,
-      h: 96,
-      font: "700 64px 'Archivo', sans-serif",
+    const r = textPlane("VT-BMN", 3.2, 0.5, {
+      w: 1024,
+      h: 160,
+      font: "700 60px 'Archivo', sans-serif",
       color: "#304D6D",
-      spacing: 5,
+      spacing: 4,
     });
-    r.position.set(s * 3.08, 0.28, -20.2);
+    r.position.set(s * 3.12, 0.28, -20.2);
     r.rotation.y = (s * Math.PI) / 2;
     bob.add(r);
   });

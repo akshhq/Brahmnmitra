@@ -7,6 +7,9 @@ require_once __DIR__ . "/includes/config.php";
 require_once __DIR__ . "/includes/helpers.php";
 require_once __DIR__ . "/includes/mailer.php";
 
+// Handle CORS and preflight OPTIONS requests
+bm_handle_cors();
+
 // Request guards (POST only, honeypot, rate-limit)
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     bm_respond(false, "Please use the enquiry form on the website.", 405);

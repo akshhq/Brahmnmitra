@@ -329,11 +329,11 @@ body.no-cinema .skip-intro {
   z-index: 5;
   pointer-events: none;
   clip-path: inset(50% 50% 50% 50% round 400px);
-  background: linear-gradient(
-    180deg,
-    var(--sky-top) 0%,
-    #cde7fc 55%,
-    var(--sky-low) 100%
+  background: radial-gradient(
+    circle at 50% 30%,
+    #12284a 0%,
+    #0a162b 48%,
+    #04060c 100%
   );
   display: grid;
   place-items: center;
@@ -346,9 +346,9 @@ body.no-cinema .skip-intro {
 #reveal .rcloud {
   position: absolute;
   border-radius: 50%;
-  background: #fff;
-  filter: blur(34px);
-  opacity: 0.72;
+  background: rgba(95, 233, 245, 0.22);
+  filter: blur(40px);
+  opacity: 0.55;
   pointer-events: none;
 }
 .reveal-inner {
@@ -358,12 +358,19 @@ body.no-cinema .skip-intro {
   will-change: transform, opacity;
 }
 .reveal-inner .kicker {
+  display: inline-block;
   font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.34em;
   text-transform: uppercase;
-  color: #0b63c5;
+  color: var(--cyan);
   margin-bottom: 18px;
+  background: rgba(95, 233, 245, 0.12);
+  border: 1px solid rgba(95, 233, 245, 0.3);
+  padding: 6px 16px;
+  border-radius: var(--r-pill);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .reveal-inner h2 {
   font-family: var(--display);
@@ -371,6 +378,7 @@ body.no-cinema .skip-intro {
   font-size: clamp(1.7rem, 4.8vw, 3rem);
   line-height: 1.12;
   letter-spacing: 0.01em;
+  color: #ffffff;
 }
 .reveal-inner .lead {
   margin: 20px auto 0;
@@ -540,6 +548,46 @@ body.no-cinema .skip-intro {
   }
   html {
     scroll-behavior: auto !important;
+  }
+  #cinema {
+    height: auto !important;
+  }
+  .stage {
+    position: relative !important;
+    height: auto !important;
+    min-height: 100svh;
+  }
+  #sky-canvas,
+  .window-frame,
+  .scroll-hint {
+    display: none !important;
+  }
+  .bg-day,
+  .sun {
+    opacity: 1 !important;
+  }
+  .bg-night {
+    opacity: 0 !important;
+  }
+  .hero-copy {
+    position: relative !important;
+    inset: auto !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    min-height: 80svh;
+    padding: 100px 20px 60px;
+  }
+  #reveal {
+    position: relative !important;
+    inset: auto !important;
+    clip-path: none !important;
+    pointer-events: auto !important;
+    padding: clamp(76px, 10vw, 132px) 20px;
+  }
+  .reveal-inner {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 body.no-cinema #cinema {

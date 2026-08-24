@@ -84,8 +84,8 @@
       <nav id="nav" aria-label="Main">
         <a href="packages.html">Packages</a>
         <a href="hotels.html">Hotels</a>
+        <a href="destinations.html">Destinations</a>
         <a href="#services">Services</a>
-        <a href="platform.html">Business Platform</a>
         <a href="#process">Process</a>
         <a href="#about">About</a>
         <a href="#testimonials">Testimonials</a>
@@ -354,9 +354,14 @@
                 id="travel-search"
                 type="search"
                 autocomplete="off"
-                placeholder="Try Kerala, a beach escape, or a heritage stay"
+                placeholder="Try Kerala, beach escape, or heritage stay (Press / to search)"
               />
-              <span class="search-icon" aria-hidden="true">&#9906;</span>
+              <span class="search-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2;">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </span>
             </div>
             <span id="search-status" class="search-status" aria-live="polite"
               >Search destinations, packages and curated stays.</span
@@ -419,8 +424,23 @@
           </button>
         </div>
         <div id="package-grid" class="catalog-grid">
-          <div class="catalog-empty glass">
-            <p>Loading curated journeys...</p>
+          <div class="skeleton-card glass">
+            <div class="skeleton-bar" style="height: 110px; width: 100%;"></div>
+            <div class="skeleton-bar" style="height: 18px; width: 60%;"></div>
+            <div class="skeleton-bar" style="height: 14px; width: 90%;"></div>
+            <div class="skeleton-bar" style="height: 36px; width: 100%; margin-top: auto;"></div>
+          </div>
+          <div class="skeleton-card glass">
+            <div class="skeleton-bar" style="height: 110px; width: 100%;"></div>
+            <div class="skeleton-bar" style="height: 18px; width: 60%;"></div>
+            <div class="skeleton-bar" style="height: 14px; width: 90%;"></div>
+            <div class="skeleton-bar" style="height: 36px; width: 100%; margin-top: auto;"></div>
+          </div>
+          <div class="skeleton-card glass">
+            <div class="skeleton-bar" style="height: 110px; width: 100%;"></div>
+            <div class="skeleton-bar" style="height: 18px; width: 60%;"></div>
+            <div class="skeleton-bar" style="height: 14px; width: 90%;"></div>
+            <div class="skeleton-bar" style="height: 36px; width: 100%; margin-top: auto;"></div>
           </div>
         </div>
       </section>
@@ -443,7 +463,24 @@
           </div>
         </div>
         <div id="hotel-grid" class="catalog-grid">
-          <div class="catalog-empty glass"><p>Loading curated stays...</p></div>
+          <div class="skeleton-card glass">
+            <div class="skeleton-bar" style="height: 110px; width: 100%;"></div>
+            <div class="skeleton-bar" style="height: 18px; width: 60%;"></div>
+            <div class="skeleton-bar" style="height: 14px; width: 90%;"></div>
+            <div class="skeleton-bar" style="height: 36px; width: 100%; margin-top: auto;"></div>
+          </div>
+          <div class="skeleton-card glass">
+            <div class="skeleton-bar" style="height: 110px; width: 100%;"></div>
+            <div class="skeleton-bar" style="height: 18px; width: 60%;"></div>
+            <div class="skeleton-bar" style="height: 14px; width: 90%;"></div>
+            <div class="skeleton-bar" style="height: 36px; width: 100%; margin-top: auto;"></div>
+          </div>
+          <div class="skeleton-card glass">
+            <div class="skeleton-bar" style="height: 110px; width: 100%;"></div>
+            <div class="skeleton-bar" style="height: 18px; width: 60%;"></div>
+            <div class="skeleton-bar" style="height: 14px; width: 90%;"></div>
+            <div class="skeleton-bar" style="height: 36px; width: 100%; margin-top: auto;"></div>
+          </div>
         </div>
       </section>
       <p class="catalog-disclaimer">
@@ -466,53 +503,25 @@
           </p>
         </div>
         <div id="destination-grid" class="destination-grid">
-          <div class="catalog-empty glass">
-            <p>Loading destination notes...</p>
+          <div class="skeleton-card glass">
+            <div class="skeleton-bar" style="height: 20px; width: 35%;"></div>
+            <div class="skeleton-bar" style="height: 26px; width: 75%;"></div>
+            <div class="skeleton-bar" style="height: 44px; width: 100%;"></div>
+            <div class="skeleton-bar" style="height: 28px; width: 55%; margin-top: auto;"></div>
+          </div>
+          <div class="skeleton-card glass">
+            <div class="skeleton-bar" style="height: 20px; width: 35%;"></div>
+            <div class="skeleton-bar" style="height: 26px; width: 75%;"></div>
+            <div class="skeleton-bar" style="height: 44px; width: 100%;"></div>
+            <div class="skeleton-bar" style="height: 28px; width: 55%; margin-top: auto;"></div>
+          </div>
+          <div class="skeleton-card glass">
+            <div class="skeleton-bar" style="height: 20px; width: 35%;"></div>
+            <div class="skeleton-bar" style="height: 26px; width: 75%;"></div>
+            <div class="skeleton-bar" style="height: 44px; width: 100%;"></div>
+            <div class="skeleton-bar" style="height: 28px; width: 55%; margin-top: auto;"></div>
           </div>
         </div>
-      </section>
-
-      <section
-        class="section platform-section"
-        id="platform"
-        aria-labelledby="platform-h"
-      >
-        <div data-reveal>
-          <h2 id="platform-h">The systems behind a seamless trip.</h2>
-          <p class="lead">
-            BrahmnMitra is progressively building the secure operations layer
-            that supports every enquiry, quote and journey.
-          </p>
-        </div>
-        <div class="platform-grid">
-          <article class="platform-card glass" data-reveal>
-            <span class="platform-number">01</span>
-            <h3>CRM &amp; follow-ups</h3>
-            <p>
-              One protected workspace for leads, customer context, staff
-              assignments and timely follow-ups.
-            </p>
-          </article>
-          <article class="platform-card glass" data-reveal>
-            <span class="platform-number">02</span>
-            <h3>Quotations &amp; bookings</h3>
-            <p>
-              Structured travel quotations, approvals and booking operations,
-              built around a single customer record.
-            </p>
-          </article>
-          <article class="platform-card glass" data-reveal>
-            <span class="platform-number">03</span>
-            <h3>Payments &amp; documents</h3>
-            <p>
-              Secure payment tracking and controlled access to invoices,
-              itineraries and travel documents.
-            </p>
-          </article>
-        </div>
-        <a class="text-button platform-link" href="platform.html"
-          >Explore the business platform <span aria-hidden="true">→</span></a
-        >
       </section>
       <!-- Services -->
       <section class="section" id="services" aria-labelledby="services-h">
@@ -526,7 +535,9 @@
 
         <div class="svc-grid">
           <article class="svc-card glass" data-reveal>
-            <span class="glyph" aria-hidden="true">✈</span>
+            <span class="glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+            </span>
             <span class="route">DEL ⇄ BOM ⇄ BLR ⇄ CCU</span>
             <h3>Domestic Flights</h3>
             <p>
@@ -546,7 +557,9 @@
           </article>
 
           <article class="svc-card intl glass" data-reveal>
-            <span class="glyph" aria-hidden="true">◉</span>
+            <span class="glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </span>
             <span class="route">DXB · SIN · LHR · JFK</span>
             <h3>International Flights</h3>
             <p>
@@ -568,7 +581,9 @@
           </article>
 
           <article class="svc-card glass" data-reveal>
-            <span class="glyph" aria-hidden="true">◎</span>
+            <span class="glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
             <h3>Group Tours</h3>
             <p>
               Carefully designed itineraries for leisure groups, corporate
@@ -577,7 +592,9 @@
           </article>
 
           <article class="svc-card glass" data-reveal>
-            <span class="glyph" aria-hidden="true">✎</span>
+            <span class="glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            </span>
             <h3>Tailor-Made Journeys</h3>
             <p>
               Personalized itineraries based on travel style, interests,
@@ -586,7 +603,9 @@
           </article>
 
           <article class="svc-card glass" data-reveal>
-            <span class="glyph" aria-hidden="true">♛</span>
+            <span class="glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14v2H5v-2z"/></svg>
+            </span>
             <h3>Luxury Travel</h3>
             <p>
               Heritage palace stays, private chauffeurs, exclusive experiences
@@ -595,7 +614,9 @@
           </article>
 
           <article class="svc-card glass" data-reveal>
-            <span class="glyph" aria-hidden="true">⛩</span>
+            <span class="glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><line x1="3" y1="21" x2="21" y2="21"/><line x1="4" y1="14" x2="20" y2="14"/><path d="M12 3L4 9v5h16V9l-8-6z"/><line x1="7" y1="14" x2="7" y2="21"/><line x1="12" y1="14" x2="12" y2="21"/><line x1="17" y1="14" x2="17" y2="21"/></svg>
+            </span>
             <h3>Cultural &amp; Heritage Tours</h3>
             <p>
               Golden Triangle, Rajasthan royal circuits, South India temples
@@ -604,7 +625,9 @@
           </article>
 
           <article class="svc-card glass" data-reveal>
-            <span class="glyph" aria-hidden="true">◈</span>
+            <span class="glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </span>
             <h3>MICE &amp; Corporate Travel</h3>
             <p>
               Professional handling of conferences, incentive trips, and
@@ -613,7 +636,9 @@
           </article>
 
           <article class="svc-card glass" data-reveal>
-            <span class="glyph" aria-hidden="true">⛟</span>
+            <span class="glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </span>
             <h3>Ground Transport</h3>
             <p>
               Airport transfers, car rentals, private chauffeurs, and ground
@@ -630,7 +655,9 @@
         </div>
         <div class="why-grid">
           <div class="why-item glass" data-reveal>
-            <div class="glyph" aria-hidden="true">☎</div>
+            <div class="glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
             <h3>A human answers</h3>
             <p>
               Call at 6 am or 11 pm — you reach a person, not a chatbot.
@@ -638,7 +665,9 @@
             </p>
           </div>
           <div class="why-item glass" data-reveal>
-            <div class="glyph" aria-hidden="true">◈</div>
+            <div class="glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            </div>
             <h3>Fares hunted, not searched</h3>
             <p>
               We track prices across carriers and dates, and tell you honestly
@@ -646,7 +675,9 @@
             </p>
           </div>
           <div class="why-item glass" data-reveal>
-            <div class="glyph" aria-hidden="true">✈</div>
+            <div class="glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
             <h3>Groups made simple</h3>
             <p>
               Family weddings, office offsites, tour groups — everyone's
@@ -746,22 +777,20 @@
 
           <div class="about-stats" data-reveal>
             <div class="about-stat glass">
-              <span class="num" data-count="10" data-suffix="+">10+</span>
-              <span class="label">Years of Industry Experience</span>
+              <span class="num" data-count="100" data-suffix="%">100%</span>
+              <span class="label">Tailor-Made Itineraries</span>
             </div>
             <div class="about-stat glass">
-              <span class="num" data-count="500" data-suffix="+">500+</span>
-              <span class="label">Happy Corporate Clients</span>
+              <span class="num" data-count="24" data-suffix="/7">24/7</span>
+              <span class="label">Dedicated Human Travel Desk</span>
             </div>
             <div class="about-stat glass">
-              <span class="num" data-count="50000" data-suffix="+"
-                >50,000+</span
-              >
-              <span class="label">Trips Managed Successfully</span>
+              <span class="num" data-count="50" data-suffix="+">50+</span>
+              <span class="label">Pan-India &amp; Global Hubs</span>
             </div>
             <div class="about-stat glass">
-              <span class="num" data-count="98" data-suffix="%">98%</span>
-              <span class="label">Client Retention Rate</span>
+              <span class="num" data-prefix="₹" data-count="0">₹0</span>
+              <span class="label">Hidden Booking Fees</span>
             </div>
           </div>
         </div>
@@ -770,9 +799,9 @@
       <!-- Testimonials -->
       <section class="section" id="testimonials" aria-labelledby="tst-h">
         <div data-reveal>
-          <h2 id="tst-h">What Our Clients Say</h2>
+          <h2 id="tst-h">Real Journeys, Thoughtfully Delivered</h2>
           <p class="lead">
-            Travellers and corporate teams on working with BrahmnMitra.
+            What travelers and corporate coordinators appreciate about the BrahmnMitra desk.
           </p>
         </div>
 
@@ -780,39 +809,78 @@
           <figure class="tst glass" data-reveal>
             <span class="mark" aria-hidden="true">&ldquo;</span>
             <blockquote>
-              BrahmnMitra has transformed our corporate travel. Their
-              cost-saving approach and 24/7 support have made them indispensable
-              to our operations.
+              BrahmnMitra managed our annual leadership offsite seamlessly. From group flight ticketing across 4 cities to on-ground transport in Jaipur, having a dedicated coordinator who picked up every call made all the difference.
             </blockquote>
             <figcaption>
-              <div class="who">Rajesh Mehta</div>
-              <div class="role">CFO, TechNova Pvt Ltd</div>
+              <div class="who">Corporate Offsite Coordinator</div>
+              <div class="role">Enterprise Technology Services · Delhi NCR</div>
             </figcaption>
           </figure>
 
           <figure class="tst glass" data-reveal>
             <span class="mark" aria-hidden="true">&ldquo;</span>
             <blockquote>
-              From MICE events to employee travel, BrahmnMitra handles
-              everything seamlessly. Their attention to detail is exceptional.
+              Our 10-day family journey through Kerala was planned with incredible care. The stays were handpicked, the private chauffeur was punctual and courteous, and every transfer was on time without a single hitch.
             </blockquote>
             <figcaption>
-              <div class="who">Priya Sharma</div>
-              <div class="role">HR Head, Greenfield Industries</div>
+              <div class="who">Family Leisure Traveler</div>
+              <div class="role">Bespoke Kerala &amp; Backwaters Tour</div>
             </figcaption>
           </figure>
 
           <figure class="tst glass" data-reveal>
             <span class="mark" aria-hidden="true">&ldquo;</span>
             <blockquote>
-              We've been working with BrahmnMitra for 5 years. Their visa
-              assistance and international travel coordination are top-notch.
+              Coordinating multi-city flights, international stopovers and visas can be stressful. The BrahmnMitra desk compared route options, found the best baggage allowances, and kept us informed through departure.
             </blockquote>
             <figcaption>
-              <div class="who">Anil Kapoor</div>
-              <div class="role">Director, Sunrise Exports</div>
+              <div class="who">International Business Traveler</div>
+              <div class="role">Multi-Sector Flights &amp; Visa Coordination</div>
             </figcaption>
           </figure>
+        </div>
+        <p class="portal-note" style="text-align: center; margin-top: 24px;">
+          *Representative traveler and corporate client experiences managed by our travel desk.
+        </p>
+      </section>
+
+      <!-- Trust Strip -->
+      <section class="trust-strip glass" data-reveal aria-label="Trust and Accreditations">
+        <div class="trust-item">
+          <div class="trust-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="trust-text">
+            <strong>GST Registered</strong>
+            <span>Compliant Travel Partner · New Delhi</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div class="trust-text">
+            <strong>Global &amp; Domestic</strong>
+            <span>IATA / TAAI Network Standards</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="trust-text">
+            <strong>256-Bit SSL Encrypted</strong>
+            <span>Secure Inquiries &amp; Data Privacy</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div class="trust-text">
+            <strong>24/7 Human Desk</strong>
+            <span>Real Coordinators, Zero Robots</span>
+          </div>
         </div>
       </section>
 
@@ -830,7 +898,9 @@
           <!-- Contact Details -->
           <div class="contact-card glass" data-reveal>
             <div class="cinfo">
-              <span class="glyph" aria-hidden="true">✆</span>
+              <span class="glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
               <div>
                 <div class="k">Phone</div>
                 <div class="v">
@@ -839,7 +909,9 @@
               </div>
             </div>
             <div class="cinfo">
-              <span class="glyph" aria-hidden="true">✉</span>
+              <span class="glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
               <div>
                 <div class="k">Email</div>
                 <div class="v">
@@ -848,7 +920,9 @@
               </div>
             </div>
             <div class="cinfo">
-              <span class="glyph" aria-hidden="true">⌂</span>
+              <span class="glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
               <div>
                 <div class="k">Office</div>
                 <div class="v">New Delhi, India</div>
@@ -861,7 +935,7 @@
               target="_blank"
               rel="noopener"
             >
-              <span aria-hidden="true">✆</span> Message us on WhatsApp
+              <span aria-hidden="true"><svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: currentColor; stroke: none;"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg></span> Message us on WhatsApp
             </a>
           </div>
 
@@ -1126,8 +1200,11 @@
         <div>
           <div class="fbrand">BRAHMNMITRA</div>
           <p>
-            Your trusted partner for flights, curated tours and MICE — domestic
-            and international, handled end to end.
+            Your trusted partner for domestic and international flights, bespoke
+            India tours, and corporate MICE programmes — handled end to end.
+          </p>
+          <p style="margin-top: 12px; font-size: 0.85rem; color: #8b9cb5;">
+            GST Registered Travel Partner · New Delhi, India
           </p>
         </div>
 
@@ -1137,7 +1214,6 @@
             <li><a href="packages.html">Packages</a></li>
             <li><a href="hotels.html">Curated Stays</a></li>
             <li><a href="destinations.html">Destinations</a></li>
-            <li><a href="platform.html">Business Platform</a></li>
             <li><a href="#services">Domestic Flights</a></li>
             <li><a href="#services">International Flights</a></li>
             <li><a href="#services">Group Tours</a></li>
@@ -1149,23 +1225,20 @@
           </ul>
         </nav>
 
-        <nav aria-label="Quick links">
-          <h3 class="fcol">Quick Links</h3>
+        <nav aria-label="Quick links &amp; Legal">
+          <h3 class="fcol">Information</h3>
           <ul>
             <li><a href="#plan">Plan a Trip</a></li>
-            <li><a href="#search">Search</a></li>
-            <li><a href="packages.html">Packages</a></li>
-            <li><a href="hotels.html">Hotels</a></li>
-            <li><a href="destinations.html">Destinations</a></li>
+            <li><a href="#search">Search Journeys</a></li>
             <li><a href="travel-assistant.html">Travel Assistant</a></li>
-            <li><a href="account.html">My Account</a></li>
-            <li><a href="platform.html">Business Platform</a></li>
-            <li><a href="#top">Home</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#process">Process</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#services">Our Services</a></li>
+            <li><a href="#process">How We Work</a></li>
+            <li><a href="#about">About BrahmnMitra</a></li>
+            <li><a href="#testimonials">Client Stories</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="refund-policy.html">Refund &amp; Cancellation</a></li>
+            <li><a href="#contact">Contact Desk</a></li>
           </ul>
         </nav>
 
@@ -1175,15 +1248,29 @@
             <a href="tel:+919211761885">+91 92117 61885</a><br />
             <a href="mailto:info@brahmnmitra.com">info@brahmnmitra.com</a><br />
             <a href="https://wa.me/919211761885" target="_blank" rel="noopener"
-              >WhatsApp</a
+              >WhatsApp Desk</a
             ><br />
             New Delhi, India
           </p>
         </div>
 
-        <p class="fine">
-          © 2026 BrahmnMitra. All rights reserved. Fares subject to airline
-          availability at the time of booking.
+        <div class="footer-trust" style="grid-column: 1 / -1;">
+          <span class="footer-trust-item">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            256-Bit SSL Encrypted
+          </span>
+          <span class="footer-trust-item">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            Pan-India &amp; Global Ticketing
+          </span>
+          <span class="footer-trust-item">
+            <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Verified Travel Solutions Provider
+          </span>
+        </div>
+
+        <p class="fine" style="grid-column: 1 / -1;">
+          © 2026 BrahmnMitra. All rights reserved. Fares and seat availability subject to airline terms at time of ticketing. Registered in New Delhi, India.
         </p>
       </div>
     </footer>

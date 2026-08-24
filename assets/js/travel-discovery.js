@@ -468,30 +468,33 @@ BM.initTravelDiscovery = function () {
       });
   }
 
-  fetch(catalogUrl)
-    .then((response) => {
-      if (!response.ok) throw new Error("Catalogue request failed");
-      return response.json();
-    })
-    .then((catalogue) => {
-      data = catalogue;
-      populateSelects();
-      renderPackages();
-      renderHotels();
-      renderDestinations();
-      renderRecent();
-      bindEvents();
-    })
-    .catch(() => {
-      packageGrid.innerHTML = emptyCard(
-        "The travel catalogue is temporarily unavailable. Our team can still plan your trip.",
-        "Send an enquiry",
-        "unavailable",
-      );
-      hotelGrid.innerHTML = "";
-      destinationGrid.innerHTML = "";
-      if (searchStatus)
-        searchStatus.textContent =
-          "Search is temporarily unavailable. Please contact our travel experts.";
-    });
+  function loadCatalog() {
+    fetch(catalogUrl)
+      .then((response) => {
+        if (!response.ok) throw new Error("Catalogue request failed");
+        return response.json();
+      })
+      .then((catalogue) => {
+        data = catalogue;
+        populateSelects();
+        renderPackages();
+        renderHotels();
+        renderDestinations();
+        renderRecent();
+        bindEvents();
+      })
+      .catch(() => {
+        packageGrid.innerHTML = emptyCard(
+          "The travel catalogue is temporarily unavailable. Our travel desk is ready to craft your custom itinerary.",
+          "Speak with our travel desk",
+          "unavailable",
+        );
+        hotelGrid.innerHTML = "";
+        destinationGrid.innerHTML = "";
+        if (searchStatus)
+          searchStatus.textContent =
+            "Search is temporarily unavailable. Please contact our travel experts.";
+      });
+  }
+  loadCatalog();
 };

@@ -1,7 +1,8 @@
 "use strict";
-// BrahmnMitra — Browser-Local Workspace Store
+// BrahmnMitra — Browser-Local Workspace Store & Theme Manager
 (() => {
   const storageKey = "bm_travel_workspace_v2";
+  const themeKey = "bm_portal_theme_v1";
   const defaults = {
     profile: { name: "", email: "", phone: "", travelStyle: "" },
     saved: [],
@@ -118,7 +119,8 @@
     const el = document.createElement("div");
     el.className = "bm-toast";
     const icon = type === "success" ? "✓" : "✦";
-    const iconClass = type === "success" ? "bm-toast-icon success" : "bm-toast-icon";
+    const iconClass =
+      type === "success" ? "bm-toast-icon success" : "bm-toast-icon";
     el.innerHTML = `<span class="${iconClass}">${icon}</span><span>${message}</span>`;
     container.appendChild(el);
 
@@ -133,6 +135,88 @@
     }, 3500);
   }
 
+  /* ---------- Theme Management (Luxury Dark vs Day) ---------- */
+  function getTheme() {
+    try {
+      return localStorage.getItem(themeKey) || "dark";
+    } catch (_) {
+      return "dark";
+    }
+  }
+
+  function setTheme(theme) {
+    const isDark = theme === "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    if (document.body) {
+      document.body.classList.toggle("theme-dark", isDark);
+    }
+    try {
+      localStorage.setItem(themeKey, theme);
+    } catch (_) {}
+    updateThemeButtons(theme);
+    window.dispatchEvent(
+      new CustomEvent("bm:theme-change", { detail: { theme } }),
+    );
+  }
+
+  function toggleTheme() {
+    const current = getTheme();
+    const next = current === "dark" ? "light" : "dark";
+    setTheme(next);
+    toast(
+      next === "dark" ? "Switched to Luxury Dark mode" : "Switched to Day mode",
+      "info",
+    );
+    return next;
+  }
+
+  function updateThemeButtons(theme) {
+    const buttons = document.querySelectorAll(".theme-toggle-btn");
+    const isDark = theme === "dark";
+    buttons.forEach((btn) => {
+      btn.innerHTML = isDark
+        ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> <span>Day</span>'
+        : '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> <span>Night</span>';
+      btn.setAttribute(
+        "aria-label",
+        isDark ? "Switch to Day mode" : "Switch to Luxury Dark mode",
+      );
+    });
+  }
+
+  // Auto-init theme
+  const initialTheme = getTheme();
+  setTheme(initialTheme);
+  document.addEventListener("DOMContentLoaded", () => {
+    setTheme(getTheme());
+    document.querySelectorAll(".theme-toggle-btn").forEach((btn) => {
+      btn.addEventListener("click", toggleTheme);
+    });
+  });
+
+  /* ---------- Global Keyboard Shortcut for Search (Press '/') ---------- */
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      const activeEl = document.activeElement;
+      const isInput =
+        activeEl &&
+        (activeEl.tagName === "INPUT" ||
+          activeEl.tagName === "TEXTAREA" ||
+          activeEl.tagName === "SELECT" ||
+          activeEl.isContentEditable);
+      if (!isInput) {
+        const searchInput =
+          document.getElementById("catalog-search") ||
+          document.getElementById("travel-search");
+        if (searchInput) {
+          e.preventDefault();
+          searchInput.focus();
+          searchInput.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }
+    }
+  });
+
   window.BMPlatform = {
     read,
     updateProfile,
@@ -143,5 +227,8 @@
     removeSaved,
     removePlan,
     toast,
+    getTheme,
+    setTheme,
+    toggleTheme,
   };
 })();

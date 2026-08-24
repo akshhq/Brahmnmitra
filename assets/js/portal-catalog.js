@@ -40,9 +40,9 @@
         ? [...new Set(data.map((item) => item.region))].sort()
         : [];
     controls.innerHTML =
-      '<label class="catalog-control">Search<input id="catalog-search" type="search" placeholder="Search ' +
+      '<label class="catalog-control">Search <span class="kbd-hint">/</span><input id="catalog-search" type="search" placeholder="Type / to search ' +
       esc(page) +
-      '" /></label>' +
+      '..." /></label>' +
       '<label class="catalog-control">Destination<select id="catalog-destination"><option value="">All destinations</option>' +
       destinations
         .map(
@@ -203,16 +203,27 @@
     }
   });
 
-  fetch("data/travel-catalog.json")
-    .then((response) => (response.ok ? response.json() : Promise.reject()))
-    .then((data) => {
-      items = data[page] || [];
-      renderControls(items);
-      render();
-    })
-    .catch(() => {
-      grid.innerHTML =
-        '<div class="portal-empty glass"><h2>Catalogue unavailable</h2><p>Please try again shortly or contact our travel team.</p></div>';
-      if (status) status.textContent = "Catalogue unavailable";
-    });
+  function loadData() {
+    fetch("data/travel-catalog.json")
+      .then((response) => (response.ok ? response.json() : Promise.reject()))
+      .then((data) => {
+        items = data[page] || [];
+        renderControls(items);
+        render();
+      })
+      .catch(() => {
+        grid.innerHTML =
+          '<div class="portal-empty glass"><h2>Catalogue temporarily unavailable</h2><p>We could not load the latest travel listings. Please retry or speak with our travel desk directly.</p><div style="display: flex; gap: 12px; justify-content: center; margin-top: 16px;"><button id="catalog-retry" class="btn btn-amber" type="button">Retry Loading</button><a class="btn btn-glass" href="index.html#contact">Contact Desk</a></div></div>';
+        if (status) status.textContent = "Catalogue temporarily unavailable";
+        const retryBtn = document.getElementById("catalog-retry");
+        if (retryBtn) {
+          retryBtn.addEventListener("click", () => {
+            grid.innerHTML =
+              '<div class="skeleton-card glass"><div class="skeleton-bar" style="height: 16px; width: 45%;"></div><div class="skeleton-bar" style="height: 22px; width: 80%;"></div><div class="skeleton-bar" style="height: 48px; width: 100%;"></div></div>';
+            loadData();
+          });
+        }
+      });
+  }
+  loadData();
 })();

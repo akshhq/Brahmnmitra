@@ -66,20 +66,21 @@
   }
 }
 
-/* 1024px — Grids layout adjustment */
+/* 1024px — Medium screens & landscape tablets */
 @media (max-width: 1024px) {
   .svc-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
   .tst-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
   .about-wrap {
     grid-template-columns: 1fr;
-    gap: 44px;
+    gap: 40px;
   }
   .contact-wrap {
     grid-template-columns: 1fr;
+    gap: 32px;
   }
   footer .inner {
     grid-template-columns: 1fr 1fr;
@@ -129,18 +130,20 @@
   }
 }
 
-/* 840px — Single column cards */
-@media (max-width: 840px) {
+/* 768px — Tablet & Phablets */
+@media (max-width: 768px) {
   .svc-grid {
     grid-template-columns: 1fr;
   }
   .tst-grid {
     grid-template-columns: 1fr;
   }
-}
-
-/* 768px — Tablet layout */
-@media (max-width: 768px) {
+  .window-frame {
+    width: 26vh;
+    height: 34vh;
+    margin-left: -13vh;
+    margin-top: -17vh;
+  }
   .stat-grid {
     gap: 20px;
   }
@@ -153,27 +156,16 @@
   #flight-block {
     grid-template-columns: 1fr;
   }
+  footer .inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
   html {
     scroll-padding-top: 84px;
   }
 }
 
-/* 720px — Mobile window & footer */
-@media (max-width: 720px) {
-  .window-frame {
-    width: 26vh;
-    height: 34vh;
-    margin-left: -13vh;
-    margin-top: -17vh;
-  }
-
-  footer .inner {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-}
-
-/* 600px — Mobile forms and stats */
+/* 600px — Mobile forms, widgets and stats */
 @media (max-width: 600px) {
   #site-header .call .num {
     display: none;
@@ -181,13 +173,16 @@
 
   .stat-grid {
     grid-template-columns: 1fr;
-    gap: 26px;
-    padding: 40px 20px;
+    gap: 24px;
+    padding: 36px 18px;
   }
   .about-stats {
     grid-template-columns: 1fr;
   }
 
+  .form-actions {
+    flex-direction: column;
+  }
   .form-actions .btn {
     width: 100%;
     justify-content: center;
@@ -197,16 +192,16 @@
   }
 }
 
-/* 400px — Small screens */
-@media (max-width: 400px) {
+/* 420px — Small mobile screens */
+@media (max-width: 420px) {
   #site-header {
     padding: 9px 9px 9px 15px;
     gap: 9px;
   }
   #site-header .brand {
-    font-size: 12.5px;
-    letter-spacing: 0.12em;
-    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    gap: 6px;
   }
   #site-header .call {
     padding: 0;
@@ -216,16 +211,16 @@
   }
 
   .section {
-    padding: 66px 16px;
+    padding: 60px 16px;
   }
   .svc-card,
   .why-item,
   .tst {
-    padding: 24px;
+    padding: 22px 18px;
   }
   #contact .panel,
   .contact-card {
-    padding: 24px 20px;
+    padding: 22px 16px;
   }
 
   .trip-pills {
@@ -236,32 +231,33 @@
   }
 
   .btn {
-    padding: 14px 22px;
-    font-size: 14.5px;
+    padding: 14px 20px;
+    font-size: 14px;
   }
 }
 
-/* 360px — Base mobile width */
+/* 360px — Base compact mobile */
 @media (max-width: 360px) {
   .hero-copy h1 {
-    font-size: 2rem;
-    letter-spacing: 0.03em;
+    font-size: 1.85rem;
+    letter-spacing: 0.02em;
   }
   .hero-copy .tagline {
-    font-size: 0.98rem;
+    font-size: 0.92rem;
   }
   .reveal-inner h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
   .stat .num {
-    font-size: 1.8rem;
+    font-size: 1.65rem;
   }
   .kicker {
-    letter-spacing: 0.24em;
-    font-size: 10px;
+    letter-spacing: 0.2em;
+    font-size: 9.5px;
   }
   .cta-row {
     width: 100%;
+    flex-direction: column;
   }
   .cta-row .btn {
     width: 100%;
@@ -281,13 +277,13 @@
 /* Landscape phones */
 @media (max-height: 480px) and (orientation: landscape) {
   .hero-copy h1 {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
   }
   .hero-copy .eyebrow {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
   .hero-copy .tagline {
-    margin-top: 14px;
+    margin-top: 12px;
   }
   .scroll-hint {
     display: none;
@@ -316,4 +312,3 @@
     color: #000;
   }
 }
-

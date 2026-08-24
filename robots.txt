@@ -1,14 +1,11 @@
-# BRAHMNMITRA — robots.txt
+# BRAHMNMITRA — robots.txt (Main Marketing Site)
 
 User-agent: *
 Allow: /
 
-# Nothing here is useful to a crawler, and the logs contain
-# customer data. (The .htaccess files block these at the server
-# level too — this is only a courtesy to well-behaved bots.)
-Disallow: /backend/includes/
-Disallow: /backend/logs/
-Disallow: /backend/enquiry.php
-Disallow: /admin.html
+# Disallow private backend scripts and customer accounts
+Disallow: /backend/
+Disallow: /account.html
+Disallow: /platform.html
 
 Sitemap: https://brahmnmitra.com/sitemap.xml

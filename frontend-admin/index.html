@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>BrahmnMitra Admin Portal</title>
+    <link rel="stylesheet" href="assets/css/admin.css" />
+  </head>
+  <body class="admin-page">
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <a class="admin-brand" href="#">BRAHMNMITRA<span>ADMIN PORTAL</span></a>
+        <nav class="admin-nav" aria-label="Admin areas">
+          <button type="button" data-view="overview" aria-current="page">
+            Overview
+          </button>
+          <button type="button" data-view="leads">
+            Leads &amp; follow-ups
+          </button>
+          <button type="button" data-view="catalogue">
+            Packages &amp; hotels
+          </button>
+          <button type="button" data-view="bookings">
+            Quotations &amp; bookings
+          </button>
+          <button type="button" data-view="finance">
+            Payments &amp; finance
+          </button>
+          <button type="button" data-view="settings">Platform setup</button>
+        </nav>
+        <div class="admin-sidebar-footer">
+          BrahmnMitra Operations Portal<br />
+          <small>Dedicated Operations Workspace</small>
+        </div>
+      </aside>
+      <main class="admin-main">
+        <header class="admin-top">
+          <div>
+            <h1>Operations dashboard</h1>
+            <p>Manage the travel business workflow from enquiry to payment.</p>
+          </div>
+          <span class="admin-badge">Admin Workspace</span>
+        </header>
+
+        <section id="view-overview" class="admin-view">
+          <div class="metric-grid">
+            <article class="metric">
+              <span>Open leads</span><strong id="metric-leads">0</strong><em>Ready for follow-up</em>
+            </article>
+            <article class="metric">
+              <span>Bookings</span><strong id="metric-bookings">0</strong><em>Tracked in this workspace</em>
+            </article>
+            <article class="metric">
+              <span>Payments received</span><strong id="metric-payments">₹0</strong><em>Logged records</em>
+            </article>
+            <article class="metric">
+              <span>Catalogue items</span><strong id="metric-catalogue">0</strong><em>Packages and hotels</em>
+            </article>
+          </div>
+          <div class="admin-grid">
+            <article class="admin-panel">
+              <div class="admin-panel-head">
+                <div>
+                  <h2>Recent leads</h2>
+                  <p>Newest first</p>
+                </div>
+                <button
+                  class="admin-button secondary"
+                  type="button"
+                  data-view="leads"
+                >
+                  Add a lead
+                </button>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Destination</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recent-leads"></tbody>
+                </table>
+              </div>
+            </article>
+            <article class="admin-panel">
+              <h2>Operations pipeline</h2>
+              <p>How an enquiry moves through BrahmnMitra.</p>
+              <div class="workflow">
+                <div>
+                  <b>1</b>
+                  <p>
+                    <strong>New enquiry:</strong> Captured via API / WhatsApp and reviewed.
+                  </p>
+                </div>
+                <div>
+                  <b>2</b>
+                  <p>
+                    <strong>Tailored itinerary:</strong> Route, flights, and curated hotel options drafted.
+                  </p>
+                </div>
+                <div>
+                  <b>3</b>
+                  <p>
+                    <strong>Customer approval:</strong> Quotation shared and revised.
+                  </p>
+                </div>
+                <div>
+                  <b>4</b>
+                  <p>
+                    <strong>Confirmation:</strong> Deposit logged, vouchers issued, and trip files archived.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="view-leads" class="admin-view" hidden>
+          <div class="admin-grid">
+            <article class="admin-panel">
+              <div class="admin-panel-head">
+                <div>
+                  <h2>Leads &amp; enquiries</h2>
+                  <p>All recorded leads</p>
+                </div>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Contact</th>
+                      <th>Destination</th>
+                      <th>Dates</th>
+                      <th>Budget</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="lead-list"></tbody>
+                </table>
+              </div>
+            </article>
+            <article class="admin-panel">
+              <h2>Log a manual lead</h2>
+              <p>Add phone calls, walk-ins or WhatsApp enquiries.</p>
+              <form id="lead-form" class="admin-form">
+                <label>Customer name<input name="name" required /></label>
+                <label>Phone number<input name="phone" required /></label>
+                <label>Email address<input name="email" type="email" /></label>
+                <label>Destination<input name="destination" required /></label>
+                <label>Travel date<input name="travelDate" type="date" /></label>
+                <label>Budget (₹)<input name="budget" placeholder="e.g. 50,000" /></label>
+                <button class="admin-button wide" type="submit">
+                  Save lead record
+                </button>
+              </form>
+            </article>
+          </div>
+        </section>
+
+        <section id="view-catalogue" class="admin-view" hidden>
+          <div class="admin-grid">
+            <article class="admin-panel">
+              <div class="admin-panel-head">
+                <div>
+                  <h2>Live catalogue</h2>
+                  <p>Current travel inventory</p>
+                </div>
+              </div>
+              <div id="catalog-list" class="catalog-admin-grid"></div>
+            </article>
+            <article class="admin-panel">
+              <h2>Add custom package / stay</h2>
+              <p>Create a bespoke item for your proposals.</p>
+              <form id="catalog-form" class="admin-form">
+                <label class="wide">Item type
+                  <select name="type">
+                    <option value="package">Package</option>
+                    <option value="hotel">Hotel / Stay</option>
+                  </select>
+                </label>
+                <label class="wide">Title<input name="name" required /></label>
+                <label>Destination<input name="destination" required /></label>
+                <label>Starting price (₹)<input name="price" type="number" required /></label>
+                <label class="wide">Short summary<textarea name="description" required></textarea></label>
+                <button class="admin-button wide" type="submit">
+                  Add to catalogue
+                </button>
+              </form>
+            </article>
+          </div>
+        </section>
+
+        <section id="view-bookings" class="admin-view" hidden>
+          <div class="admin-grid">
+            <article class="admin-panel">
+              <div class="admin-panel-head">
+                <div>
+                  <h2>Active quotations &amp; bookings</h2>
+                  <p>Track customer approvals and confirmations</p>
+                </div>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Trip</th>
+                      <th>Value</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="booking-list"></tbody>
+                </table>
+              </div>
+            </article>
+            <article class="admin-panel">
+              <h2>Record booking / proposal</h2>
+              <p>Log a proposed itinerary or confirmed reservation.</p>
+              <form id="booking-form" class="admin-form">
+                <label class="wide">Customer name<input name="customer" required /></label>
+                <label class="wide">Trip title / Route<input name="trip" required /></label>
+                <label class="wide">Quotation value (₹)<input name="value" placeholder="e.g. 1,25,000" required /></label>
+                <button class="admin-button wide" type="submit">
+                  Record booking
+                </button>
+              </form>
+            </article>
+          </div>
+        </section>
+
+        <section id="view-finance" class="admin-view" hidden>
+          <div class="admin-grid">
+            <article class="admin-panel">
+              <div class="admin-panel-head">
+                <div>
+                  <h2>Payment receipts</h2>
+                  <p>Total recorded: <strong id="finance-total">₹0</strong></p>
+                </div>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Amount</th>
+                      <th>Method</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="payment-list"></tbody>
+                </table>
+              </div>
+            </article>
+            <article class="admin-panel">
+              <h2>Log a payment</h2>
+              <p>Record a customer deposit or balance settlement.</p>
+              <form id="payment-form" class="admin-form">
+                <label class="wide">Customer name<input name="customer" required /></label>
+                <label>Amount (₹)<input name="amount" type="number" required /></label>
+                <label>Payment method
+                  <select name="method">
+                    <option value="UPI / QR">UPI / QR</option>
+                    <option value="Bank Transfer (NEFT/RTGS)">Bank Transfer (NEFT/RTGS)</option>
+                    <option value="Credit/Debit Card">Credit/Debit Card</option>
+                    <option value="Cash / Cheque">Cash / Cheque</option>
+                  </select>
+                </label>
+                <label class="wide">Payment status
+                  <select name="status">
+                    <option value="Received (Full)">Received (Full)</option>
+                    <option value="Advance / Deposit">Advance / Deposit</option>
+                    <option value="Pending Clearance">Pending Clearance</option>
+                  </select>
+                </label>
+                <button class="admin-button wide" type="submit">
+                  Log payment
+                </button>
+              </form>
+            </article>
+          </div>
+        </section>
+
+        <section id="view-settings" class="admin-view" hidden>
+          <article class="admin-panel">
+            <h2>Admin Portal &amp; Data Management</h2>
+            <p>
+              This portal runs independently on your admin subdomain. All backend API communications (enquiries, mailers, database services) connect directly to your dedicated API service on Render.
+            </p>
+            <div class="admin-notice">
+              Data backups can be exported or imported locally as JSON files. Keep your backups secure.
+            </div>
+            <div class="admin-actions">
+              <button
+                id="export-workspace"
+                class="admin-button secondary"
+                type="button"
+              >
+                Export local backup
+              </button>
+              <label class="admin-button secondary import-button"
+                >Restore backup<input
+                  id="import-workspace"
+                  type="file"
+                  accept="application/json"
+              /></label>
+              <button
+                id="clear-workspace"
+                class="admin-button secondary"
+                type="button"
+              >
+                Clear local records
+              </button>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script src="assets/js/admin.js"></script>
+  </body>
+</html>

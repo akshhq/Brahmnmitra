@@ -10,6 +10,21 @@
   if (params.get("journey"))
     form.elements.journey.value = params.get("journey");
   if (params.get("stay")) form.elements.journey.value = params.get("stay");
+
+  // Budget Chips handling
+  const budgetInput = form.elements.budget;
+  const chips = document.querySelectorAll(".budget-chip");
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chips.forEach((c) => c.classList.remove("active"));
+      chip.classList.add("active");
+      if (budgetInput) {
+        budgetInput.value = chip.dataset.budget || chip.textContent.trim();
+        budgetInput.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    });
+  });
+
   const escape = (value) =>
     String(value || "").replace(
       /[&<>"']/g,
