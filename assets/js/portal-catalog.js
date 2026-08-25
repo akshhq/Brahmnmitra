@@ -94,6 +94,7 @@
       slug: item.slug,
       name: item.name,
     });
+    const imgSrc = item.image || "assets/images/sample.webp";
     const saveButton =
       '<button class="save-button" type="button" data-save="true" data-slug="' +
       esc(item.slug) +
@@ -104,9 +105,22 @@
       "</button>";
     if (page === "packages") {
       return (
-        '<article class="portal-card glass"><div class="card-actions">' +
+        '<article class="portal-card glass">' +
+        '<div class="portal-card-media">' +
+        '<img src="' +
+        esc(imgSrc) +
+        '" alt="' +
+        esc(item.name) +
+        '" loading="lazy" class="portal-card-img" onerror="this.src=\'sample.webp\'" />' +
+        '<div class="card-actions">' +
         saveButton +
-        '</div><span class="tag">' +
+        "</div>" +
+        '<span class="portal-card-badge">' +
+        esc(item.region) +
+        "</span>" +
+        "</div>" +
+        '<div class="portal-card-content">' +
+        '<span class="tag">' +
         esc(item.region) +
         " · " +
         esc(item.duration) +
@@ -114,20 +128,33 @@
         esc(item.name) +
         "</h2><p>" +
         esc(item.highlights.join(" · ")) +
-        "</p><p><strong>From " +
+        '</p><p class="portal-card-price"><strong>From ' +
         money.format(item.price) +
         '</strong> per person*</p><a class="text-button" href="travel-assistant.html?destination=' +
         encodeURIComponent(destination) +
         "&journey=" +
         encodeURIComponent(item.name) +
-        '">Plan this trip →</a></article>'
+        '">Plan this trip →</a></div></article>'
       );
     }
     if (page === "hotels") {
       return (
-        '<article class="portal-card glass"><div class="card-actions">' +
+        '<article class="portal-card glass">' +
+        '<div class="portal-card-media">' +
+        '<img src="' +
+        esc(imgSrc) +
+        '" alt="' +
+        esc(item.name) +
+        '" loading="lazy" class="portal-card-img" onerror="this.src=\'sample.webp\'" />' +
+        '<div class="card-actions">' +
         saveButton +
-        '</div><span class="tag">' +
+        "</div>" +
+        '<span class="portal-card-badge">' +
+        esc(item.type) +
+        "</span>" +
+        "</div>" +
+        '<div class="portal-card-content">' +
+        '<span class="tag">' +
         esc(item.destination) +
         " · " +
         "★".repeat(item.stars) +
@@ -135,29 +162,42 @@
         esc(item.name) +
         "</h2><p>" +
         esc(item.description) +
-        "</p><p><strong>From " +
+        '</p><p class="portal-card-price"><strong>From ' +
         money.format(item.price) +
         '</strong> per night*</p><a class="text-button" href="travel-assistant.html?destination=' +
         encodeURIComponent(destination) +
         "&stay=" +
         encodeURIComponent(item.name) +
-        '">Check availability →</a></article>'
+        '">Check availability →</a></div></article>'
       );
     }
     return (
-      '<article class="portal-card glass"><div class="card-actions">' +
+      '<article class="portal-card glass">' +
+      '<div class="portal-card-media">' +
+      '<img src="' +
+      esc(imgSrc) +
+      '" alt="' +
+      esc(item.name) +
+      '" loading="lazy" class="portal-card-img" onerror="this.src=\'sample.webp\'" />' +
+      '<div class="card-actions">' +
       saveButton +
-      '</div><span class="tag">' +
+      "</div>" +
+      '<span class="portal-card-badge">' +
+      esc(item.region) +
+      "</span>" +
+      "</div>" +
+      '<div class="portal-card-content">' +
+      '<span class="tag">' +
       esc(item.region) +
       "</span><h2>" +
       esc(item.name) +
       "</h2><p>" +
       esc(item.tagline) +
-      "</p><p><strong>Best time:</strong> " +
+      '</p><p class="portal-card-meta"><strong>Best time:</strong> ' +
       esc(item.bestTime) +
       '</p><a class="text-button" href="travel-assistant.html?destination=' +
       encodeURIComponent(item.name) +
-      '">Build an itinerary →</a></article>'
+      '">Build an itinerary →</a></div></article>'
     );
   }
 
@@ -180,6 +220,7 @@
         name: item.name,
         destination: item.destination || item.name,
         detail: item.duration || item.tagline || item.description || "",
+        image: item.image || "assets/images/sample.webp",
       });
       save.textContent = isSaved ? "Saved" : "Save";
       save.setAttribute("aria-pressed", String(isSaved));

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-08",
+  "updated": "2026-08-25",
   "currency": "INR",
   "note": "Curated planning catalogue for Phase 1. Prices are starting prices and enquiries are required to confirm dates, inclusions and availability.",
   "destinations": [
@@ -11,7 +11,8 @@
       "bestTime": "October to March",
       "places": ["Kochi", "Munnar", "Alleppey", "Kovalam"],
       "experiences": ["Houseboat stay", "Tea estates", "Ayurveda"],
-      "travelTip": "Plan the hills and coast as separate, unhurried stays."
+      "travelTip": "Plan the hills and coast as separate, unhurried stays.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "goa",
@@ -21,7 +22,8 @@
       "bestTime": "November to February",
       "places": ["Panaji", "Assagao", "Palolem", "Old Goa"],
       "experiences": ["Coastal dining", "Water sports", "Heritage walks"],
-      "travelTip": "Choose north or south Goa based on the pace you want."
+      "travelTip": "Choose north or south Goa based on the pace you want.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "rajasthan",
@@ -31,7 +33,8 @@
       "bestTime": "October to March",
       "places": ["Jaipur", "Udaipur", "Jodhpur", "Jaisalmer"],
       "experiences": ["Fort visits", "Desert camp", "Craft trails"],
-      "travelTip": "Add a buffer day between city stays for road travel."
+      "travelTip": "Add a buffer day between city stays for road travel.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "kashmir",
@@ -41,7 +44,8 @@
       "bestTime": "April to October",
       "places": ["Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
       "experiences": ["Shikara ride", "Gondola", "Meadow walks"],
-      "travelTip": "Weather changes quickly; keep the plan flexible."
+      "travelTip": "Weather changes quickly; keep the plan flexible.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "dubai",
@@ -51,7 +55,8 @@
       "bestTime": "November to March",
       "places": ["Downtown", "Palm Jumeirah", "Old Dubai", "Desert Reserve"],
       "experiences": ["Desert safari", "Museum of the Future", "Creek dinner"],
-      "travelTip": "Plan major attractions in advance during school holidays."
+      "travelTip": "Plan major attractions in advance during school holidays.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "bali",
@@ -61,7 +66,8 @@
       "bestTime": "April to October",
       "places": ["Ubud", "Seminyak", "Nusa Dua", "Uluwatu"],
       "experiences": ["Temple visits", "Wellness", "Sunset dining"],
-      "travelTip": "Split a stay between inland Ubud and the coast."
+      "travelTip": "Split a stay between inland Ubud and the coast.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "thailand",
@@ -71,7 +77,8 @@
       "bestTime": "November to February",
       "places": ["Bangkok", "Phuket", "Krabi", "Chiang Mai"],
       "experiences": ["Island hopping", "Street food", "Spa time"],
-      "travelTip": "Match the island choice to the season and sea conditions."
+      "travelTip": "Match the island choice to the season and sea conditions.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "maldives",
@@ -81,7 +88,8 @@
       "bestTime": "November to April",
       "places": ["North Male Atoll", "South Ari Atoll", "Baa Atoll"],
       "experiences": ["Snorkelling", "Sandbank picnic", "Diving"],
-      "travelTip": "Consider seaplane timing when choosing a resort."
+      "travelTip": "Consider seaplane timing when choosing a resort.",
+      "image": "assets/images/sample.webp"
     }
   ],
   "packages": [
@@ -100,7 +108,8 @@
         "Alleppey houseboat"
       ],
       "includes": ["Curated stays", "Private transfers", "Breakfast"],
-      "availability": "Enquire for dates"
+      "availability": "Enquire for dates",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "goa-slow-escape",
@@ -113,7 +122,8 @@
       "style": "Beach & culture",
       "highlights": ["Old Goa", "Coastal stay", "Sunset cruise"],
       "includes": ["Curated stay", "Airport transfers", "Breakfast"],
-      "availability": "Enquire for dates"
+      "availability": "Enquire for dates",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "rajasthan-royal-route",
@@ -126,7 +136,8 @@
       "style": "Culture & heritage",
       "highlights": ["Jaipur", "Jodhpur", "Udaipur"],
       "includes": ["Hotels", "Private transport", "Selected experiences"],
-      "availability": "Enquire for dates"
+      "availability": "Enquire for dates",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "kashmir-valley-escape",
@@ -139,7 +150,8 @@
       "style": "Mountains & nature",
       "highlights": ["Srinagar", "Gulmarg", "Pahalgam"],
       "includes": ["Stays", "Transfers", "Breakfast and dinner"],
-      "availability": "Enquire for dates"
+      "availability": "Enquire for dates",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "dubai-city-desert",
@@ -152,7 +164,8 @@
       "style": "City break",
       "highlights": ["Burj district", "Desert safari", "Old Dubai"],
       "includes": ["Hotel", "Airport transfers", "Selected experiences"],
-      "availability": "Enquire for dates"
+      "availability": "Enquire for dates",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "bali-two-sides",
@@ -165,7 +178,8 @@
       "style": "Wellness & beaches",
       "highlights": ["Ubud", "Uluwatu", "Nusa Dua"],
       "includes": ["Stays", "Private transfers", "Breakfast"],
-      "availability": "Enquire for dates"
+      "availability": "Enquire for dates",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "thailand-island-rhythm",
@@ -178,7 +192,8 @@
       "style": "Island escape",
       "highlights": ["Bangkok", "Phuket", "Island day trip"],
       "includes": ["Hotels", "Transfers", "Selected excursions"],
-      "availability": "Enquire for dates"
+      "availability": "Enquire for dates",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "maldives-overwater-days",
@@ -191,7 +206,8 @@
       "style": "Luxury & honeymoon",
       "highlights": ["Resort stay", "Snorkelling", "Sandbank experience"],
       "includes": ["Resort", "Transfers", "Breakfast and dinner"],
-      "availability": "Enquire for dates"
+      "availability": "Enquire for dates",
+      "image": "assets/images/sample.webp"
     }
   ],
   "hotels": [
@@ -203,7 +219,8 @@
       "stars": 5,
       "price": 8500,
       "amenities": ["Breakfast", "Pool", "Spa"],
-      "description": "A peaceful base for backwater and coast itineraries."
+      "description": "A peaceful base for backwater and coast itineraries.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "goa-courtyard-house",
@@ -213,7 +230,8 @@
       "stars": 4,
       "price": 7200,
       "amenities": ["Breakfast", "Pool", "Wi-Fi"],
-      "description": "A relaxed, design-led stay close to Goa's heritage lanes."
+      "description": "A relaxed, design-led stay close to Goa's heritage lanes.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "rajasthan-haveli-stay",
@@ -223,7 +241,8 @@
       "stars": 4,
       "price": 9800,
       "amenities": ["Breakfast", "Restaurant", "Transfers"],
-      "description": "A characterful city base with thoughtful local details."
+      "description": "A characterful city base with thoughtful local details.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "kashmir-lake-residence",
@@ -233,7 +252,8 @@
       "stars": 4,
       "price": 10400,
       "amenities": ["Breakfast", "Lake view", "Heating"],
-      "description": "Comfortable access to Srinagar's lake-side experiences."
+      "description": "Comfortable access to Srinagar's lake-side experiences.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "dubai-marina-residence",
@@ -243,7 +263,8 @@
       "stars": 5,
       "price": 15800,
       "amenities": ["Breakfast", "Pool", "Gym"],
-      "description": "A well-connected stay for a city and beach itinerary."
+      "description": "A well-connected stay for a city and beach itinerary.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "bali-ricefield-villas",
@@ -253,7 +274,8 @@
       "stars": 5,
       "price": 14200,
       "amenities": ["Breakfast", "Pool", "Spa"],
-      "description": "An intimate retreat between Ubud's rice terraces and cafés."
+      "description": "An intimate retreat between Ubud's rice terraces and cafés.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "thailand-shoreline-retreat",
@@ -263,7 +285,8 @@
       "stars": 4,
       "price": 11800,
       "amenities": ["Breakfast", "Beach access", "Pool"],
-      "description": "An easy-going base for island time and local dining."
+      "description": "An easy-going base for island time and local dining.",
+      "image": "assets/images/sample.webp"
     },
     {
       "slug": "maldives-atoll-resort",
@@ -273,7 +296,8 @@
       "stars": 5,
       "price": 35200,
       "amenities": ["Breakfast", "Snorkelling", "Water villa"],
-      "description": "A considered island stay with reef access and warm service."
+      "description": "A considered island stay with reef access and warm service.",
+      "image": "assets/images/sample.webp"
     }
   ]
 }

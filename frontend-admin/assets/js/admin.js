@@ -133,7 +133,11 @@
       ? all
           .map(
             (item) =>
-              '<article class="catalog-admin-card"><span>' +
+              '<article class="catalog-admin-card">' +
+              '<img src="' +
+              safe(item.image || "assets/images/sample.webp") +
+              '" alt="" class="admin-card-thumb" onerror="this.src=\'../sample.webp\'" />' +
+              '<div class="admin-card-info"><span>' +
               safe(item.type) +
               " · " +
               safe(item.destination) +
@@ -143,7 +147,7 @@
               (item.price
                 ? "From " + money.format(item.price)
                 : safe(item.description || "Custom catalogue item")) +
-              "</p></article>",
+              "</p></div></article>",
           )
           .join("")
       : '<p class="empty-state">No catalogue records found.</p>';
@@ -349,6 +353,46 @@
       form.reset();
       renderAll();
     });
+
+  // Live Backend API Signal
+  const API_ENDPOINT = "https://brahmnmitra.onrender.com";
+  const apiStatusEl = document.getElementById("api-status");
+  const apiTextEl = document.getElementById("api-status-text");
+
+  async function checkApiLive() {
+    if (!apiStatusEl || !apiTextEl) return;
+    apiStatusEl.className = "api-signal checking";
+    apiStatusEl.title = `Connecting to ${API_ENDPOINT}...`;
+    apiTextEl.textContent = "API Checking…";
+
+    try {
+      const res = await fetch(`${API_ENDPOINT}/`, {
+        method: "GET",
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (data.status === "ok") {
+          apiStatusEl.className = "api-signal live";
+          apiStatusEl.title = `API Live: ${API_ENDPOINT} (${data.service || "backend"} v${data.version || "1.0.0"}) · Click to re-check`;
+          apiTextEl.textContent = "API Live";
+          return;
+        }
+      }
+      throw new Error("Invalid API response");
+    } catch (_) {
+      apiStatusEl.className = "api-signal offline";
+      apiStatusEl.title = `API Offline: Unable to reach ${API_ENDPOINT} · Click to retry`;
+      apiTextEl.textContent = "API Offline";
+    }
+  }
+
+  if (apiStatusEl) {
+    apiStatusEl.addEventListener("click", () => checkApiLive());
+  }
+
+  checkApiLive();
+  setInterval(checkApiLive, 45000);
 
   fetch("data/travel-catalog.json")
     .then((response) => (response.ok ? response.json() : Promise.reject()))

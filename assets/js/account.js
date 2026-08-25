@@ -28,13 +28,18 @@
       ? state.saved
           .map(
             (item) =>
-              "<li><strong>" +
+              '<li class="saved-item-row">' +
+              '<img src="' +
+              escape(item.image || "assets/images/sample.webp") +
+              '" alt="" class="saved-thumb" onerror="this.src=\'sample.webp\'" />' +
+              '<div class="saved-info"><strong>' +
               escape(item.name) +
               "</strong><br><small>" +
               escape(item.type) +
               " · " +
               escape(item.destination) +
-              '</small><button class="text-button" type="button" data-remove-saved="' +
+              "</small></div>" +
+              '<button class="text-button" type="button" data-remove-saved="' +
               escape(item.key) +
               '">Remove</button></li>',
           )

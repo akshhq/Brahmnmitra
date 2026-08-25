@@ -74,6 +74,7 @@
       name: item.name || "Untitled journey",
       destination: item.destination || item.name || "",
       detail: item.detail || "",
+      image: item.image || "assets/images/sample.webp",
       createdAt: new Date().toISOString(),
     });
     persist();

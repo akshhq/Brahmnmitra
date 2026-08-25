@@ -110,11 +110,16 @@ BM.initTravelDiscovery = function () {
             const highlights = item.highlights
               .map((highlight) => "<li>" + safe(highlight) + "</li>")
               .join("");
+            const imgSrc = item.image || "assets/images/sample.webp";
             return (
               '<article class="travel-card package-card glass" data-reveal>' +
               '<div class="card-art card-art-' +
               safe(item.slug) +
-              '" aria-hidden="true"><span>' +
+              '"><img src="' +
+              safe(imgSrc) +
+              '" alt="' +
+              safe(item.name) +
+              '" loading="lazy" class="card-art-img" onerror="this.src=\'sample.webp\'" /><span>' +
               safe(item.destination) +
               "</span></div>" +
               '<div class="card-body"><div class="card-meta"><span>' +
@@ -161,11 +166,16 @@ BM.initTravelDiscovery = function () {
       ? items
           .map((item) => {
             const stars = "★".repeat(item.stars) + "☆".repeat(5 - item.stars);
+            const imgSrc = item.image || "assets/images/sample.webp";
             return (
               '<article class="travel-card hotel-card glass" data-reveal>' +
               '<div class="card-art card-art-' +
               safe(item.slug) +
-              '" aria-hidden="true"><span>' +
+              '"><img src="' +
+              safe(imgSrc) +
+              '" alt="' +
+              safe(item.name) +
+              '" loading="lazy" class="card-art-img" onerror="this.src=\'sample.webp\'" /><span>' +
               safe(item.destination) +
               "</span></div>" +
               '<div class="card-body"><div class="hotel-top"><span class="star-rating" aria-label="' +
@@ -205,11 +215,18 @@ BM.initTravelDiscovery = function () {
 
   function renderDestinations() {
     destinationGrid.innerHTML = data.destinations
-      .map(
-        (item) =>
-          '<article class="destination-card glass" data-reveal><div class="destination-index">' +
+      .map((item) => {
+        const imgSrc = item.image || "assets/images/sample.webp";
+        return (
+          '<article class="destination-card glass" data-reveal>' +
+          '<div class="card-art destination-art"><img src="' +
+          safe(imgSrc) +
+          '" alt="' +
+          safe(item.name) +
+          '" loading="lazy" class="card-art-img" onerror="this.src=\'sample.webp\'" /><span class="destination-index">' +
           safe(item.region) +
-          "</div>" +
+          "</span></div>" +
+          '<div class="destination-body">' +
           "<h3>" +
           safe(item.name) +
           "</h3><p>" +
@@ -224,8 +241,9 @@ BM.initTravelDiscovery = function () {
           safe(item.name) +
           '">Explore ' +
           safe(item.name) +
-          ' <span aria-hidden="true">→</span></button></article>',
-      )
+          ' <span aria-hidden="true">→</span></button></div></article>'
+        );
+      })
       .join("");
   }
 

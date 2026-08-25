@@ -39,7 +39,7 @@
         "Date changes and cancellations guided without the hold music"
       ],
       "needs_route": true,
-      "image": "assets/images/services/domestic-flights.webp"
+      "image": "assets/images/sample.webp"
     },
     {
       "id": "international_flights",
@@ -53,7 +53,7 @@
         "Group and family bookings coordinated on one PNR wherever possible"
       ],
       "needs_route": true,
-      "image": "assets/images/services/international-flights.webp"
+      "image": "assets/images/sample.webp"
     },
     {
       "id": "group_tours",
@@ -62,7 +62,7 @@
       "description": "Carefully designed itineraries for leisure groups, corporate delegations, educational tours, and special interest groups.",
       "points": [],
       "needs_route": false,
-      "image": "assets/images/services/group-tours.webp"
+      "image": "assets/images/sample.webp"
     },
     {
       "id": "tailor_made",
@@ -71,7 +71,7 @@
       "description": "Personalized itineraries based on travel style, interests, duration, and preferences — from luxury to budget.",
       "points": [],
       "needs_route": false,
-      "image": "assets/images/services/tailor-made.webp"
+      "image": "assets/images/sample.webp"
     },
     {
       "id": "luxury_travel",
@@ -80,7 +80,7 @@
       "description": "Heritage palace stays, private chauffeurs, exclusive experiences & VIP access — experience India in style.",
       "points": [],
       "needs_route": false,
-      "image": "assets/images/services/luxury.webp"
+      "image": "assets/images/sample.webp"
     },
     {
       "id": "heritage_tours",
@@ -89,7 +89,7 @@
       "description": "Golden Triangle, Rajasthan royal circuits, South India temples & traditions — explore India's rich history.",
       "points": [],
       "needs_route": false,
-      "image": "assets/images/services/heritage.webp"
+      "image": "assets/images/sample.webp"
     },
     {
       "id": "mice_corporate",
@@ -98,7 +98,7 @@
       "description": "Professional handling of conferences, incentive trips, and business delegations with precision and creativity.",
       "points": [],
       "needs_route": false,
-      "image": "assets/images/services/mice.webp"
+      "image": "assets/images/sample.webp"
     },
     {
       "id": "ground_transport",
@@ -107,7 +107,7 @@
       "description": "Airport transfers, car rentals, private chauffeurs, and ground logistics for seamless travel experiences.",
       "points": [],
       "needs_route": false,
-      "image": "assets/images/services/transport.webp"
+      "image": "assets/images/sample.webp"
     }
   ],
 
