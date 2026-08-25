@@ -500,8 +500,43 @@ body.portal-page {
   }
 }
 @media (max-width: 620px) {
+  .portal-nav {
+    padding: 10px 12px;
+    gap: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .portal-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .portal-brand {
+    font-size: 0.78rem;
+    gap: 6px;
+    margin-right: 6px;
+  }
+  .portal-nav a:not(.portal-brand) {
+    font-size: 0.74rem;
+    padding: 6px 9px;
+  }
+  .theme-toggle-btn {
+    padding: 5px 8px;
+    font-size: 0.72rem;
+    margin-left: 4px;
+  }
+  .theme-toggle-btn span {
+    display: none;
+  }
   .portal-main {
-    padding-top: 48px;
+    padding: 24px 14px 44px;
+  }
+  .portal-hero h1 {
+    font-size: clamp(1.45rem, 6.4vw, 2.05rem);
+    line-height: 1.2;
+  }
+  .portal-hero p:not(.kicker) {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    line-height: 1.55;
   }
   .portal-grid,
   .feature-list,
@@ -511,12 +546,79 @@ body.portal-page {
   .account-form {
     grid-template-columns: 1fr;
   }
+  .catalog-controls {
+    padding: 14px;
+    gap: 10px;
+    border-radius: 14px;
+    margin-top: 20px;
+  }
+  .catalog-control input,
+  .catalog-control select,
+  .assistant-form input,
+  .assistant-form select,
+  .assistant-form textarea,
+  .account-form input,
+  .account-form select {
+    min-height: 46px;
+    font-size: 16px !important;
+    border-radius: 10px;
+  }
+  .portal-card {
+    border-radius: 16px;
+  }
+  .portal-card-media {
+    height: 155px;
+  }
+  .portal-card-content {
+    padding: 16px 14px 18px;
+  }
+  .portal-card h2 {
+    font-size: 1rem;
+    margin-top: 8px;
+  }
+  .portal-card p {
+    font-size: 0.88rem;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .saved-item-row {
+    padding: 8px 0;
+    gap: 10px;
+  }
+  .saved-thumb {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+  }
+  .saved-info strong {
+    font-size: 0.88rem;
+  }
+  .assistant-form,
+  .assistant-result,
+  .workspace-card {
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+  .budget-chips {
+    gap: 6px;
+  }
+  .budget-chip {
+    padding: 6px 11px;
+    font-size: 0.76rem;
+  }
   .portal-cta {
     display: block;
+    padding: 22px 16px;
+    border-radius: 14px;
+    margin-top: 30px;
+  }
+  .portal-cta p {
+    font-size: 0.9rem;
   }
   .portal-cta .btn {
-    margin-top: 18px;
+    margin-top: 16px;
     width: 100%;
+    min-height: 46px;
     justify-content: center;
   }
 }

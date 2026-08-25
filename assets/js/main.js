@@ -217,6 +217,10 @@ function initCinema() {
     t = clamp01(t);
     flightCurve.getPoint(t, outPos);
     flightCurve.getTangent(t, tanSample).normalize();
+    const pScale = getPlaneScale();
+    if (pScale < 0.6) {
+      outPos.x = outPos.x * pScale + (1 - t) * 0.9;
+    }
     const yaw = THREE.MathUtils.lerp(-0.42, Math.PI / 2, smoother(t));
     return yaw;
   }
@@ -349,6 +353,7 @@ function initCinema() {
 
     for (const f of P.fans) f.rotation.z += dt * 28;
 
+    const pScale = getPlaneScale();
     const contrailOpacity =
       THREE.MathUtils.clamp(Math.abs(P.roll) * 2.2 + 0.15 * fly, 0, 0.75) *
       (1 - seg(p, 0.65, 0.88));
@@ -356,11 +361,11 @@ function initCinema() {
     contrailRight.material.opacity = contrailOpacity;
     if (contrailOpacity > 0.01) {
       contrailLeft.position
-        .set(-27.2, -0.6, -11)
+        .set(-27.2 * pScale, -0.6 * pScale, -11 * pScale)
         .applyQuaternion(P.group.quaternion)
         .add(P.group.position);
       contrailRight.position
-        .set(27.2, -0.6, -11)
+        .set(27.2 * pScale, -0.6 * pScale, -11 * pScale)
         .applyQuaternion(P.group.quaternion)
         .add(P.group.position);
     }
@@ -376,12 +381,13 @@ function initCinema() {
     P.marker.getWorldPosition(wpos);
 
     outWorld.copy(P.outward).applyQuaternion(P.group.quaternion).normalize();
-    camTarget.copy(wpos).addScaledVector(outWorld, 8.8);
-    camTarget.y += 0.28;
+    camTarget.copy(wpos).addScaledVector(outWorld, 8.8 * pScale);
+    camTarget.y += 0.28 * pScale;
 
-    const homeWithParallax = CAM_HOME.clone();
-    homeWithParallax.x += mouseX * 2.8 * (1 - win);
-    homeWithParallax.y += -mouseY * 1.8 * (1 - win);
+    const homeBase = getCamHome();
+    const homeWithParallax = homeBase.clone();
+    homeWithParallax.x += mouseX * (2.8 * pScale) * (1 - win);
+    homeWithParallax.y += -mouseY * (1.8 * pScale) * (1 - win);
 
     const dHome = homeWithParallax.distanceTo(wpos);
     const dNear = camTarget.distanceTo(wpos);
@@ -391,8 +397,9 @@ function initCinema() {
       wr = clamp01((dHome - dWant) / (dHome - dNear));
     }
 
+    const homeLook = new THREE.Vector3(0, 1.2 * pScale, 0);
     camera.position.lerpVectors(homeWithParallax, camTarget, wr);
-    camLook.lerpVectors(HOME_LOOK, wpos, wr);
+    camLook.lerpVectors(homeLook, wpos, wr);
     camera.lookAt(camLook);
     fov = lerp(baseFov(), baseFov() - 14, wr);
     camera.fov = fov;
@@ -442,8 +449,46 @@ function initCinema() {
     requestAnimationFrame(update);
   }
 
+  function getPlaneScale() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const aspect = w / h;
+    if (aspect < 0.52 || w <= 420) {
+      return 0.33; // Perfect fit for standard and compact phones
+    } else if (aspect < 0.68 || w <= 600) {
+      return 0.42; // Phablets / larger phones
+    } else if (aspect < 0.85 || w <= 768) {
+      return 0.60; // Portrait tablets
+    } else if (w <= 1024) {
+      return 0.82; // Small laptops / landscape tablets
+    }
+    return 1.0;
+  }
+
+  function getCamHome() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const aspect = w / h;
+    if (aspect < 0.52 || w <= 420) {
+      return new THREE.Vector3(0.4, 3.4, 62);
+    } else if (aspect < 0.68 || w <= 600) {
+      return new THREE.Vector3(0.2, 3.3, 60);
+    } else if (aspect < 0.85 || w <= 768) {
+      return new THREE.Vector3(0, 3.2, 59);
+    }
+    return new THREE.Vector3(0, 3.2, 58);
+  }
+
   function baseFov() {
-    return window.innerWidth / window.innerHeight < 0.85 ? 60 : 50;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const aspect = w / h;
+    if (aspect < 0.55 || w <= 480) {
+      return 54;
+    } else if (aspect < 0.85 || w <= 768) {
+      return 56;
+    }
+    return 50;
   }
 
   function resize() {
@@ -453,6 +498,15 @@ function initCinema() {
     camera.aspect = W / H;
     camera.fov = baseFov();
     camera.updateProjectionMatrix();
+
+    const pScale = getPlaneScale();
+    P.group.scale.set(pScale, pScale, pScale);
+    contrailLeft.scale.set(7.5 * pScale, 1.4 * pScale, 1);
+    contrailRight.scale.set(7.5 * pScale, 1.4 * pScale, 1);
+
+    const initialHome = getCamHome();
+    camera.position.copy(initialHome);
+
     readScroll();
   }
   window.addEventListener("resize", resize, { passive: true });
