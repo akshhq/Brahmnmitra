@@ -441,42 +441,41 @@
             return;
           }
 
-          const txnId = `pay_test_BM${Date.now()}`;
-          const utr = `DEV-UTR-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+          let txnId = `pay_test_BM${Date.now()}`;
+          let utr = `DEV-UTR-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
           const invNo = `BM-INV-2026-${Math.floor(1000 + Math.random() * 9000)}`;
 
-          // Save transaction to workspace storage so admin portal reflects it
+          // Dispatch payment verification directly to hosted backend API
           try {
-            const adminKey = "bm_admin_workspace_v2";
-            const raw = localStorage.getItem(adminKey);
-            const state = raw ? JSON.parse(raw) : { inflow: [], logs: [], invoices: [] };
-            if (!Array.isArray(state.inflow)) state.inflow = [];
-            if (!Array.isArray(state.logs)) state.logs = [];
-            if (!Array.isArray(state.invoices)) state.invoices = [];
-
-            state.inflow.push({
-              id: txnId,
-              customer: cust,
-              bookingRef: bookingParam,
-              amount: payable,
-              method: `Client Checkout (${currentMethod})`,
-              utr,
-              status: payable >= total ? "Received (Full)" : "Advance / Deposit",
-              date: new Date().toISOString().split("T")[0]
+            const backendUrl = "https://brahmnmitra.onrender.com/payments.php";
+            const response = await fetch(backendUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "Accept": "application/json" },
+              body: JSON.stringify({
+                action: "verify_payment",
+                booking_id: bookingParam,
+                amount: payable,
+                customer: cust,
+                method: `Client Checkout (${currentMethod})`,
+                simulate: "success"
+              })
             });
 
-            state.logs.unshift({
-              id: `log-${Date.now()}`,
-              timestamp: new Date().toISOString(),
-              category: "CUSTOMER_PAYMENT",
-              actor: "Client Checkout Portal",
-              action: `Client ${cust} settled ${payable >= total ? "Full" : "30% Advance"} (₹${payable.toLocaleString("en-IN")})`,
-              details: JSON.stringify({ bookingParam, txnId, utr, method: currentMethod }),
-              ip: "Client Browser"
-            });
+            if (response.ok) {
+              const resData = await response.json().catch(() => ({}));
+              if (resData.payment) {
+                if (resData.payment.id) txnId = resData.payment.id;
+                if (resData.payment.utr) utr = resData.payment.utr;
+              }
+            }
+          } catch (_) {
+            // Local fallback simulation if backend is unreachable
+          }
 
-            localStorage.setItem(adminKey, JSON.stringify(state));
-          } catch (_) {}
+          // Record traveler activity in client workspace if available
+          if (window.BMPlatform && typeof window.BMPlatform.addActivity === "function") {
+            window.BMPlatform.addActivity(`Payment of ₹${payable.toLocaleString("en-IN")} settled for ${bookingParam}`, "account.html");
+          }
 
           // Show success receipt
           document.getElementById("rec-txn-id").textContent = txnId;

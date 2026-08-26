@@ -60,12 +60,11 @@
   #   font-src     Google Fonts' font-file host.
   #   img-src      'self' plus data: (canvas-drawn textures in the 3D scene
   #                round-trip through data: URLs).
-  #   connect-src  'self' only — the enquiry form posts to backend/enquiry.php on
-  #                this origin and nowhere else.
+  #   connect-src  'self' and backend API host (https://brahmnmitra.onrender.com)
   #   object-src, base-uri, form-action, frame-ancestors — locked down;
   #                this site embeds no plugins, no third-party forms, and
   #                is never meant to be framed by another site.
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'sha256-sEhvVkTg2Yz7BCUk8wVA+YphR9LpcdjnbOFCw1gaItk='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'sha256-sEhvVkTg2Yz7BCUk8wVA+YphR9LpcdjnbOFCw1gaItk='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://brahmnmitra.onrender.com; object-src 'none'; base-uri 'self'; form-action 'self' https://brahmnmitra.onrender.com; frame-ancestors 'self'; upgrade-insecure-requests"
 </IfModule>
 
 # ---------- 4. compression ----------

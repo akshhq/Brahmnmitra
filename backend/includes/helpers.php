@@ -9,23 +9,26 @@ if (!defined("BM_OK")) {
 // CORS headers & preflight handling
 function bm_handle_cors()
 {
-    $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+    $origin = isset($_SERVER['HTTP_ORIGIN']) ? trim($_SERVER['HTTP_ORIGIN']) : '';
     $allowed = defined('ALLOWED_ORIGIN') ? ALLOWED_ORIGIN : '*';
 
     if ($allowed === '*') {
         header("Access-Control-Allow-Origin: *");
     } else {
-        $allowed_list = array_map('trim', explode(',', $allowed));
-        if (in_array($origin, $allowed_list, true)) {
+        $allowed_list = array_filter(array_map('trim', explode(',', $allowed)));
+        if (!empty($origin) && in_array($origin, $allowed_list, true)) {
             header("Access-Control-Allow-Origin: " . $origin);
             header("Vary: Origin");
+        } elseif (!empty($allowed_list)) {
+            header("Access-Control-Allow-Origin: " . reset($allowed_list));
         } else {
-            header("Access-Control-Allow-Origin: " . $allowed_list[0]);
+            header("Access-Control-Allow-Origin: *");
         }
     }
 
-    header("Access-Control-Allow-Methods: POST, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type, Accept, X-Requested-With");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Accept, X-Requested-With, Authorization");
+    header("Access-Control-Max-Age: 86400");
 
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         http_response_code(204);

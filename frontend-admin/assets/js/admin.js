@@ -1334,7 +1334,7 @@
     renderLogs();
   }
 
-  // Backend API Signal
+  // Backend API Signal & Multi-Service Sync
   const apiStatusEl = document.getElementById("api-status");
   const apiTextEl = document.getElementById("api-status-text");
 
@@ -1348,6 +1348,7 @@
           apiStatusEl.className = "api-signal live";
           apiStatusEl.title = `API Live: ${API_ENDPOINT} (${data.service || "backend"}) · Click to re-check`;
           apiTextEl.textContent = "API Live";
+          syncBackendData();
           return;
         }
       }
@@ -1359,7 +1360,75 @@
     }
   }
 
-  apiStatusEl?.addEventListener("click", checkApiLive);
+  async function syncBackendData() {
+    try {
+      // 1. Sync Payments & Inflows from Backend API
+      const payRes = await fetch(`${API_ENDPOINT}/payments.php`, {
+        method: "GET",
+        headers: { Accept: "application/json" }
+      });
+      if (payRes.ok) {
+        const payData = await payRes.json().catch(() => ({}));
+        if (Array.isArray(payData.inflow) && payData.inflow.length) {
+          let updated = false;
+          payData.inflow.forEach((item) => {
+            if (!item || !item.id) return;
+            const exists = state.inflow.some((inf) => inf.id === item.id);
+            if (!exists) {
+              state.inflow.unshift({
+                id: item.id,
+                customer: item.customer || "Traveler",
+                bookingRef: item.booking_id || item.bookingRef || "Direct Checkout",
+                amount: Number(item.amount) || 0,
+                method: item.method || "Online Gateway",
+                utr: item.utr || "",
+                status: item.status || "Received (Full)",
+                date: item.timestamp ? item.timestamp.split("T")[0] : (item.date || new Date().toISOString().split("T")[0])
+              });
+              updated = true;
+            }
+          });
+          if (updated) {
+            save();
+            renderFinance();
+            renderOverview();
+          }
+        }
+      }
+
+      // 2. Sync System Audit Logs from Backend API
+      const logRes = await fetch(`${API_ENDPOINT}/logs.php`, {
+        method: "GET",
+        headers: { Accept: "application/json" }
+      });
+      if (logRes.ok) {
+        const logData = await logRes.json().catch(() => ({}));
+        if (Array.isArray(logData.logs) && logData.logs.length) {
+          let logUpdated = false;
+          logData.logs.forEach((ev) => {
+            if (!ev || !ev.id) return;
+            const exists = state.logs.some((l) => l.id === ev.id);
+            if (!exists) {
+              state.logs.unshift(ev);
+              logUpdated = true;
+            }
+          });
+          if (logUpdated) {
+            state.logs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            if (state.logs.length > 500) state.logs = state.logs.slice(0, 500);
+            save();
+            renderLogs();
+          }
+        }
+      }
+    } catch (_) {
+      // Backend offline or unreachable
+    }
+  }
+
+  apiStatusEl?.addEventListener("click", () => {
+    checkApiLive();
+  });
   checkApiLive();
   setInterval(checkApiLive, 45000);
 

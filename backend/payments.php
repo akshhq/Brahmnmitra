@@ -117,6 +117,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!is_dir($dir)) @mkdir($dir, 0755, true);
         @file_put_contents($paymentsFile, json_encode($ledger, JSON_PRETTY_PRINT));
 
+        // Append to audit trail logs
+        $logsFile = __DIR__ . "/logs/audit-trail.json";
+        $auditData = ["status" => "ok", "logs" => []];
+        if (file_exists($logsFile)) {
+            $auditData = json_decode(file_get_contents($logsFile), true) ?: $auditData;
+        }
+        $auditEvent = [
+            "id" => "log-" . microtime(true) . "-" . rand(100, 999),
+            "timestamp" => date("c"),
+            "actor" => "Client Checkout Portal (brahmnmitra.com)",
+            "category" => "CUSTOMER_PAYMENT",
+            "action" => "Client " . $customer . " settled payment (" . $method . "): ₹" . number_format($amount, 0, '.', ','),
+            "details" => json_encode(["bookingId" => $bookingId, "txnId" => $txnId, "utr" => $paymentRecord["utr"], "method" => $method, "orderId" => $orderId]),
+            "ip" => isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : "127.0.0.1"
+        ];
+        array_unshift($auditData["logs"], $auditEvent);
+        if (count($auditData["logs"]) > 1000) {
+            $auditData["logs"] = array_slice($auditData["logs"], 0, 1000);
+        }
+        @file_put_contents($logsFile, json_encode($auditData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
         header("Content-Type: application/json; charset=utf-8");
         echo json_encode([
             "status" => "ok",
