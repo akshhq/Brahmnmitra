@@ -6,66 +6,11 @@ body.portal-page {
   --ink: #f0f6ff;
   --ink-soft: #9fb5d1;
 }
-.portal-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: rgba(4, 6, 12, 0.88);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
-  transition: background 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
-}
-.portal-nav {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 13px clamp(18px, 4vw, 40px);
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  overflow-x: auto;
-  color: #eaf2ff;
-}
-.portal-brand {
-  font-family: var(--display);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  font-size: 0.88rem;
-  text-decoration: none;
-  white-space: nowrap;
-  margin-right: auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: opacity 0.2s var(--ease-out);
-}
-.portal-brand:hover {
-  opacity: 0.88;
-}
-.portal-nav a:not(.portal-brand) {
-  font-size: 0.84rem;
-  font-weight: 500;
-  text-decoration: none;
-  white-space: nowrap;
-  padding: 8px 14px;
-  border-radius: var(--r-pill);
-  transition: background 0.25s var(--ease-out), color 0.25s var(--ease-out), transform 0.25s var(--ease-spring);
-}
-.portal-nav a:not(.portal-brand):hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-1px);
-}
-.portal-nav a[aria-current="page"] {
-  background: rgba(255, 255, 255, 0.18);
-  font-weight: 600;
-  color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
+
 .portal-main {
   max-width: 1160px;
   margin: 0 auto;
-  padding: clamp(48px, 6vw, 84px) clamp(18px, 5vw, 40px);
+  padding: clamp(80px, 10vw, 110px) clamp(18px, 5vw, 40px) clamp(48px, 6vw, 84px);
 }
 .portal-hero {
   max-width: 730px;
@@ -527,7 +472,7 @@ body.portal-page {
     display: none;
   }
   .portal-main {
-    padding: 24px 14px 44px;
+    padding: 76px 14px 44px;
   }
   .portal-hero h1 {
     font-size: clamp(1.45rem, 6.4vw, 2.05rem);

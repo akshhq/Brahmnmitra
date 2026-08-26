@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Secure Booking Checkout | BrahmnMitra</title>
+    <meta
+      name="description"
+      content="Secure online payment and deposit checkout for BrahmnMitra travel itineraries, flight ticketing, and corporate MICE offsites."
+    />
+    <link rel="canonical" href="https://brahmnmitra.com/pay.html" />
+    <link rel="icon" href="favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="assets/images/branding/favicon.png"
+      type="image/png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&family=Archivo:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/portal.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <style>
+      .checkout-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: clamp(90px, 10vw, 120px) 20px 60px;
+      }
+      .checkout-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 24px;
+        margin-top: 28px;
+      }
+      .checkout-card {
+        background: rgba(11, 23, 44, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: var(--r-xl);
+        padding: clamp(20px, 4vw, 32px);
+        backdrop-filter: blur(16px);
+        box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.7);
+      }
+      .dev-sandbox-strip {
+        background: rgba(255, 179, 71, 0.12);
+        border: 1px solid rgba(255, 179, 71, 0.35);
+        color: #ffe6bd;
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 0.82rem;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .payment-methods-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin: 16px 0;
+      }
+      .pay-method-btn {
+        background: rgba(6, 12, 24, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        padding: 12px;
+        color: #fff;
+        font: inherit;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+      }
+      .pay-method-btn.active, .pay-method-btn:hover {
+        background: rgba(255, 179, 71, 0.15);
+        border-color: var(--amber);
+        color: var(--amber);
+      }
+      .pay-field {
+        display: grid;
+        gap: 6px;
+        margin-bottom: 14px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--ink-soft);
+      }
+      .pay-field input, .pay-field select {
+        background: rgba(6, 12, 24, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 10px;
+        padding: 10px 14px;
+        color: #fff;
+        font: inherit;
+        font-size: 0.9rem;
+      }
+      .pay-field input:focus {
+        outline: none;
+        border-color: var(--amber);
+        box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.2);
+      }
+      .summary-line {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 0.88rem;
+        color: var(--ink-soft);
+      }
+      .summary-line strong {
+        color: #fff;
+      }
+      .summary-total {
+        border-top: 2px solid rgba(255, 255, 255, 0.15);
+        border-bottom: none;
+        padding-top: 14px;
+        margin-top: 8px;
+        font-size: 1.15rem;
+      }
+      .summary-total strong {
+        color: var(--amber);
+      }
+      .btn-pay-now {
+        width: 100%;
+        background: linear-gradient(135deg, var(--amber), #ff9800);
+        color: #04060c;
+        border: 0;
+        padding: 14px;
+        border-radius: 999px;
+        font-family: var(--body);
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 18px;
+        box-shadow: 0 6px 20px rgba(255, 179, 71, 0.35);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .btn-pay-now:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(255, 179, 71, 0.5);
+      }
+      .success-receipt-card {
+        background: rgba(14, 28, 54, 0.95);
+        border: 1px solid rgba(37, 211, 102, 0.4);
+        border-radius: var(--r-xl);
+        padding: 36px;
+        text-align: center;
+        margin-top: 24px;
+      }
+      @media (max-width: 768px) {
+        .checkout-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+    <noscript>
+      <style>
+        @media (max-width: 1140px) {
+          #site-header { position: static !important; width: 100% !important; border-radius: 0 !important; flex-direction: column !important; padding: 16px 20px !important; background: #04060c !important; }
+          #nav-toggle { display: none !important; }
+          #nav { display: flex !important; position: static !important; width: 100% !important; height: auto !important; flex-direction: column !important; align-items: center !important; background: transparent !important; padding: 12px 0 !important; }
+          #nav a { font-size: 1rem !important; padding: 10px 16px !important; min-height: 40px !important; width: 100% !important; max-width: 280px !important; text-align: center !important; }
+        }
+      </style>
+    </noscript>
+  </head>
+  <body class="portal-page">
+    <a class="skip" href="#checkout-main">Skip to content</a>
+
+    <!-- Global Header -->
+    <header id="site-header">
+      <a class="brand" href="index.html" aria-label="BrahmnMitra — home">
+        <span class="dot" aria-hidden="true"></span>BRAHMNMITRA
+      </a>
+
+      <nav id="nav" aria-label="Main">
+        <a href="packages.html">Packages</a>
+        <a href="hotels.html">Hotels</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#process">Process</a>
+        <a href="index.html#about">About</a>
+        <a href="travel-assistant.html">Itinerary Builder</a>
+        <a href="contact.html">Contact</a>
+        <a href="account.html">My Account</a>
+        <a class="nav-cta" href="index.html#plan">Plan a Trip &#8594;</a>
+      </nav>
+
+      <button
+        id="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav"
+        aria-label="Open menu"
+      >
+        <span class="bars" aria-hidden="true"><span></span></span>
+      </button>
+    </header>
+
+    <main class="checkout-container" id="checkout-main">
+      <div style="text-align: center; max-width: 650px; margin: 0 auto 20px;">
+        <span class="tag">Secure 256-Bit SSL Encrypted Checkout</span>
+        <h1 style="font-family: var(--display); font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-top: 10px; color: #fff;">
+          Confirm &amp; Secure Your Travel Booking
+        </h1>
+        <p style="color: var(--ink-soft); font-size: 0.95rem; margin-top: 8px;">
+          Official SAC 9985 invoice generated upon settlement. Direct flight &amp; hotel confirmation vouchers issued immediately.
+        </p>
+      </div>
+
+      <div class="dev-sandbox-strip">
+        <span style="font-size: 1.2rem;">⚡</span>
+        <div>
+          <strong>Developer Sandbox Mode Active:</strong> You can test payments safely using sandbox test cards or simulated UPI handles (<code>success@upi</code>). No real credit card or bank funds will be charged.
+        </div>
+      </div>
+
+      <div id="checkout-view-form" class="checkout-grid">
+        <!-- Left: Payment Method & Details -->
+        <article class="checkout-card">
+          <h2 style="font-family: var(--display); font-size: 1.15rem; color: #fff; margin: 0 0 14px;">Select Payment Mode</h2>
+          
+          <div class="payment-methods-grid">
+            <button type="button" class="pay-method-btn active" data-method="UPI">
+              <span>📱</span> UPI / QR Code
+            </button>
+            <button type="button" class="pay-method-btn" data-method="Card">
+              <span>💳</span> Credit / Debit Card
+            </button>
+            <button type="button" class="pay-method-btn" data-method="NetBanking">
+              <span>🏦</span> NetBanking
+            </button>
+            <button type="button" class="pay-method-btn" data-method="NEFT">
+              <span>🏛️</span> Corporate NEFT / Wire
+            </button>
+          </div>
+
+          <form id="pay-submit-form" style="margin-top: 18px;">
+            <div class="pay-field">
+              <label>Full Name / Company Name</label>
+              <input id="pay-cust-name" required value="Aditya Verma" placeholder="Enter your name" />
+            </div>
+            <div class="pay-field">
+              <label>Email &amp; WhatsApp Number (for Vouchers)</label>
+              <input id="pay-cust-contact" required value="aditya@example.com / +91 98111 22334" placeholder="Email & Phone" />
+            </div>
+
+            <!-- Dynamic Method Panel -->
+            <div id="method-panel-upi">
+              <div class="pay-field">
+                <label>UPI ID / VPA</label>
+                <input id="pay-upi-vpa" value="success@upi" placeholder="e.g. yourname@okhdfcbank" />
+              </div>
+              <p style="font-size: 0.78rem; color: var(--ink-soft); margin-top: -6px;">
+                💡 <em>Test sandbox tip: Use <code>success@upi</code> for instant confirmation or <code>failure@upi</code> to test decline handling.</em>
+              </p>
+            </div>
+
+            <div id="method-panel-card" style="display: none;">
+              <div class="pay-field">
+                <label>Card Number (Sandbox)</label>
+                <input id="pay-card-num" value="4111 1111 1111 1111" placeholder="4111 1111 1111 1111" />
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="pay-field">
+                  <label>Expiry Date</label>
+                  <input id="pay-card-exp" value="12/28" placeholder="MM/YY" />
+                </div>
+                <div class="pay-field">
+                  <label>CVV</label>
+                  <input id="pay-card-cvv" value="123" placeholder="123" />
+                </div>
+              </div>
+            </div>
+
+            <div class="pay-field" style="margin-top: 14px;">
+              <label>Settlement Option</label>
+              <select id="pay-settlement-type">
+                <option value="100">Full Payment (100% Confirmation Voucher)</option>
+                <option value="30">30% Booking Deposit (Balance Due 7 Days Prior)</option>
+              </select>
+            </div>
+
+            <button type="submit" id="btn-execute-pay" class="btn-pay-now">
+              ⚡ Pay ₹<span id="btn-pay-amount">45,045</span> (Sandbox Mode)
+            </button>
+          </form>
+        </article>
+
+        <!-- Right: Order Summary -->
+        <aside class="checkout-card" style="align-self: flex-start;">
+          <h2 style="font-family: var(--display); font-size: 1.15rem; color: #fff; margin: 0 0 14px;">Booking Summary</h2>
+          
+          <div class="summary-line">
+            <span>Booking Reference:</span>
+            <strong id="sum-booking-id">BM-BK-2026-8812</strong>
+          </div>
+          <div class="summary-line">
+            <span>Itinerary / Package:</span>
+            <strong id="sum-trip-title">Kerala Luxury Monsoon Escape</strong>
+          </div>
+          <div class="summary-line">
+            <span>Service Code:</span>
+            <strong>SAC 9985 (Tour Operator)</strong>
+          </div>
+          <div class="summary-line">
+            <span>Base Package Fare:</span>
+            <strong id="sum-base-fare">₹42,900</strong>
+          </div>
+          <div class="summary-line">
+            <span>GST Tax (5%):</span>
+            <strong id="sum-tax">₹2,145</strong>
+          </div>
+          <div class="summary-line summary-total">
+            <span>Total Quotation:</span>
+            <strong id="sum-total">₹45,045</strong>
+          </div>
+          <div class="summary-line" id="row-payable-now" style="background: rgba(255, 179, 71, 0.1); padding: 10px; border-radius: 8px; margin-top: 10px; border-bottom: 0;">
+            <span style="color: #fff; font-weight: 600;">Amount Payable Now:</span>
+            <strong id="sum-payable" style="color: var(--amber); font-size: 1.1rem;">₹45,045</strong>
+          </div>
+
+          <div style="margin-top: 20px; font-size: 0.8rem; color: var(--ink-soft); line-height: 1.6;">
+            🛡️ <strong>BrahmnMitra Guarantee:</strong> Real-time confirmation, zero booking fees, GST invoice with input tax credit reconciliation.
+          </div>
+        </aside>
+      </div>
+
+      <!-- Success Receipt Screen -->
+      <div id="checkout-view-success" class="success-receipt-card" style="display: none;">
+        <div style="font-size: 3rem; margin-bottom: 12px;">✅</div>
+        <span class="tag" style="background: rgba(37, 211, 102, 0.2); color: #25d366; border-color: rgba(37, 211, 102, 0.4);">
+          Payment Verified &amp; Confirmed
+        </span>
+        <h2 style="font-family: var(--display); font-size: 1.8rem; color: #fff; margin-top: 12px;">
+          Thank You! Your Booking is Confirmed.
+        </h2>
+        <p style="color: var(--ink-soft); max-width: 550px; margin: 10px auto 24px;">
+          A confirmation voucher and official SAC 9985 GST Tax Invoice have been issued for your records.
+        </p>
+
+        <div style="background: rgba(6, 12, 24, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; padding: 20px; max-width: 480px; margin: 0 auto 24px; text-align: left; font-size: 0.88rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="color: var(--ink-soft);">Transaction ID:</span>
+            <code id="rec-txn-id" style="color: var(--cyan); font-weight: 700;">pay_test_BM1724688921</code>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="color: var(--ink-soft);">Bank UTR Reference:</span>
+            <span id="rec-utr" style="color: #fff; font-weight: 600;">DEV-UTR-9823746192</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="color: var(--ink-soft);">Amount Paid:</span>
+            <strong id="rec-amount" style="color: #25d366;">₹45,045</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--ink-soft);">Tax Invoice #:</span>
+            <strong id="rec-inv-no" style="color: var(--amber);">BM-INV-2026-0001</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <button type="button" class="btn btn-amber" onclick="window.print()">🖨️ Print Tax Receipt</button>
+          <a href="account.html" class="btn btn-glass">View in My Account</a>
+          <a href="index.html" class="btn btn-glass">Back to Homepage</a>
+        </div>
+      </div>
+    </main>
+
+    <script src="assets/js/navigation.js"></script>
+    <script src="assets/js/platform-store.js"></script>
+    <script>
+      "use strict";
+      (() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingParam = urlParams.get("booking") || `BM-BK-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+        const tripParam = urlParams.get("trip") || "Kerala Luxury Monsoon Escape";
+        const amountParam = Number(urlParams.get("amount")) || 42900;
+
+        document.getElementById("sum-booking-id").textContent = bookingParam;
+        document.getElementById("sum-trip-title").textContent = tripParam;
+        
+        const baseFare = amountParam;
+        const tax = Math.round(baseFare * 0.05);
+        const total = baseFare + tax;
+
+        document.getElementById("sum-base-fare").textContent = "₹" + baseFare.toLocaleString("en-IN");
+        document.getElementById("sum-tax").textContent = "₹" + tax.toLocaleString("en-IN");
+        document.getElementById("sum-total").textContent = "₹" + total.toLocaleString("en-IN");
+
+        function updatePayableAmount() {
+          const type = document.getElementById("pay-settlement-type").value;
+          const payable = type === "30" ? Math.round(total * 0.3) : total;
+          const btnAmountEl = document.getElementById("btn-pay-amount");
+          if (btnAmountEl) {
+            btnAmountEl.textContent = payable.toLocaleString("en-IN");
+          }
+          const sumPayableEl = document.getElementById("sum-payable");
+          if (sumPayableEl) {
+            sumPayableEl.textContent = "₹" + payable.toLocaleString("en-IN");
+          }
+          return payable;
+        }
+
+        document.getElementById("pay-settlement-type").addEventListener("change", updatePayableAmount);
+        updatePayableAmount();
+
+        // Payment method selection
+        let currentMethod = "UPI";
+        document.querySelectorAll(".pay-method-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            document.querySelectorAll(".pay-method-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentMethod = btn.dataset.method;
+
+            document.getElementById("method-panel-upi").style.display = currentMethod === "UPI" ? "block" : "none";
+            document.getElementById("method-panel-card").style.display = currentMethod === "Card" ? "block" : "none";
+          });
+        });
+
+        // Checkout submit simulation
+        document.getElementById("pay-submit-form").addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const payable = updatePayableAmount();
+          const cust = document.getElementById("pay-cust-name").value.trim();
+          const contact = document.getElementById("pay-cust-contact").value.trim();
+          const upiVpa = document.getElementById("pay-upi-vpa") ? document.getElementById("pay-upi-vpa").value.trim() : "";
+
+          const btn = document.getElementById("btn-execute-pay");
+          const originalLabel = btn.innerHTML;
+          btn.disabled = true;
+          btn.innerHTML = "<span>⚡ Contacting Secure Banking Gateway…</span>";
+
+          await new Promise(r => setTimeout(r, 1200));
+
+          if (currentMethod === "UPI" && upiVpa === "failure@upi") {
+            btn.disabled = false;
+            btn.innerHTML = originalLabel;
+            window.alert("❌ [DEV SANDBOX DECLINE]: Simulated UPI decline (failure@upi). Please try with success@upi.");
+            return;
+          }
+
+          const txnId = `pay_test_BM${Date.now()}`;
+          const utr = `DEV-UTR-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+          const invNo = `BM-INV-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+          // Save transaction to workspace storage so admin portal reflects it
+          try {
+            const adminKey = "bm_admin_workspace_v2";
+            const raw = localStorage.getItem(adminKey);
+            const state = raw ? JSON.parse(raw) : { inflow: [], logs: [], invoices: [] };
+            if (!Array.isArray(state.inflow)) state.inflow = [];
+            if (!Array.isArray(state.logs)) state.logs = [];
+            if (!Array.isArray(state.invoices)) state.invoices = [];
+
+            state.inflow.push({
+              id: txnId,
+              customer: cust,
+              bookingRef: bookingParam,
+              amount: payable,
+              method: `Client Checkout (${currentMethod})`,
+              utr,
+              status: payable >= total ? "Received (Full)" : "Advance / Deposit",
+              date: new Date().toISOString().split("T")[0]
+            });
+
+            state.logs.unshift({
+              id: `log-${Date.now()}`,
+              timestamp: new Date().toISOString(),
+              category: "CUSTOMER_PAYMENT",
+              actor: "Client Checkout Portal",
+              action: `Client ${cust} settled ${payable >= total ? "Full" : "30% Advance"} (₹${payable.toLocaleString("en-IN")})`,
+              details: JSON.stringify({ bookingParam, txnId, utr, method: currentMethod }),
+              ip: "Client Browser"
+            });
+
+            localStorage.setItem(adminKey, JSON.stringify(state));
+          } catch (_) {}
+
+          // Show success receipt
+          document.getElementById("rec-txn-id").textContent = txnId;
+          document.getElementById("rec-utr").textContent = utr;
+          document.getElementById("rec-amount").textContent = "₹" + payable.toLocaleString("en-IN");
+          document.getElementById("rec-inv-no").textContent = invNo;
+
+          document.getElementById("checkout-view-form").style.display = "none";
+          document.getElementById("checkout-view-success").style.display = "block";
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      })();
+    </script>
+  </body>
+</html>

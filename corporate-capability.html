@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Corporate &amp; MICE Capability Overview | BrahmnMitra</title>
+    <meta
+      name="description"
+      content="BrahmnMitra Corporate Travel &amp; MICE Capability Overview. Executive travel management, group offsites, international delegations, SAC 9985 billing specifications."
+    />
+    <link rel="canonical" href="https://brahmnmitra.com/corporate-capability.html" />
+    <link rel="icon" href="favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="assets/images/branding/favicon.png"
+      type="image/png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&family=Archivo:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/portal.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <style>
+      .deck-container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: clamp(90px, 10vw, 120px) 24px 60px;
+      }
+      .deck-card {
+        background: rgba(8, 16, 32, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: var(--r-xl);
+        padding: clamp(28px, 5vw, 48px);
+        box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+        backdrop-filter: blur(20px);
+      }
+      .deck-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      .deck-badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--amber);
+        background: rgba(255, 179, 71, 0.12);
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 179, 71, 0.25);
+        margin-bottom: 12px;
+      }
+      .deck-title {
+        font-family: var(--display);
+        font-size: clamp(1.6rem, 3.8vw, 2.4rem);
+        color: #fff;
+        line-height: 1.2;
+      }
+      .deck-print-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .deck-print-btn:hover {
+        background: var(--amber);
+        color: #04060c;
+        border-color: var(--amber);
+        transform: translateY(-1px);
+      }
+      .deck-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-top: 32px;
+      }
+      .deck-section {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--r-lg);
+        padding: 24px;
+      }
+      .deck-section h3 {
+        font-family: var(--display);
+        font-size: 1.1rem;
+        color: #fff;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .deck-section p, .deck-section li {
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+        line-height: 1.6;
+      }
+      .deck-section ul {
+        margin-top: 10px;
+        padding-left: 18px;
+      }
+      .deck-case-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 16px;
+      }
+      .deck-case-item {
+        background: rgba(0, 0, 0, 0.3);
+        border-left: 3px solid var(--amber);
+        padding: 14px 18px;
+        border-radius: 0 8px 8px 0;
+      }
+      .deck-case-item strong {
+        color: #fff;
+        font-size: 0.95rem;
+      }
+      .deck-specs-table {
+        width: 100%;
+        margin-top: 14px;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+      }
+      .deck-specs-table th, .deck-specs-table td {
+        padding: 8px 12px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .deck-specs-table th {
+        color: #fff;
+        font-weight: 600;
+        width: 35%;
+      }
+      .deck-specs-table td {
+        color: var(--ink-soft);
+      }
+      .deck-specs-table code {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+        color: var(--cyan);
+      }
+      .deck-footer-cta {
+        margin-top: 36px;
+        padding: 24px;
+        border-radius: var(--r-lg);
+        background: linear-gradient(135deg, rgba(255, 179, 71, 0.12), rgba(6, 12, 24, 0.6));
+        border: 1px solid rgba(255, 179, 71, 0.3);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      @media (max-width: 768px) {
+        .deck-grid { grid-template-columns: 1fr; }
+        .deck-header { flex-direction: column; }
+      }
+      @media print {
+        body { background: #fff !important; color: #111 !important; }
+        #site-header, #nav-toggle, .deck-print-btn, .deck-footer-cta, footer { display: none !important; }
+        .deck-container { padding: 0 !important; max-width: 100% !important; }
+        .deck-card { background: #fff !important; border: 1px solid #ddd !important; box-shadow: none !important; color: #111 !important; }
+        .deck-title { color: #000 !important; }
+        .deck-section { background: #f9f9f9 !important; border: 1px solid #eee !important; }
+        .deck-section h3 { color: #000 !important; }
+        .deck-section p, .deck-section li, .deck-specs-table td { color: #333 !important; }
+        .deck-case-item { background: #f4f4f4 !important; border-left-color: #d97706 !important; }
+        .deck-case-item strong { color: #000 !important; }
+        .deck-specs-table th { color: #000 !important; }
+        .deck-badge { background: #fef3c7 !important; color: #92400e !important; border-color: #fde68a !important; }
+      }
+    </style>
+    <noscript>
+      <style>
+        @media (max-width: 1140px) {
+          #site-header { position: static !important; width: 100% !important; border-radius: 0 !important; flex-direction: column !important; padding: 16px 20px !important; background: #04060c !important; }
+          #nav-toggle { display: none !important; }
+          #nav { display: flex !important; position: static !important; width: 100% !important; height: auto !important; flex-direction: column !important; align-items: center !important; background: transparent !important; padding: 12px 0 !important; }
+          #nav a { font-size: 1rem !important; padding: 10px 16px !important; min-height: 40px !important; width: 100% !important; max-width: 280px !important; text-align: center !important; }
+        }
+      </style>
+    </noscript>
+  </head>
+  <body class="portal-page">
+    <a class="skip" href="#deck-main">Skip to content</a>
+
+    <!-- Global Header -->
+    <header id="site-header">
+      <a class="brand" href="index.html" aria-label="BrahmnMitra — home">
+        <span class="dot" aria-hidden="true"></span>BRAHMNMITRA
+      </a>
+
+      <nav id="nav" aria-label="Main">
+        <a href="packages.html">Packages</a>
+        <a href="hotels.html">Hotels</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#process">Process</a>
+        <a href="index.html#about">About</a>
+        <a href="travel-assistant.html">Itinerary Builder</a>
+        <a href="contact.html">Contact</a>
+        <a href="account.html">My Account</a>
+        <a class="nav-cta" href="index.html#plan">Plan a Trip &#8594;</a>
+      </nav>
+
+      <button
+        id="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav"
+        aria-label="Open menu"
+      >
+        <span class="bars" aria-hidden="true"><span></span></span>
+      </button>
+    </header>
+
+    <main class="deck-container" id="deck-main">
+      <article class="deck-card">
+        <header class="deck-header">
+          <div>
+            <span class="deck-badge">Corporate &amp; MICE Procurement Document</span>
+            <h1 class="deck-title">Corporate Travel &amp; MICE Desk</h1>
+            <p style="color: var(--ink-soft); margin-top: 8px; font-size: 1rem;">
+              Bespoke Corporate Travel Management · Executive Offsites · Global Delegations · Pan-India Ticketing
+            </p>
+          </div>
+          <button class="deck-print-btn" type="button" onclick="window.print()" aria-label="Print or save as PDF">
+            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2;"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Print / Save as PDF
+          </button>
+        </header>
+
+        <div class="deck-grid">
+          <!-- Pillar 1: Capabilities -->
+          <section class="deck-section">
+            <h3>✦ Core Enterprise Capabilities</h3>
+            <ul>
+              <li><strong>Annual Leadership Offsites:</strong> End-to-end logistics from multi-city group flights to luxury beach/palace hotel staging and AV setups.</li>
+              <li><strong>Executive &amp; VIP Travel:</strong> Priority flight desk, premium cabin reservations, flexible date change protocols, private chauffeur transfers.</li>
+              <li><strong>International Delegations &amp; Expos:</strong> Fast-track visa coordination, global air ticketing blocks, hotel blocks, airport transfers.</li>
+              <li><strong>Domestic Airline Desk:</strong> Direct routing comparisons across IndiGo, Air India, Akasa, SpiceJet with corporate baggage allowances.</li>
+            </ul>
+          </section>
+
+          <!-- Pillar 2: Procurement Specs -->
+          <section class="deck-section">
+            <h3>✦ Procurement &amp; Invoicing Specifications</h3>
+            <table class="deck-specs-table">
+              <tr>
+                <th>Service Code</th>
+                <td><code>SAC 9985</code> (Tour Operator &amp; Passenger Transport)</td>
+              </tr>
+              <tr>
+                <th>Tax Compliance</th>
+                <td>GST Compliant Tax Invoices with Corporate ITC breakdown</td>
+              </tr>
+              <tr>
+                <th>Registered Base</th>
+                <td>New Delhi, India</td>
+              </tr>
+              <tr>
+                <th>Payment Modes</th>
+                <td>Direct Bank Transfer (NEFT/RTGS), Verified Corporate Invoicing</td>
+              </tr>
+              <tr>
+                <th>Support Desk</th>
+                <td>24/7 Human Emergency Desk · Zero Call Robots</td>
+              </tr>
+            </table>
+          </section>
+        </div>
+
+        <!-- Case Studies -->
+        <section style="margin-top: 32px;">
+          <h2 style="font-family: var(--display); font-size: 1.3rem; color: #fff; margin-bottom: 12px;">
+            ✦ Quantified Execution Case Studies
+          </h2>
+          <div class="deck-case-grid">
+            <div class="deck-case-item">
+              <strong>180-Pax Tech Leadership Offsite (Goa · 4 Days):</strong>
+              <p style="margin-top: 4px;">Synchronized flight departures across Delhi, Mumbai, Bengaluru, and Hyderabad; 100% on-time staggered airport coach transfers; consolidated single GST tax invoice with SAC 9985 for seamless corporate finance clearance.</p>
+            </div>
+            <div class="deck-case-item">
+              <strong>55-Pax International Dealer Incentive (Jaipur &amp; Udaipur · 5 Days):</strong>
+              <p style="margin-top: 4px;">Chartered luxury AC coaches, royal palace stays, private fort illumination dinner, dedicated on-site concierge throughout with zero missed transfers.</p>
+            </div>
+            <div class="deck-case-item">
+              <strong>65-Pax Global Expo &amp; Summit Delegation (Dubai · 4 Nights):</strong>
+              <p style="margin-top: 4px;">Group airfare block negotiation delivering 14% savings versus retail, expedited UAE visa processing, daily World Trade Centre shuttles, private Marina yacht gala.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Action Footer -->
+        <footer class="deck-footer-cta">
+          <div>
+            <strong style="color: #fff; font-size: 1.05rem; display: block;">Ready to initiate a corporate RFP or offsite quote?</strong>
+            <span style="color: var(--ink-soft); font-size: 0.9rem;">Speak directly with our senior corporate travel managers in New Delhi.</span>
+          </div>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a class="btn btn-amber" href="contact.html?service=mice_corporate" style="padding: 10px 20px; font-size: 0.9rem;">Submit Corporate RFP</a>
+            <a class="btn btn-glass" href="tel:+919211761885" style="padding: 10px 20px; font-size: 0.9rem;">+91 92117 61885</a>
+          </div>
+        </footer>
+      </article>
+    </main>
+
+    <script src="assets/js/navigation.js"></script>
+    <script src="assets/js/platform-store.js"></script>
+  </body>
+</html>

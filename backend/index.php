@@ -36,6 +36,9 @@ echo json_encode([
     'timestamp' => date('c'),
     'endpoints' => [
         'health' => '/',
-        'enquiry' => '/enquiry.php'
+        'enquiry' => '/enquiry.php',
+        'catalog' => '/catalog.php',
+        'payments' => '/payments.php',
+        'logs' => '/logs.php'
     ]
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);

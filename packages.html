@@ -6,7 +6,7 @@
     <title>Travel Packages | BrahmnMitra</title>
     <meta
       name="description"
-      content="Explore BrahmnMitra's curated domestic and international travel packages."
+      content="Bespoke domestic and international tour packages. Custom itineraries for Kerala, Rajasthan, Kashmir, Dubai, Bali, Europe, and corporate offsites."
     />
     <link rel="canonical" href="https://brahmnmitra.com/packages.html" />
     <link rel="icon" href="favicon.ico" sizes="any" />
@@ -21,24 +21,51 @@
     />
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/portal.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <noscript>
+      <style>
+        .skeleton-card { display: none !important; }
+        .no-js-catalog-notice { display: block !important; padding: 24px; border-radius: 14px; background: rgba(14, 28, 54, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); margin: 20px 0; color: #eaf2ff; text-align: center; }
+        @media (max-width: 1140px) {
+          #site-header { position: static !important; width: 100% !important; border-radius: 0 !important; flex-direction: column !important; padding: 16px 20px !important; background: #04060c !important; }
+          #nav-toggle { display: none !important; }
+          #nav { display: flex !important; position: static !important; width: 100% !important; height: auto !important; flex-direction: column !important; align-items: center !important; background: transparent !important; padding: 12px 0 !important; }
+          #nav a { font-size: 1rem !important; padding: 10px 16px !important; min-height: 40px !important; width: 100% !important; max-width: 280px !important; text-align: center !important; }
+        }
+      </style>
+    </noscript>
   </head>
   <body class="portal-page" data-catalog="packages">
-    <header class="portal-header">
-      <nav class="portal-nav" aria-label="Main Navigation">
-        <a class="portal-brand" href="index.html">
-          <span class="dot" aria-hidden="true"></span>BRAHMNMITRA
-        </a>
-        <a aria-current="page" href="packages.html">Packages</a>
+    <a class="skip" href="#catalog-grid">Skip to content</a>
+
+    <!-- Global Header -->
+    <header id="site-header">
+      <a class="brand" href="index.html" aria-label="BrahmnMitra — home">
+        <span class="dot" aria-hidden="true"></span>BRAHMNMITRA
+      </a>
+
+      <nav id="nav" aria-label="Main">
+        <a aria-current="page" data-static-current="true" href="packages.html">Packages</a>
         <a href="hotels.html">Hotels</a>
         <a href="destinations.html">Destinations</a>
-        <a href="travel-assistant.html">Travel Assistant</a>
-        <a href="account.html">My Account</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#process">Process</a>
+        <a href="index.html#about">About</a>
+        <a href="travel-assistant.html">Itinerary Builder</a>
         <a href="contact.html">Contact</a>
-        <button class="theme-toggle-btn" type="button" aria-label="Toggle dark/light theme">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <span>Day</span>
-        </button>
+        <a href="account.html">My Account</a>
+        <a class="nav-cta" href="index.html#plan">Plan a Trip &#8594;</a>
       </nav>
+
+      <button
+        id="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav"
+        aria-label="Open menu"
+      >
+        <span class="bars" aria-hidden="true"><span></span></span>
+      </button>
     </header>
 
     <main class="portal-main">
@@ -55,7 +82,18 @@
         class="catalog-controls"
         aria-label="Filter packages"
       ></section>
-      <p id="catalog-status" class="catalog-status" aria-live="polite"></p>
+      <noscript>
+        <div class="no-js-catalog-notice">
+          <h2 style="font-size: 1.25rem; margin-bottom: 8px;">Explore Packages with our Travel Desk</h2>
+          <p style="color: var(--ink-soft); line-height: 1.6;">
+            Interactive filtering requires JavaScript. Our travel specialists are ready to curate custom itineraries across Kerala, Rajasthan, Kashmir, Dubai, Bali, and Europe.
+          </p>
+          <div style="margin-top: 14px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+            <a href="tel:+919211761885" style="display: inline-block; padding: 10px 20px; border-radius: 999px; background: var(--amber); color: #04060c; font-weight: 600; text-decoration: none;">Call +91 92117 61885</a>
+            <a href="https://wa.me/919211761885" target="_blank" rel="noopener" style="display: inline-block; padding: 10px 20px; border-radius: 999px; background: rgba(37, 211, 102, 0.15); color: #25d366; border: 1px solid #25d366; font-weight: 600; text-decoration: none;">WhatsApp Desk</a>
+          </div>
+        </div>
+      </noscript>
       <section id="catalog-grid" class="portal-grid" aria-live="polite">
         <div class="skeleton-card glass">
           <div class="skeleton-bar" style="height: 150px; width: 100%; border-radius: 14px 14px 0 0; margin-bottom: 14px;"></div>
@@ -111,6 +149,7 @@
       </div>
     </footer>
 
+    <script src="assets/js/navigation.js"></script>
     <script src="assets/js/platform-store.js"></script>
     <script src="assets/js/portal-catalog.js"></script>
   </body>

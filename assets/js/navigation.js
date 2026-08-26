@@ -1,5 +1,5 @@
 "use strict";
-// BrahmnMitra — Header and Navigation
+// BrahmnMitra — Universal Header and Navigation
 
 window.BM = window.BM || {};
 
@@ -7,13 +7,21 @@ BM.initNavigation = function () {
   const header = document.getElementById("site-header");
   const nav = document.getElementById("nav");
   const toggle = document.getElementById("nav-toggle");
-  const content = document.getElementById("content");
+  if (!header || !nav || !toggle) return;
+
+  const content =
+    document.getElementById("content") ||
+    document.querySelector(".portal-main") ||
+    document.querySelector("main") ||
+    document.body;
+
   const links = Array.prototype.slice.call(
     nav.querySelectorAll('a[href^="#"]'),
   );
 
   // Theme shift on scroll
   const flip = () => {
+    if (!content) return;
     const top = content.getBoundingClientRect().top;
     header.classList.toggle("on-light", top < 80);
   };
@@ -30,6 +38,8 @@ BM.initNavigation = function () {
     nav.classList.add("open");
     toggle.setAttribute("aria-expanded", "true");
     document.body.classList.add("nav-open");
+    const firstLink = nav.querySelector("a");
+    if (firstLink) firstLink.focus();
   }
 
   toggle.addEventListener("click", () => {
@@ -42,16 +52,40 @@ BM.initNavigation = function () {
     if (e.target.closest("a")) closeNav();
   });
 
-  // Close on Escape key
+  // Modal keyboard handling: Escape to close + Tab focus trap
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    if (!isOpen) return;
+
+    if (e.key === "Escape") {
       closeNav();
       toggle.focus();
+      return;
+    }
+
+    if (e.key === "Tab") {
+      const focusables = [toggle, ...Array.from(nav.querySelectorAll("a[href], button:not([disabled])"))];
+      if (!focusables.length) return;
+
+      const firstEl = focusables[0];
+      const lastEl = focusables[focusables.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstEl) {
+          e.preventDefault();
+          lastEl.focus();
+        }
+      } else {
+        if (document.activeElement === lastEl) {
+          e.preventDefault();
+          firstEl.focus();
+        }
+      }
     }
   });
 
   // Reset overlay on desktop breakpoint
-  const mq = matchMedia("(min-width:1081px)");
+  const mq = matchMedia("(min-width:1141px)");
   const onMQ = (e) => {
     if (e.matches) closeNav();
   };
@@ -59,43 +93,51 @@ BM.initNavigation = function () {
     ? mq.addEventListener("change", onMQ)
     : mq.addListener(onMQ);
 
-  // Scroll spy
+  // Scroll spy (for anchor links present on the page)
   const sections = links
     .map((a) => document.querySelector(a.getAttribute("href")))
     .filter(Boolean);
 
-  if (!sections.length) return;
-
-  let ticking = false;
-  function spy() {
-    ticking = false;
-    const line = window.innerHeight * 0.34;
-    let active = null;
-    for (const s of sections) {
-      const r = s.getBoundingClientRect();
-      if (r.top <= line && r.bottom > line) {
-        active = s.id;
-        break;
+  if (sections.length) {
+    function spy() {
+      const line = window.innerHeight * 0.34;
+      let active = null;
+      for (const s of sections) {
+        const r = s.getBoundingClientRect();
+        if (r.top <= line && r.bottom > line) {
+          active = s.id;
+          break;
+        }
       }
+      links.forEach((a) => {
+        const on = active && a.getAttribute("href") === "#" + active;
+        if (on) {
+          a.setAttribute("aria-current", "true");
+        } else if (!a.hasAttribute("data-static-current")) {
+          a.removeAttribute("aria-current");
+        }
+      });
     }
-    links.forEach((a) => {
-      const on = active && a.getAttribute("href") === "#" + active;
-      on
-        ? a.setAttribute("aria-current", "true")
-        : a.removeAttribute("aria-current");
-    });
+    window.addEventListener("scroll", spy, { passive: true });
+    spy();
   }
 
-  // Smooth anchor scrolling
+  // Smooth anchor scrolling for local hash links
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", (e) => {
       const targetId = anchor.getAttribute("href");
       if (!targetId || targetId === "#") return;
-      const targetEl = targetId === "#top" ? document.body : document.querySelector(targetId);
+      const targetEl =
+        targetId === "#top" ? document.body : document.querySelector(targetId);
       if (targetEl) {
         e.preventDefault();
         const headerOffset = 90;
-        const targetPos = targetId === "#top" ? 0 : targetEl.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        const targetPos =
+          targetId === "#top"
+            ? 0
+            : targetEl.getBoundingClientRect().top +
+              window.pageYOffset -
+              headerOffset;
         window.scrollTo({
           top: targetPos,
           behavior: "smooth",
@@ -133,3 +175,9 @@ BM.initNavigation = function () {
   window.addEventListener("scroll", checkBackToTop, { passive: true });
   checkBackToTop();
 };
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", BM.initNavigation);
+} else {
+  BM.initNavigation();
+}

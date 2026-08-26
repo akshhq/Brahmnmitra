@@ -6,10 +6,11 @@
   if (!form || !result) return;
   const params = new URLSearchParams(window.location.search);
   const destination = form.elements.destination;
-  if (params.get("destination")) destination.value = params.get("destination");
-  if (params.get("journey"))
-    form.elements.journey.value = params.get("journey");
-  if (params.get("stay")) form.elements.journey.value = params.get("stay");
+  if (destination && params.get("destination")) destination.value = params.get("destination");
+  if (form.elements.journey) {
+    if (params.get("journey")) form.elements.journey.value = params.get("journey");
+    if (params.get("stay")) form.elements.journey.value = params.get("stay");
+  }
 
   // Budget Chips handling
   const budgetInput = form.elements.budget;

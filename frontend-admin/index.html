@@ -4,87 +4,105 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="robots" content="noindex,nofollow" />
-    <title>BrahmnMitra Admin Portal</title>
+    <title>BrahmnMitra Operations &amp; Finance Portal</title>
     <link rel="stylesheet" href="assets/css/admin.css" />
   </head>
   <body class="admin-page">
     <div class="admin-shell">
       <aside class="admin-sidebar">
-        <a class="admin-brand" href="#">BRAHMNMITRA<span>ADMIN PORTAL</span></a>
+        <a class="admin-brand" href="#">BRAHMNMITRA<span>OPERATIONS &amp; FINANCE</span></a>
         <nav class="admin-nav" aria-label="Admin areas">
           <button type="button" data-view="overview" aria-current="page">
-            Overview
+            <span class="nav-icon">📊</span> Overview
           </button>
           <button type="button" data-view="leads">
-            Leads &amp; follow-ups
+            <span class="nav-icon">👥</span> Leads &amp; enquiries
           </button>
           <button type="button" data-view="catalogue">
-            Packages &amp; hotels
+            <span class="nav-icon">📦</span> Deals, Stays &amp; Flights
           </button>
           <button type="button" data-view="bookings">
-            Quotations &amp; bookings
+            <span class="nav-icon">📋</span> Quotations &amp; Bookings
           </button>
           <button type="button" data-view="finance">
-            Payments &amp; finance
+            <span class="nav-icon">💰</span> Finance &amp; Ledger
           </button>
-          <button type="button" data-view="settings">Platform setup</button>
+          <button type="button" data-view="invoices">
+            <span class="nav-icon">🧾</span> GST Tax Invoices
+          </button>
+          <button type="button" data-view="logs">
+            <span class="nav-icon">📜</span> Audit &amp; System Logs
+          </button>
+          <button type="button" data-view="gateway">
+            <span class="nav-icon">⚡</span> Gateway Sandbox <small class="badge-dev">DEV</small>
+          </button>
+          <button type="button" data-view="settings">
+            <span class="nav-icon">⚙️</span> Platform Setup
+          </button>
         </nav>
         <div class="admin-sidebar-footer">
-          BrahmnMitra Operations Portal<br />
-          <small>Dedicated Operations Workspace</small>
+          BrahmnMitra Enterprise Desk<br />
+          <small>SAC 9985 · GST Compliant</small>
         </div>
       </aside>
+
       <main class="admin-main">
         <header class="admin-top">
           <div>
-            <h1>Operations dashboard</h1>
-            <p>Manage the travel business workflow from enquiry to payment.</p>
+            <h1 id="page-title">Operations dashboard</h1>
+            <p id="page-subtitle">Manage customer bookings, vendor disbursements, inventory &amp; billing.</p>
           </div>
           <div class="admin-top-right">
             <div id="api-status" class="api-signal checking" title="Connecting to backend API...">
               <span class="signal-dot"></span>
               <span class="signal-text" id="api-status-text">API Checking…</span>
             </div>
-            <span class="admin-badge">Admin Workspace</span>
+            <div class="header-action-group">
+              <button id="quick-add-lead-btn" class="admin-button secondary small" type="button" data-view="leads">+ Lead</button>
+              <button id="quick-gateway-btn" class="admin-button small" type="button" data-view="gateway">⚡ Test Checkout</button>
+            </div>
           </div>
         </header>
 
+        <!-- 1. OVERVIEW VIEW -->
         <section id="view-overview" class="admin-view">
           <div class="metric-grid">
             <article class="metric">
-              <span>Open leads</span><strong id="metric-leads">0</strong><em>Ready for follow-up</em>
+              <span>Open leads</span><strong id="metric-leads">0</strong><em>Active follow-ups</em>
             </article>
             <article class="metric">
-              <span>Bookings</span><strong id="metric-bookings">0</strong><em>Tracked in this workspace</em>
+              <span>Active Bookings</span><strong id="metric-bookings">0</strong><em>Quoted &amp; confirmed</em>
             </article>
             <article class="metric">
-              <span>Payments received</span><strong id="metric-payments">₹0</strong><em>Logged records</em>
+              <span>Client Revenue</span><strong id="metric-revenue">₹0</strong><em>Total customer inflows</em>
             </article>
             <article class="metric">
-              <span>Catalogue items</span><strong id="metric-catalogue">0</strong><em>Packages and hotels</em>
+              <span>Vendor Outflows</span><strong id="metric-cost">₹0</strong><em>Airlines &amp; hotel payouts</em>
+            </article>
+            <article class="metric highlight-margin">
+              <span>Gross Margin</span><strong id="metric-margin">₹0 (0%)</strong><em>Net profitability</em>
+            </article>
+            <article class="metric">
+              <span>Active Catalogue</span><strong id="metric-catalogue">0</strong><em>Deals, stays &amp; flights</em>
             </article>
           </div>
+
           <div class="admin-grid">
             <article class="admin-panel">
               <div class="admin-panel-head">
                 <div>
-                  <h2>Recent leads</h2>
-                  <p>Newest first</p>
+                  <h2>Recent Enquiries &amp; Leads</h2>
+                  <p>Latest customer inquiries</p>
                 </div>
-                <button
-                  class="admin-button secondary"
-                  type="button"
-                  data-view="leads"
-                >
-                  Add a lead
-                </button>
+                <button class="admin-button secondary" type="button" data-view="leads">View all leads</button>
               </div>
               <div class="admin-table-wrap">
                 <table class="admin-table">
                   <thead>
                     <tr>
                       <th>Customer</th>
-                      <th>Destination</th>
+                      <th>Destination / Service</th>
+                      <th>Dates</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -93,57 +111,54 @@
                 </table>
               </div>
             </article>
+
             <article class="admin-panel">
-              <h2>Operations pipeline</h2>
-              <p>How an enquiry moves through BrahmnMitra.</p>
-              <div class="workflow">
+              <div class="admin-panel-head">
                 <div>
-                  <b>1</b>
-                  <p>
-                    <strong>New enquiry:</strong> Captured via API / WhatsApp and reviewed.
-                  </p>
+                  <h2>Financial Summary &amp; Cash Flow</h2>
+                  <p>Inflows vs. Vendor Payouts</p>
                 </div>
-                <div>
-                  <b>2</b>
-                  <p>
-                    <strong>Tailored itinerary:</strong> Route, flights, and curated hotel options drafted.
-                  </p>
+                <button class="admin-button secondary" type="button" data-view="finance">Open Ledger</button>
+              </div>
+              <div class="cash-flow-breakdown">
+                <div class="cash-flow-bar">
+                  <div class="cf-segment cf-revenue" id="cf-bar-rev" style="width: 100%;"></div>
                 </div>
-                <div>
-                  <b>3</b>
-                  <p>
-                    <strong>Customer approval:</strong> Quotation shared and revised.
-                  </p>
+                <div class="cash-flow-legend">
+                  <div><span class="dot dot-rev"></span> Client Receipts: <strong id="ov-cf-rev">₹0</strong></div>
+                  <div><span class="dot dot-cost"></span> Vendor Costs: <strong id="ov-cf-cost">₹0</strong></div>
+                  <div><span class="dot dot-margin"></span> Net Margin: <strong id="ov-cf-margin">₹0</strong></div>
                 </div>
-                <div>
-                  <b>4</b>
-                  <p>
-                    <strong>Confirmation:</strong> Deposit logged, vouchers issued, and trip files archived.
-                  </p>
+                <div class="receivables-box">
+                  <div>Pending Client Dues: <strong id="ov-receivables">₹0</strong></div>
+                  <div>Pending Vendor Dues: <strong id="ov-payables">₹0</strong></div>
                 </div>
               </div>
             </article>
           </div>
         </section>
 
+        <!-- 2. LEADS & ENQUIRIES VIEW -->
         <section id="view-leads" class="admin-view" hidden>
           <div class="admin-grid">
             <article class="admin-panel">
               <div class="admin-panel-head">
                 <div>
-                  <h2>Leads &amp; enquiries</h2>
-                  <p>All recorded leads</p>
+                  <h2>Leads &amp; Enquiries</h2>
+                  <p>All recorded customer requests</p>
                 </div>
+                <input id="search-leads" class="admin-search-input" placeholder="Search leads by name, email, phone..." />
               </div>
               <div class="admin-table-wrap">
                 <table class="admin-table">
                   <thead>
                     <tr>
                       <th>Contact</th>
-                      <th>Destination</th>
+                      <th>Service / Destination</th>
                       <th>Dates</th>
                       <th>Budget</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody id="lead-list"></tbody>
@@ -154,70 +169,58 @@
               <h2>Log a manual lead</h2>
               <p>Add phone calls, walk-ins or WhatsApp enquiries.</p>
               <form id="lead-form" class="admin-form">
-                <label>Customer name<input name="name" required /></label>
-                <label>Phone number<input name="phone" required /></label>
-                <label>Email address<input name="email" type="email" /></label>
-                <label>Destination<input name="destination" required /></label>
+                <label>Customer name<input name="name" required placeholder="e.g. Vikram Malhotra" /></label>
+                <label>Phone number<input name="phone" required placeholder="e.g. +91 98765 43210" /></label>
+                <label>Email address<input name="email" type="email" placeholder="e.g. vikram@example.com" /></label>
+                <label>Destination / Service<input name="destination" required placeholder="e.g. Goa MICE Offsite / Dubai" /></label>
                 <label>Travel date<input name="travelDate" type="date" /></label>
-                <label>Budget (₹)<input name="budget" placeholder="e.g. 50,000" /></label>
-                <button class="admin-button wide" type="submit">
-                  Save lead record
-                </button>
+                <label>Budget (₹)<input name="budget" placeholder="e.g. 1,50,000" /></label>
+                <label class="wide">Notes / Requirements<textarea name="notes" placeholder="Pax count, special hotel preferences, flight routes..."></textarea></label>
+                <button class="admin-button wide" type="submit">Save lead record</button>
               </form>
             </article>
           </div>
         </section>
 
+        <!-- 3. INVENTORY & CATALOGUE VIEW (PACKAGES, HOTELS, DEALS, FLIGHTS) -->
         <section id="view-catalogue" class="admin-view" hidden>
-          <div class="admin-grid">
-            <article class="admin-panel">
-              <div class="admin-panel-head">
-                <div>
-                  <h2>Live catalogue</h2>
-                  <p>Current travel inventory</p>
-                </div>
-              </div>
-              <div id="catalog-list" class="catalog-admin-grid"></div>
-            </article>
-            <article class="admin-panel">
-              <h2>Add custom package / stay</h2>
-              <p>Create a bespoke item for your proposals.</p>
-              <form id="catalog-form" class="admin-form">
-                <label class="wide">Item type
-                  <select name="type">
-                    <option value="package">Package</option>
-                    <option value="hotel">Hotel / Stay</option>
-                  </select>
-                </label>
-                <label class="wide">Title<input name="name" required /></label>
-                <label>Destination<input name="destination" required /></label>
-                <label>Starting price (₹)<input name="price" type="number" required /></label>
-                <label class="wide">Short summary<textarea name="description" required></textarea></label>
-                <button class="admin-button wide" type="submit">
-                  Add to catalogue
-                </button>
-              </form>
-            </article>
+          <div class="catalog-toolbar">
+            <div class="catalog-tabs">
+              <button class="catalog-tab active" data-cat-filter="all" type="button">All (<span id="count-all">0</span>)</button>
+              <button class="catalog-tab" data-cat-filter="packages" type="button">Packages (<span id="count-pkg">0</span>)</button>
+              <button class="catalog-tab" data-cat-filter="hotels" type="button">Hotels &amp; Stays (<span id="count-htl">0</span>)</button>
+              <button class="catalog-tab" data-cat-filter="deals" type="button">Special Deals (<span id="count-deals">0</span>)</button>
+              <button class="catalog-tab" data-cat-filter="flights" type="button">Flight Routes (<span id="count-flt">0</span>)</button>
+            </div>
+            <div class="catalog-actions-row">
+              <input id="catalog-search-admin" class="admin-search-input" placeholder="Search titles, destinations, routes, airlines..." />
+              <button id="btn-add-item" class="admin-button" type="button">+ Add New Item</button>
+            </div>
           </div>
+
+          <div id="catalog-admin-cards" class="catalog-admin-grid"></div>
         </section>
 
+        <!-- 4. QUOTATIONS & BOOKINGS VIEW -->
         <section id="view-bookings" class="admin-view" hidden>
           <div class="admin-grid">
             <article class="admin-panel">
               <div class="admin-panel-head">
                 <div>
-                  <h2>Active quotations &amp; bookings</h2>
-                  <p>Track customer approvals and confirmations</p>
+                  <h2>Active Quotations &amp; Bookings</h2>
+                  <p>Track customer proposals, confirmations &amp; trip files</p>
                 </div>
               </div>
               <div class="admin-table-wrap">
                 <table class="admin-table">
                   <thead>
                     <tr>
-                      <th>Customer</th>
-                      <th>Trip</th>
-                      <th>Value</th>
+                      <th>Booking Ref / Customer</th>
+                      <th>Trip / Route</th>
+                      <th>Quotation Value</th>
+                      <th>Paid / Balance</th>
                       <th>Status</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody id="booking-list"></tbody>
@@ -225,107 +228,452 @@
               </div>
             </article>
             <article class="admin-panel">
-              <h2>Record booking / proposal</h2>
+              <h2>Record Booking / Proposal</h2>
               <p>Log a proposed itinerary or confirmed reservation.</p>
               <form id="booking-form" class="admin-form">
-                <label class="wide">Customer name<input name="customer" required /></label>
-                <label class="wide">Trip title / Route<input name="trip" required /></label>
-                <label class="wide">Quotation value (₹)<input name="value" placeholder="e.g. 1,25,000" required /></label>
-                <button class="admin-button wide" type="submit">
-                  Record booking
-                </button>
+                <label class="wide">Booking Reference<input name="bookingId" id="b-id" placeholder="Auto-generated if blank (e.g. BM-BK-2026-001)" /></label>
+                <label class="wide">Customer name<input name="customer" required placeholder="e.g. Rajesh Khurana / TechCorp India" /></label>
+                <label class="wide">Trip title / Route<input name="trip" required placeholder="e.g. 180-Pax Goa Leadership Offsite" /></label>
+                <label>Total Quotation (₹)<input name="value" type="number" required placeholder="e.g. 350000" /></label>
+                <label>Advance Received (₹)<input name="advance" type="number" value="0" placeholder="e.g. 100000" /></label>
+                <label class="wide">Booking Status
+                  <select name="status">
+                    <option value="Quotation sent">Quotation sent</option>
+                    <option value="Deposit Received">Deposit Received</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </label>
+                <button class="admin-button wide" type="submit">Record booking</button>
               </form>
             </article>
           </div>
         </section>
 
+        <!-- 5. FINANCE & TWO-WAY LEDGER VIEW -->
         <section id="view-finance" class="admin-view" hidden>
+          <div class="finance-metric-strip">
+            <div class="f-metric f-inflow">
+              <span>Total Client Inflows</span>
+              <strong id="f-total-inflow">₹0</strong>
+              <small>From customer payments</small>
+            </div>
+            <div class="f-metric f-outflow">
+              <span>Total Vendor Outflows</span>
+              <strong id="f-total-outflow">₹0</strong>
+              <small>Paid to airlines, hotels, cabs</small>
+            </div>
+            <div class="f-metric f-margin">
+              <span>Net Gross Margin</span>
+              <strong id="f-net-margin">₹0 (0%)</strong>
+              <small>Total profit earned</small>
+            </div>
+            <div class="f-metric f-receivable">
+              <span>Pending Receivables</span>
+              <strong id="f-pending-receivables">₹0</strong>
+              <small>Due from clients</small>
+            </div>
+            <div class="f-metric f-payable">
+              <span>Pending Payables</span>
+              <strong id="f-pending-payables">₹0</strong>
+              <small>Due to vendors</small>
+            </div>
+          </div>
+
+          <div class="finance-tabs-nav">
+            <button class="finance-tab active" data-fin-tab="all-ledger" type="button">Consolidated Ledger</button>
+            <button class="finance-tab" data-fin-tab="inflow" type="button">Customer Inflow (Receipts)</button>
+            <button class="finance-tab" data-fin-tab="outflow" type="button">Vendor Outflow (Disbursements)</button>
+          </div>
+
           <div class="admin-grid">
             <article class="admin-panel">
               <div class="admin-panel-head">
                 <div>
-                  <h2>Payment receipts</h2>
-                  <p>Total recorded: <strong id="finance-total">₹0</strong></p>
+                  <h2 id="finance-table-title">Financial Transaction Records</h2>
+                  <p>Real-time two-way tracking</p>
+                </div>
+                <div class="table-actions">
+                  <input id="search-finance" class="admin-search-input" placeholder="Search customer, vendor, UTR, booking ref..." />
                 </div>
               </div>
               <div class="admin-table-wrap">
                 <table class="admin-table">
                   <thead>
                     <tr>
-                      <th>Customer</th>
+                      <th>Date / Ref</th>
+                      <th>Party (Client / Vendor)</th>
+                      <th>Category / Trip</th>
+                      <th>Type</th>
                       <th>Amount</th>
-                      <th>Method</th>
+                      <th>Method / UTR</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody id="payment-list"></tbody>
+                  <tbody id="finance-ledger-list"></tbody>
                 </table>
               </div>
             </article>
+
             <article class="admin-panel">
-              <h2>Log a payment</h2>
-              <p>Record a customer deposit or balance settlement.</p>
-              <form id="payment-form" class="admin-form">
-                <label class="wide">Customer name<input name="customer" required /></label>
-                <label>Amount (₹)<input name="amount" type="number" required /></label>
-                <label>Payment method
+              <div class="form-mode-switch">
+                <button type="button" id="btn-mode-inflow" class="switch-btn active">+ Log Client Inflow</button>
+                <button type="button" id="btn-mode-outflow" class="switch-btn">- Log Vendor Outflow</button>
+              </div>
+
+              <!-- Form A: Customer Inflow -->
+              <form id="inflow-form" class="admin-form">
+                <label class="wide">Customer / Company<input name="customer" required placeholder="e.g. Acme Corp / Priya Sharma" /></label>
+                <label class="wide">Booking Ref / Trip Title<input name="bookingRef" placeholder="e.g. BM-BK-2026-001 or Kashmir Trip" /></label>
+                <label>Amount Received (₹)<input name="amount" type="number" required placeholder="e.g. 75000" /></label>
+                <label>Payment Method
                   <select name="method">
                     <option value="UPI / QR">UPI / QR</option>
                     <option value="Bank Transfer (NEFT/RTGS)">Bank Transfer (NEFT/RTGS)</option>
+                    <option value="Corporate Invoicing">Corporate Invoicing</option>
                     <option value="Credit/Debit Card">Credit/Debit Card</option>
+                    <option value="Gateway Sandbox">Gateway Sandbox (Dev)</option>
                     <option value="Cash / Cheque">Cash / Cheque</option>
                   </select>
                 </label>
-                <label class="wide">Payment status
+                <label>Transaction ID / UTR<input name="utr" placeholder="e.g. UTR-98237461928" /></label>
+                <label>Payment Status
                   <select name="status">
                     <option value="Received (Full)">Received (Full)</option>
                     <option value="Advance / Deposit">Advance / Deposit</option>
                     <option value="Pending Clearance">Pending Clearance</option>
                   </select>
                 </label>
-                <button class="admin-button wide" type="submit">
-                  Log payment
-                </button>
+                <button class="admin-button wide" type="submit">Record Client Inflow</button>
+              </form>
+
+              <!-- Form B: Vendor Outflow -->
+              <form id="outflow-form" class="admin-form" style="display: none;">
+                <label class="wide">Vendor Category
+                  <select name="vendorCategory" required>
+                    <option value="Airline Desk">Airline Desk (IndiGo, Air India, Emirates, etc.)</option>
+                    <option value="Hotel / Resort">Hotel / Resort Stay</option>
+                    <option value="Transport / Coach">Ground Transport &amp; Luxury Coaches</option>
+                    <option value="Visa &amp; Immigration">Visa &amp; Travel Insurance</option>
+                    <option value="Local Guide / Sightseeing">Local Guide &amp; Excursions</option>
+                    <option value="MICE Event / AV Venue">MICE Event / AV / Gala Venue</option>
+                  </select>
+                </label>
+                <label class="wide">Vendor Name<input name="vendorName" required placeholder="e.g. IndiGo Airlines / Taj Fort Aguada" /></label>
+                <label class="wide">Linked Booking Ref / Client<input name="linkedBooking" placeholder="e.g. BM-BK-2026-001 (Goa Offsite)" /></label>
+                <label>Amount Paid (₹)<input name="amountPaid" type="number" required placeholder="e.g. 45000" /></label>
+                <label>Vendor Invoice No / UTR<input name="vendorInvoice" placeholder="e.g. INV-6E-88219" /></label>
+                <label>Disbursement Status
+                  <select name="status">
+                    <option value="Paid in Full">Paid in Full</option>
+                    <option value="Advance Paid">Advance Paid</option>
+                    <option value="Pending Vendor Invoice">Pending Vendor Invoice</option>
+                  </select>
+                </label>
+                <label class="wide">Notes / PNR / Voucher Ref<input name="notes" placeholder="e.g. PNR: ABC123D / Room Conf #9842" /></label>
+                <button class="admin-button wide" type="submit">Record Vendor Disbursement</button>
               </form>
             </article>
           </div>
         </section>
 
+        <!-- 6. GST TAX INVOICE GENERATOR VIEW -->
+        <section id="view-invoices" class="admin-view" hidden>
+          <div class="admin-grid">
+            <article class="admin-panel">
+              <div class="admin-panel-head">
+                <div>
+                  <h2>GST Tax Invoices (SAC 9985)</h2>
+                  <p>Compliant Corporate &amp; Individual Billing Records</p>
+                </div>
+                <input id="search-invoices" class="admin-search-input" placeholder="Search invoices by number, client, GSTIN..." />
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Invoice No</th>
+                      <th>Date</th>
+                      <th>Billed To</th>
+                      <th>Total Value</th>
+                      <th>GST (5%)</th>
+                      <th>Balance Due</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="invoice-list"></tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="admin-panel">
+              <h2>Generate New GST Tax Invoice</h2>
+              <p>SAC 9985 Compliant Invoice with automatic CGST/SGST/IGST breakdown.</p>
+              <form id="invoice-generator-form" class="admin-form">
+                <label>Invoice Number<input name="invNumber" id="inv-num-field" required /></label>
+                <label>Invoice Date<input name="invDate" id="inv-date-field" type="date" required /></label>
+                <label class="wide">Customer / Company Name<input name="invClientName" required placeholder="e.g. Apex Global Technologies Pvt Ltd" /></label>
+                <label>Customer GSTIN (Optional)<input name="invClientGst" placeholder="e.g. 07AAACA1234A1Z1" /></label>
+                <label>Customer Phone / Email<input name="invClientContact" required placeholder="e.g. finance@apex.com / +91 98111..." /></label>
+                <label class="wide">Billing Address<input name="invClientAddress" required placeholder="e.g. Cyber City, DLF Phase 2, Gurugram, Haryana" /></label>
+                <label class="wide">Tax Supply Type
+                  <select name="invTaxType" id="inv-tax-type">
+                    <option value="intra">Intra-State: CGST 2.5% + SGST 2.5% (Delhi to Delhi)</option>
+                    <option value="inter" selected>Inter-State: IGST 5.0% (Delhi to Outside Delhi)</option>
+                  </select>
+                </label>
+
+                <!-- Line Items Repeater -->
+                <div class="wide invoice-items-builder">
+                  <div class="items-head">
+                    <strong>Service Line Items</strong>
+                    <button type="button" id="btn-add-inv-item" class="admin-button secondary small">+ Add Line Item</button>
+                  </div>
+                  <div id="inv-line-items-container">
+                    <div class="inv-line-row">
+                      <input class="inv-item-desc" placeholder="Service (e.g. Domestic Flight Ticketing & Airport Handling)" value="Group Flight Ticketing & Itinerary Coordination" required />
+                      <input class="inv-item-sac" value="9985" title="SAC Code" style="width: 70px;" readonly />
+                      <input class="inv-item-rate" type="number" placeholder="Rate (₹)" value="50000" style="width: 100px;" required />
+                      <input class="inv-item-qty" type="number" value="1" min="1" style="width: 55px;" required />
+                      <button type="button" class="btn-remove-line" title="Remove">×</button>
+                    </div>
+                  </div>
+                </div>
+
+                <label>Advance Received (₹)<input name="invAdvance" id="inv-adv-field" type="number" value="0" placeholder="0" /></label>
+                <label>Payment Due Date<input name="invDueDate" id="inv-due-field" type="date" /></label>
+
+                <div class="wide inv-calculation-preview">
+                  <div>Subtotal: <strong id="inv-calc-subtotal">₹0</strong></div>
+                  <div>GST Tax (5%): <strong id="inv-calc-tax">₹0</strong></div>
+                  <div>Total Invoice Value: <strong id="inv-calc-total">₹0</strong></div>
+                  <div>Balance Payable: <strong id="inv-calc-balance">₹0</strong></div>
+                </div>
+
+                <button class="admin-button wide" type="submit">Generate &amp; Preview Invoice</button>
+              </form>
+            </article>
+          </div>
+        </section>
+
+        <!-- 7. AUDIT & SYSTEM LOGS VIEW -->
+        <section id="view-logs" class="admin-view" hidden>
+          <article class="admin-panel">
+            <div class="admin-panel-head">
+              <div>
+                <h2>System Audit Trail &amp; Event Logs</h2>
+                <p>Immutable timestamped activity record across operations, catalog, billing, and gateway.</p>
+              </div>
+              <div class="table-actions">
+                <select id="filter-log-category" class="admin-inline-select">
+                  <option value="">All Categories</option>
+                  <option value="CATALOG_EDIT">Catalogue &amp; Deals</option>
+                  <option value="CUSTOMER_PAYMENT">Customer Payments</option>
+                  <option value="VENDOR_PAYOUT">Vendor Disbursements</option>
+                  <option value="INVOICE_GENERATED">GST Invoices</option>
+                  <option value="GATEWAY_TEST">Gateway Sandbox</option>
+                  <option value="LEAD_STATUS">Leads &amp; Status</option>
+                </select>
+                <button id="btn-export-logs" class="admin-button secondary small" type="button">Export Logs JSON</button>
+                <button id="btn-clear-logs" class="admin-button secondary small" type="button">Clear Logs</button>
+              </div>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp (IST)</th>
+                    <th>Category</th>
+                    <th>Actor / IP</th>
+                    <th>Action Summary</th>
+                    <th>Details &amp; Audit Payload</th>
+                  </tr>
+                </thead>
+                <tbody id="audit-log-list"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <!-- 8. PAYMENT GATEWAY SANDBOX (DEV MODE) VIEW -->
+        <section id="view-gateway" class="admin-view" hidden>
+          <div class="admin-grid">
+            <article class="admin-panel">
+              <div class="admin-panel-head">
+                <div>
+                  <h2>Payment Gateway Sandbox <span class="badge-dev">DEVELOPER MODE</span></h2>
+                  <p>Simulate customer payments, test card checkouts, and verify instant ledger syncing.</p>
+                </div>
+              </div>
+
+              <div class="gateway-sandbox-box">
+                <div class="sandbox-banner">
+                  <strong>⚡ Test Sandbox Active:</strong> Simulates Razorpay / Stripe unified payment gateway without live bank debits. All successful transactions automatically update the Financial Ledger, generate SAC 9985 invoice receipts, and append audit events.
+                </div>
+
+                <form id="gateway-sim-form" class="admin-form" style="margin-top: 20px;">
+                  <label class="wide">Select Existing Booking (or Custom Test)
+                    <select id="gw-booking-select" name="gwBooking">
+                      <option value="custom">-- Custom Sandbox Payment --</option>
+                    </select>
+                  </label>
+                  <label>Customer Name<input id="gw-customer" name="gwCustomer" value="Aditya Verma" required /></label>
+                  <label>Transaction Amount (₹)<input id="gw-amount" name="gwAmount" type="number" value="25000" required /></label>
+                  <label class="wide">Trip / Booking Description<input id="gw-trip" name="gwTrip" value="Goa Luxury Offsite Package Deposit" required /></label>
+
+                  <label class="wide">Payment Method Simulation
+                    <select id="gw-method" name="gwMethod">
+                      <option value="UPI / QR">UPI (Google Pay / PhonePe / Paytm / BHIM)</option>
+                      <option value="Credit/Debit Card">Credit / Debit Card (Visa / Mastercard / RuPay)</option>
+                      <option value="NetBanking">NetBanking (HDFC / ICICI / SBI / Axis)</option>
+                      <option value="Corporate NEFT">Corporate NEFT / RTGS Wire</option>
+                    </select>
+                  </label>
+
+                  <div class="wide gw-credentials-tip">
+                    <p><strong>Test Credentials:</strong></p>
+                    <ul>
+                      <li>• UPI Success: <code>success@upi</code> | UPI Fail: <code>failure@upi</code></li>
+                      <li>• Test Card: <code>4111 1111 1111 1111</code> | Expiry: <code>12/28</code> | CVV: <code>123</code></li>
+                    </ul>
+                  </div>
+
+                  <label class="wide">Simulation Scenario
+                    <select id="gw-scenario" name="gwScenario">
+                      <option value="success">✅ Instant Success (200 OK)</option>
+                      <option value="advance_30">✅ Partial 30% Booking Advance</option>
+                      <option value="fail">❌ Bank Decline / Insufficient Balance</option>
+                      <option value="timeout">⏱️ Simulated Gateway Latency (3.5s)</option>
+                    </select>
+                  </label>
+
+                  <button id="gw-submit-btn" class="admin-button wide" type="submit" style="background: linear-gradient(135deg, #25d366, #128c7e); font-size: 1rem; padding: 14px;">
+                    ⚡ Execute Sandbox Payment (₹<span id="gw-btn-amount">25,000</span>)
+                  </button>
+                </form>
+              </div>
+            </article>
+
+            <article class="admin-panel">
+              <h2>Recent Sandbox Transactions</h2>
+              <p>Simulated checkouts recorded in this session.</p>
+              <div id="gw-transactions-list" class="gw-txns-container">
+                <p class="empty-state">No sandbox transactions in this session. Run a test payment on the left.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 9. PLATFORM SETUP & SETTINGS VIEW -->
         <section id="view-settings" class="admin-view" hidden>
           <article class="admin-panel">
             <h2>Admin Portal &amp; Data Management</h2>
             <p>
-              This portal runs independently on your admin subdomain. All backend API communications (enquiries, mailers, database services) connect directly to your dedicated API service on Render.
+              This portal runs independently for operations management. All backend API communications (enquiries, mailers, catalog updates, audit logs) connect directly to your dedicated API service on Render.
             </p>
             <div class="admin-notice">
               Data backups can be exported or imported locally as JSON files. Keep your backups secure.
             </div>
             <div class="admin-actions">
-              <button
-                id="export-workspace"
-                class="admin-button secondary"
-                type="button"
-              >
-                Export local backup
-              </button>
-              <label class="admin-button secondary import-button"
-                >Restore backup<input
-                  id="import-workspace"
-                  type="file"
-                  accept="application/json"
-              /></label>
-              <button
-                id="clear-workspace"
-                class="admin-button secondary"
-                type="button"
-              >
-                Clear local records
-              </button>
+              <button id="export-workspace" class="admin-button secondary" type="button">Export full backup (JSON)</button>
+              <label class="admin-button secondary import-button">
+                Restore backup<input id="import-workspace" type="file" accept="application/json" />
+              </label>
+              <button id="clear-workspace" class="admin-button secondary" type="button">Clear local records</button>
             </div>
           </article>
         </section>
       </main>
     </div>
+
+    <!-- UNIVERSAL MODAL: ADD / EDIT CATALOG ITEM -->
+    <div id="item-modal" class="admin-modal-backdrop" hidden>
+      <div class="admin-modal glass">
+        <div class="modal-head">
+          <h2 id="modal-item-title">Edit Inventory Item</h2>
+          <button type="button" class="modal-close" id="btn-close-item-modal">×</button>
+        </div>
+        <form id="modal-item-form" class="admin-form modal-form-grid">
+          <input type="hidden" id="modal-item-id" name="id" />
+          <input type="hidden" id="modal-item-category" name="category" />
+
+          <label class="wide">Item Type / Category
+            <select id="modal-item-type" name="type" required>
+              <option value="packages">Package</option>
+              <option value="hotels">Hotel / Stay</option>
+              <option value="deals">Special Deal / Offer</option>
+              <option value="flights">Flight Route</option>
+            </select>
+          </label>
+
+          <label class="wide">Title / Route Name<input id="modal-item-name" name="name" required placeholder="e.g. Kerala, Unhurried" /></label>
+          <label>Destination / Region<input id="modal-item-dest" name="destination" required placeholder="e.g. Kerala / Domestic" /></label>
+          <label>Price / Base Fare (₹)<input id="modal-item-price" name="price" type="number" required placeholder="e.g. 42900" /></label>
+
+          <!-- Dynamic Category Fields -->
+          <div id="field-group-pkg" class="wide field-group">
+            <label>Duration<input id="modal-pkg-duration" name="duration" placeholder="e.g. 6 nights / 7 days" /></label>
+            <label>Travel Style<input id="modal-pkg-style" name="style" placeholder="e.g. Family & leisure" /></label>
+            <label class="wide">Highlights (comma separated)<input id="modal-pkg-highlights" name="highlights" placeholder="e.g. Kochi heritage walk, Munnar tea country, Houseboat" /></label>
+          </div>
+
+          <div id="field-group-htl" class="wide field-group" style="display: none;">
+            <label>Hotel Type<input id="modal-htl-type" name="hotelType" placeholder="e.g. Boutique stay / Resort / Palace" /></label>
+            <label>Star Rating (1–5)<input id="modal-htl-stars" name="stars" type="number" min="1" max="5" value="5" /></label>
+            <label class="wide">Amenities (comma separated)<input id="modal-htl-amenities" name="amenities" placeholder="e.g. Breakfast, Pool, Spa, Wi-Fi" /></label>
+          </div>
+
+          <div id="field-group-deal" class="wide field-group" style="display: none;">
+            <label>Discount Tag<input id="modal-deal-discount" name="discount" placeholder="e.g. Flat 15% Off" /></label>
+            <label>Promo Code<input id="modal-deal-code" name="promoCode" placeholder="e.g. KERALA15" /></label>
+            <label>Original Retail Price (₹)<input id="modal-deal-orig" name="originalPrice" type="number" placeholder="42900" /></label>
+            <label>Valid Till Date<input id="modal-deal-valid" name="validTill" type="date" /></label>
+            <label class="wide">Deal Inclusions (comma separated)<input id="modal-deal-inclusions" name="inclusions" placeholder="e.g. Free Houseboat upgrade, Airport transfers" /></label>
+          </div>
+
+          <div id="field-group-flt" class="wide field-group" style="display: none;">
+            <label>Airline Carrier<input id="modal-flt-airline" name="airline" placeholder="e.g. IndiGo / Air India" /></label>
+            <label>Flight Number<input id="modal-flt-number" name="flightNo" placeholder="e.g. 6E-2041 / AI-883" /></label>
+            <label>Flight Duration<input id="modal-flt-duration" name="flightDuration" placeholder="e.g. 2h 40m" /></label>
+            <label>Cabin Class<input id="modal-flt-cabin" name="cabin" placeholder="e.g. Economy / Corporate Flex" /></label>
+            <label class="wide">Baggage Allowance<input id="modal-flt-baggage" name="baggage" placeholder="e.g. 15kg Check-in + 7kg Cabin" /></label>
+          </div>
+
+          <label class="wide">Image Path<input id="modal-item-img" name="image" value="assets/images/sample.webp" /></label>
+          <label class="wide">Description / Notes<textarea id="modal-item-desc" name="description" placeholder="Detailed notes for proposals..."></textarea></label>
+          <label>Status
+            <select id="modal-item-status" name="status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </label>
+
+          <div class="wide modal-actions">
+            <button type="button" class="admin-button secondary" id="btn-cancel-modal">Cancel</button>
+            <button type="button" class="admin-button secondary delete-btn" id="btn-delete-modal-item" style="color: #ff8c8c; border-color: rgba(255,100,100,0.3);">Delete Item</button>
+            <button type="submit" class="admin-button" id="btn-save-modal-item">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- UNIVERSAL MODAL: INVOICE PREVIEW & PRINT -->
+    <div id="invoice-preview-modal" class="admin-modal-backdrop" hidden>
+      <div class="admin-modal invoice-print-modal glass">
+        <div class="modal-head no-print">
+          <h2>Tax Invoice Preview</h2>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="admin-button small" onclick="window.print()">🖨️ Print / Save PDF</button>
+            <button type="button" class="modal-close" id="btn-close-inv-modal">×</button>
+          </div>
+        </div>
+        <div id="invoice-printable-doc" class="invoice-printable-wrapper"></div>
+      </div>
+    </div>
+
     <script src="assets/js/admin.js"></script>
   </body>
 </html>

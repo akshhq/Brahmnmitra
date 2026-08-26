@@ -119,7 +119,7 @@ BM.initTravelDiscovery = function () {
               safe(imgSrc) +
               '" alt="' +
               safe(item.name) +
-              '" loading="lazy" class="card-art-img" onerror="this.src=\'sample.webp\'" /><span>' +
+              '" loading="lazy" width="400" height="240" class="card-art-img" onerror="this.src=\'sample.webp\'" /><span>' +
               safe(item.destination) +
               "</span></div>" +
               '<div class="card-body"><div class="card-meta"><span>' +
@@ -175,7 +175,7 @@ BM.initTravelDiscovery = function () {
               safe(imgSrc) +
               '" alt="' +
               safe(item.name) +
-              '" loading="lazy" class="card-art-img" onerror="this.src=\'sample.webp\'" /><span>' +
+              '" loading="lazy" width="400" height="240" class="card-art-img" onerror="this.src=\'sample.webp\'" /><span>' +
               safe(item.destination) +
               "</span></div>" +
               '<div class="card-body"><div class="hotel-top"><span class="star-rating" aria-label="' +
@@ -223,7 +223,7 @@ BM.initTravelDiscovery = function () {
           safe(imgSrc) +
           '" alt="' +
           safe(item.name) +
-          '" loading="lazy" class="card-art-img" onerror="this.src=\'sample.webp\'" /><span class="destination-index">' +
+          '" loading="lazy" width="400" height="240" class="card-art-img" onerror="this.src=\'sample.webp\'" /><span class="destination-index">' +
           safe(item.region) +
           "</span></div>" +
           '<div class="destination-body">' +

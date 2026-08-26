@@ -71,6 +71,22 @@
     <link rel="stylesheet" href="assets/css/animations.css" />
     <link rel="stylesheet" href="assets/css/responsive.css" />
     <link rel="stylesheet" href="assets/css/travel.css" />
+    <noscript>
+      <style>
+        #sky-canvas, .window-frame, .scroll-hint, .skip-intro { display: none !important; }
+        .hero-photo { opacity: 0.45 !important; display: block !important; }
+        .hero-copy { opacity: 1 !important; transform: none !important; filter: none !important; pointer-events: auto !important; }
+        .hero-cta { display: flex !important; }
+        #reveal { display: block !important; clip-path: none !important; opacity: 1 !important; position: relative !important; inset: auto !important; padding: 60px 20px !important; }
+        .reveal-inner { opacity: 1 !important; transform: none !important; }
+        @media (max-width: 1140px) {
+          #site-header { position: static !important; width: 100% !important; border-radius: 0 !important; flex-direction: column !important; padding: 16px 20px !important; background: #04060c !important; }
+          #nav-toggle { display: none !important; }
+          #nav { display: flex !important; position: static !important; width: 100% !important; height: auto !important; flex-direction: column !important; align-items: center !important; background: transparent !important; padding: 12px 0 !important; }
+          #nav a { font-size: 1rem !important; padding: 10px 16px !important; min-height: 40px !important; width: 100% !important; max-width: 280px !important; text-align: center !important; }
+        }
+      </style>
+    </noscript>
   </head>
   <body>
     <a class="skip" href="#plan">Skip to content</a>
@@ -88,8 +104,9 @@
         <a href="#services">Services</a>
         <a href="#process">Process</a>
         <a href="#about">About</a>
-        <a href="#testimonials">Testimonials</a>
+        <a href="travel-assistant.html">Itinerary Builder</a>
         <a href="contact.html">Contact</a>
+        <a href="account.html">My Account</a>
         <a class="nav-cta" href="#plan">Plan a Trip &#8594;</a>
       </nav>
 
@@ -144,8 +161,10 @@
 
         <div class="hero-copy">
           <div class="eyebrow">Luxury Flights &amp; Bespoke Journeys</div>
-          <h1>BRAHMNMITRA</h1>
-          <p class="tagline">Flights, tours and MICE — handled end to end.</p>
+          <h1 class="hero-title">
+            <span class="hero-brand-name">BRAHMNMITRA</span>
+            <span class="hero-tagline">Flights, Curated Holidays &amp; MICE — Handled End to End</span>
+          </h1>
           <p class="sub">
             Domestic &amp; international · New Delhi · One number, real people.
           </p>
@@ -209,7 +228,7 @@
       <div class="stat-grid">
         <div class="stat">
           <span class="num" data-count="500" data-suffix="+">500+</span>
-          <span class="label">Happy Clients</span>
+          <span class="label">Clients Served</span>
         </div>
         <div class="stat">
           <span class="num" data-count="50" data-suffix="+">50+</span>
@@ -217,7 +236,7 @@
         </div>
         <div class="stat">
           <span class="num">24/7</span>
-          <span class="label">On-Ground Support</span>
+          <span class="label">Dedicated Support</span>
         </div>
       </div>
     </section>
@@ -842,6 +861,97 @@
         <p class="portal-note" style="text-align: center; margin-top: 24px;">
           *Representative traveler and corporate client experiences managed by our travel desk.
         </p>
+
+        <!-- Quantified Corporate & MICE Case Studies -->
+        <div style="margin-top: 56px;" data-reveal>
+          <span class="kicker">✦ Verified Execution Standards</span>
+          <h3 style="font-family: var(--display); font-size: clamp(1.4rem, 3.2vw, 1.9rem); color: #fff; margin-top: 6px;">
+            Corporate &amp; MICE Case Studies
+          </h3>
+          <p class="lead" style="margin-top: 8px;">
+            How our enterprise travel desk manages complex group logistics, multi-city airline desks, and GST-compliant corporate procurement.
+          </p>
+
+          <div class="corporate-case-grid">
+            <article class="case-study-card">
+              <div>
+                <div class="case-header">
+                  <span class="case-category">Annual Executive Offsite</span>
+                  <span style="font-size: 0.75rem; color: var(--ink-soft);">Goa · 4 Days</span>
+                </div>
+                <h3>180-Pax Tech Leadership Conference</h3>
+                <div class="case-metrics">
+                  <span class="case-metric">180 Delegates</span>
+                  <span class="case-metric">4 Departure Cities</span>
+                  <span class="case-metric">0 Missed Transfers</span>
+                </div>
+                <p>
+                  Synchronized group flight schedules from Delhi, Mumbai, Bengaluru, and Hyderabad with staggered airport coach transfers, dedicated banquet staging, and customized beachfront team dinners.
+                </p>
+              </div>
+              <div class="case-outcome">
+                <strong>Outcome:</strong> Centralized GST invoice with SAC 9985, consolidated expense tracking, and 24/7 on-ground dispatch coordinator.
+              </div>
+            </article>
+
+            <article class="case-study-card">
+              <div>
+                <div class="case-header">
+                  <span class="case-category">Heritage Delegation &amp; Incentive</span>
+                  <span style="font-size: 0.75rem; color: var(--ink-soft);">Jaipur &amp; Udaipur · 5 Days</span>
+                </div>
+                <h3>55-Pax International Dealer Incentive</h3>
+                <div class="case-metrics">
+                  <span class="case-metric">55 Attendees</span>
+                  <span class="case-metric">2 Heritage Palaces</span>
+                  <span class="case-metric">Private Chauffeurs</span>
+                </div>
+                <p>
+                  Bespoke royal welcome protocols, chartered luxury AC coaches, private fort illumination gala, and tailored dietary meal management across all inter-city transits.
+                </p>
+              </div>
+              <div class="case-outcome">
+                <strong>Outcome:</strong> 100% punctual transfers, zero baggage claims, and dedicated on-site concierge throughout the journey.
+              </div>
+            </article>
+
+            <article class="case-study-card">
+              <div>
+                <div class="case-header">
+                  <span class="case-category">International Business Delegation</span>
+                  <span style="font-size: 0.75rem; color: var(--ink-soft);">Dubai · 4 Nights</span>
+                </div>
+                <h3>65-Pax Global Expo &amp; Summit Delegation</h3>
+                <div class="case-metrics">
+                  <span class="case-metric">65 Passengers</span>
+                  <span class="case-metric">Fast-Track Visas</span>
+                  <span class="case-metric">Private Yacht Gala</span>
+                </div>
+                <p>
+                  Group airfare block negotiation, expedited UAE entry visa processing, Marina yacht dinner reception, and daily dedicated shuttle logistics to the Dubai World Trade Centre.
+                </p>
+              </div>
+              <div class="case-outcome">
+                <strong>Outcome:</strong> 14% group airfare savings compared to retail, seamless corporate billing, and real-time flight tracking.
+              </div>
+            </article>
+          </div>
+
+          <!-- Capability Deck Action Banner -->
+          <div class="corporate-deck-banner">
+            <div class="deck-text">
+              <h3>Corporate Travel &amp; MICE Procurement Desk</h3>
+              <p>
+                Need detailed vendor documentation, GST registration details, credit term policies, or a structured RFP proposal? Download our corporate overview or talk to our corporate accounts manager.
+              </p>
+            </div>
+            <div class="deck-actions">
+              <a class="btn btn-amber" href="contact.html?service=mice_corporate">Request Corporate RFP</a>
+              <a class="btn btn-glass" href="corporate-capability.html">Capability Overview (PDF)</a>
+              <a class="btn btn-glass" href="terms.html#procurement">Billing Specs (SAC 9985)</a>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- Trust Strip -->
@@ -852,7 +962,7 @@
           </div>
           <div class="trust-text">
             <strong>GST Registered</strong>
-            <span>Compliant Travel Partner · New Delhi</span>
+            <span>Compliant Invoicing &amp; Corporate ITC · SAC: 9985</span>
           </div>
         </div>
         <div class="trust-item">
@@ -860,8 +970,8 @@
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           </div>
           <div class="trust-text">
-            <strong>Global &amp; Domestic</strong>
-            <span>IATA / TAAI Network Standards</span>
+            <strong>Global &amp; Domestic Desk</strong>
+            <span>Ticketing Across All Major Carriers &amp; GDS Networks</span>
           </div>
         </div>
         <div class="trust-item">
@@ -1204,7 +1314,7 @@
             India tours, and corporate MICE programmes — handled end to end.
           </p>
           <p style="margin-top: 12px; font-size: 0.85rem; color: #8b9cb5;">
-            GST Registered Travel Partner · New Delhi, India
+            GST Registered Travel Partner · SAC: 9985 · Invoices with GSTIN on booking · New Delhi, India
           </p>
         </div>
 
@@ -1230,7 +1340,7 @@
           <ul>
             <li><a href="#plan">Plan a Trip</a></li>
             <li><a href="#search">Search Journeys</a></li>
-            <li><a href="travel-assistant.html">Travel Assistant</a></li>
+            <li><a href="travel-assistant.html">Itinerary Builder</a></li>
             <li><a href="#services">Our Services</a></li>
             <li><a href="#process">How We Work</a></li>
             <li><a href="#about">About BrahmnMitra</a></li>
@@ -1265,7 +1375,7 @@
           </span>
           <span class="footer-trust-item">
             <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Verified Travel Solutions Provider
+            Curated Travel Solutions &amp; Itinerary Design
           </span>
         </div>
 

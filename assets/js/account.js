@@ -62,7 +62,7 @@
               '">Remove</button></li>',
           )
           .join("")
-      : "<li>No saved plans yet. Use the Travel Assistant to create one.</li>";
+      : "<li>No saved plans yet. Use the Itinerary Builder to create one.</li>";
     document.getElementById("activity-list").innerHTML = state.activity.length
       ? state.activity
           .slice(0, 5)

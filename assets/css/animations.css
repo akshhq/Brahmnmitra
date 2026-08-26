@@ -182,22 +182,35 @@
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
-.hero-copy h1 {
+.hero-copy h1,
+.hero-title {
   font-family: var(--display);
   font-weight: 900;
-  font-size: clamp(2.2rem, 8.5vw, 6.2rem);
-  letter-spacing: 0.05em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   line-height: 1.05;
   color: #ffffff;
   text-shadow:
     0 4px 28px rgba(4, 6, 14, 0.85),
     0 0 50px rgba(30, 80, 160, 0.3);
 }
-.hero-copy .tagline {
-  margin-top: 22px;
+.hero-brand-name {
+  font-size: clamp(2.2rem, 8.5vw, 6.2rem);
+  letter-spacing: 0.05em;
+  font-weight: 900;
+  color: #ffffff;
+}
+.hero-copy .tagline,
+.hero-tagline {
+  font-family: var(--body);
   font-size: clamp(1.05rem, 2.3vw, 1.45rem);
+  font-weight: 500;
   color: #dbe7f7;
   max-width: 36ch;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
 }
 .hero-copy .sub {

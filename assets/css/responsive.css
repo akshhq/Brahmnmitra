@@ -1,61 +1,84 @@
 /* BrahmnMitra — responsive.css */
 
-/* 1080px — Mobile navigation overlay */
-@media (max-width: 1080px) {
+/* 1140px — Mobile navigation overlay */
+@media (max-width: 1140px) {
   #nav {
     position: fixed;
     inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
     z-index: 90;
     display: none;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: rgba(6, 12, 24, 0.88);
-    backdrop-filter: blur(22px) saturate(160%);
-    -webkit-backdrop-filter: blur(22px) saturate(160%);
-    padding: 24px;
+    justify-content: flex-start;
+    gap: 8px;
+    background: rgba(4, 8, 18, 0.95);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    padding: 88px 24px 48px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   #nav.open {
     display: flex;
-    animation: navIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: navIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
   #nav a {
     color: #eaf2ff;
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.15rem;
+    font-weight: 500;
     letter-spacing: 0.02em;
-    padding: 16px 28px;
+    padding: 12px 24px;
     min-height: 44px;
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
     display: flex;
     align-items: center;
+    justify-content: center;
+    border-radius: var(--r-md);
+    transition: background 0.2s ease, color 0.2s ease;
   }
   #nav a:hover,
   #site-header.on-light #nav a:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
   }
   #nav a[aria-current="true"],
-  #site-header.on-light #nav a[aria-current="true"] {
-    background: rgba(255, 255, 255, 0.14);
+  #nav a[aria-current="page"],
+  #site-header.on-light #nav a[aria-current="true"],
+  #site-header.on-light #nav a[aria-current="page"] {
+    background: rgba(255, 255, 255, 0.18);
+    color: var(--amber);
+    font-weight: 600;
   }
   #nav .nav-cta {
-    margin-top: 18px;
+    margin-top: 10px;
     font-size: 1rem;
-    padding: 16px 32px;
-    color: #2a1600;
+    padding: 13px 28px;
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+    color: #2a1600 !important;
   }
 
   #nav-toggle {
     display: flex;
+    position: relative;
+    z-index: 100;
   }
   #nav-toggle[aria-expanded="true"] {
-    position: relative;
-    z-index: 95;
-    color: #eaf2ff;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
   }
 
   #site-header {
-    padding: 10px 10px 10px 18px;
+    padding: 9px 12px 9px 18px;
+    width: calc(100% - 24px);
+    top: 10px;
   }
   #site-header .call {
     padding: 10px 16px;
@@ -182,14 +205,19 @@
     padding: 5px 14px;
     margin-bottom: 14px;
   }
-  .hero-copy h1 {
-    font-size: clamp(2.0rem, 8vw, 2.7rem);
+  .hero-copy h1,
+  .hero-title {
+    gap: 10px;
+  }
+  .hero-brand-name {
+    font-size: clamp(1.95rem, 8vw, 2.7rem);
     letter-spacing: 0.04em;
     line-height: 1.08;
   }
-  .hero-copy .tagline {
-    font-size: 0.98rem;
-    margin-top: 12px;
+  .hero-copy .tagline,
+  .hero-tagline {
+    font-size: 0.95rem;
+    margin-top: 6px;
     max-width: 28ch;
     line-height: 1.45;
   }

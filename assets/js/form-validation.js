@@ -162,22 +162,36 @@ BM.initForm = function () {
     });
   }
 
-  // Handle AJAX submission
+  // Handle AJAX submission with cold-start resilience
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!validateAll()) return;
 
     const btn = form.querySelector('button[type="submit"]');
-    const label = btn.textContent;
+    const originalLabel = btn.textContent;
     btn.disabled = true;
-    btn.textContent = "Sending…";
+    btn.textContent = "Sending enquiry…";
+
+    // Progressive cold-start messaging for Render hosting spin-up
+    let slowTimer = setTimeout(() => {
+      btn.textContent = "Connecting to travel desk server… please wait";
+      toast.classList.remove("warn");
+      toast.textContent = "Waking up secure travel desk… thanks for your patience!";
+      toast.classList.add("show");
+    }, 6000);
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
       const res = await fetch(form.action, {
         method: "POST",
         body: new FormData(form),
         headers: { Accept: "application/json" },
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
+
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error(data.error || "send_failed");
 
@@ -205,10 +219,12 @@ BM.initForm = function () {
         esc(PHONE) +
         "</a>" +
         " and we'll take it from there.";
+    } finally {
+      clearTimeout(slowTimer);
+      btn.disabled = false;
+      btn.textContent = originalLabel;
     }
 
-    btn.disabled = false;
-    btn.textContent = label;
     toast.classList.add("show");
     toast.scrollIntoView({ behavior: BM_MOTION(), block: "center" });
   });

@@ -21,24 +21,49 @@
     />
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/portal.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <noscript>
+      <style>
+        @media (max-width: 1140px) {
+          #site-header { position: static !important; width: 100% !important; border-radius: 0 !important; flex-direction: column !important; padding: 16px 20px !important; background: #04060c !important; }
+          #nav-toggle { display: none !important; }
+          #nav { display: flex !important; position: static !important; width: 100% !important; height: auto !important; flex-direction: column !important; align-items: center !important; background: transparent !important; padding: 12px 0 !important; }
+          #nav a { font-size: 1rem !important; padding: 10px 16px !important; min-height: 40px !important; width: 100% !important; max-width: 280px !important; text-align: center !important; }
+        }
+      </style>
+    </noscript>
   </head>
   <body class="portal-page">
-    <header class="portal-header">
-      <nav class="portal-nav" aria-label="Main Navigation">
-        <a class="portal-brand" href="index.html">
-          <span class="dot" aria-hidden="true"></span>BRAHMNMITRA
-        </a>
+    <a class="skip" href="#legal-content">Skip to content</a>
+
+    <!-- Global Header -->
+    <header id="site-header">
+      <a class="brand" href="index.html" aria-label="BrahmnMitra — home">
+        <span class="dot" aria-hidden="true"></span>BRAHMNMITRA
+      </a>
+
+      <nav id="nav" aria-label="Main">
         <a href="packages.html">Packages</a>
         <a href="hotels.html">Hotels</a>
         <a href="destinations.html">Destinations</a>
-        <a href="travel-assistant.html">Travel Assistant</a>
-        <a href="account.html">My Account</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#process">Process</a>
+        <a href="index.html#about">About</a>
+        <a href="travel-assistant.html">Itinerary Builder</a>
         <a href="contact.html">Contact</a>
-        <button class="theme-toggle-btn" type="button" aria-label="Toggle dark/light theme">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <span>Day</span>
-        </button>
+        <a href="account.html">My Account</a>
+        <a class="nav-cta" href="index.html#plan">Plan a Trip &#8594;</a>
       </nav>
+
+      <button
+        id="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav"
+        aria-label="Open menu"
+      >
+        <span class="bars" aria-hidden="true"><span></span></span>
+      </button>
     </header>
 
     <main class="portal-main">
@@ -91,14 +116,21 @@
           </p>
         </section>
 
-        <section class="legal-section">
-          <h2>5. Payments, Taxes &amp; GST</h2>
+        <section class="legal-section" id="procurement">
+          <h2>5. Payments, Taxes &amp; Corporate Procurement</h2>
           <p>
-            All payments are accepted via official bank transfers (NEFT/RTGS/IMPS),
-            authorized UPI handles, or verified payment links. Prices include applicable
-            Goods and Services Tax (GST) under Tour Operator Service SAC codes. Tax invoices
-            bearing our GST registration number are issued upon transaction completion.
+            All payments are processed securely through verified business channels including official bank transfers (NEFT / RTGS / IMPS), authorized corporate UPI handles, or verified gateway links.
           </p>
+          <div class="legal-contact-box" style="margin-top: 14px;">
+            <p><strong>Corporate Billing &amp; Procurement Specifications:</strong></p>
+            <ul style="margin-top: 8px; list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 6px;">
+              <li>• <strong>Service Accounting Code (SAC):</strong> <code>9985</code> (Tour Operator &amp; Passenger Transport Services)</li>
+              <li>• <strong>Tax Structure:</strong> Compliant Goods and Services Tax (GST) applied with detailed tax invoices for corporate input tax credit (ITC) reconciliation.</li>
+              <li>• <strong>GSTIN:</strong> <code>Provided upon booking confirmation &amp; corporate invoicing</code> (Registered State: New Delhi, India)</li>
+              <li>• <strong>Invoicing:</strong> Official GST tax invoices bearing transaction reference, passenger/traveler breakdown, and SAC classification are generated upon booking confirmation.</li>
+              <li>• <strong>Payment Advice:</strong> Direct vendor verification and proforma invoices can be requested via <a href="mailto:info@brahmnmitra.com" style="color: var(--amber);">info@brahmnmitra.com</a>.</li>
+            </ul>
+          </div>
         </section>
 
         <section class="legal-section">
@@ -131,6 +163,7 @@
         </p>
       </div>
     </footer>
+    <script src="assets/js/navigation.js"></script>
     <script src="assets/js/platform-store.js"></script>
   </body>
 </html>
