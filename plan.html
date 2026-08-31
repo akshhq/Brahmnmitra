@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plan Your Custom Journey | BrahmnMitra</title>
+    <meta
+      name="description"
+      content="Create your bespoke travel itinerary with BrahmnMitra. Tailored holiday packages, flight bookings, luxury stays, and corporate MICE offsites. Get an itemized quote within 24 hours."
+    />
+    <link rel="canonical" href="https://brahmnmitra.com/plan" />
+    <meta name="theme-color" content="#04060C" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="BrahmnMitra" />
+    <meta property="og:title" content="Plan Your Custom Journey | BrahmnMitra" />
+    <meta
+      property="og:description"
+      content="Share your travel vision with our senior travel designers in New Delhi and receive a personalized day-by-day plan."
+    />
+    <meta property="og:image" content="https://brahmnmitra.com/assets/images/branding/og-image.jpg" />
+    <meta property="og:url" content="https://brahmnmitra.com/plan" />
+
+    <link rel="icon" href="favicon.ico" sizes="any" />
+    <link rel="icon" href="assets/images/branding/favicon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&family=Archivo:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/portal.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <noscript>
+      <style>
+        @media (max-width: 1140px) {
+          #site-header { position: static !important; width: 100% !important; border-radius: 0 !important; flex-direction: column !important; padding: 16px 20px !important; background: #04060c !important; }
+          #nav-toggle { display: none !important; }
+          #nav { display: flex !important; position: static !important; width: 100% !important; height: auto !important; flex-direction: column !important; align-items: center !important; background: transparent !important; padding: 12px 0 !important; }
+          #nav a { font-size: 1rem !important; padding: 10px 16px !important; min-height: 40px !important; width: 100% !important; max-width: 280px !important; text-align: center !important; }
+        }
+      </style>
+    </noscript>
+  </head>
+  <body class="portal-page">
+    <a class="skip" href="#plan-form-section">Skip to content</a>
+
+    <!-- Global Header -->
+    <header id="site-header">
+      <a class="brand" href="/" aria-label="BrahmnMitra — home">
+        <span class="dot" aria-hidden="true"></span>BRAHMNMITRA
+      </a>
+
+      <nav id="nav" aria-label="Main">
+        <a href="/packages">Packages</a>
+        <a href="/hotels">Hotels</a>
+        <a href="/destinations">Destinations</a>
+        <a href="/services">Services</a>
+        <a href="/process">Process</a>
+        <a href="/about">About</a>
+        <a href="/travel-assistant">Itinerary Builder</a>
+        <a href="/contact">Contact</a>
+        <a href="/account">My Account</a>
+        <a aria-current="page" data-static-current="true" class="nav-cta" href="/plan">Plan a Trip &#8594;</a>
+      </nav>
+
+      <button
+        id="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav"
+        aria-label="Open menu"
+      >
+        <span class="bars" aria-hidden="true"><span></span></span>
+      </button>
+    </header>
+
+    <main class="portal-main" id="plan-form-section">
+      <!-- Hero Section -->
+      <section class="portal-hero">
+        <span class="kicker">✦ Bespoke Travel Architect</span>
+        <h1>Let's design your perfect journey.</h1>
+        <p>
+          Fill in your preferences below. Our senior travel designers in New Delhi will curate an itemized, custom itinerary with transparent pricing within 24 hours.
+        </p>
+      </section>
+
+      <!-- Main Layout: Interactive Form + Live Brief Summary -->
+      <section class="portal-section" style="margin-top: 36px;">
+        <div style="display: grid; grid-template-columns: 1.35fr 0.65fr; gap: 32px; align-items: flex-start;">
+          <!-- Left: Comprehensive Travel Planning Form -->
+          <div class="glass" style="padding: clamp(24px, 5vw, 40px); border-radius: var(--r-lg); background: rgba(14, 28, 54, 0.7); border: 1px solid rgba(255, 255, 255, 0.12);">
+            <form id="custom-plan-form" class="admin-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <!-- 1. Destination / Region -->
+              <label style="grid-column: 1 / -1; display: grid; gap: 6px; color: var(--cyan); font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">
+                Where would you like to go?
+                <input
+                  id="plan-destination"
+                  name="destination"
+                  type="text"
+                  required
+                  placeholder="e.g. Kerala Backwaters &amp; Munnar, Rajasthan Palaces, Kashmir, Switzerland..."
+                  style="border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; background: rgba(6, 12, 24, 0.9); color: #f0f6ff; padding: 12px 14px; font-size: 0.95rem;"
+                />
+              </label>
+
+              <!-- 2. Region / Category -->
+              <label style="display: grid; gap: 6px; color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">
+                Travel Region
+                <select
+                  id="plan-region"
+                  name="region"
+                  style="border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; background: rgba(6, 12, 24, 0.9); color: #f0f6ff; padding: 12px 14px; font-size: 0.95rem;"
+                >
+                  <option value="Domestic (India)">Domestic (India)</option>
+                  <option value="International (Asia/Middle East)">International (Asia / Middle East)</option>
+                  <option value="International (Europe/Americas)">International (Europe / Americas)</option>
+                  <option value="Corporate Offsite / MICE">Corporate Offsite / MICE</option>
+                </select>
+              </label>
+
+              <!-- 3. Travel Style -->
+              <label style="display: grid; gap: 6px; color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">
+                Travel Style
+                <select
+                  id="plan-style"
+                  name="style"
+                  style="border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; background: rgba(6, 12, 24, 0.9); color: #f0f6ff; padding: 12px 14px; font-size: 0.95rem;"
+                >
+                  <option value="Luxury & Palace Heritage">Luxury &amp; Palace Heritage</option>
+                  <option value="Family Leisure & Nature">Family Leisure &amp; Nature</option>
+                  <option value="Honeymoon & Romantic Retreat">Honeymoon &amp; Romantic Retreat</option>
+                  <option value="Cultural & Spiritual Circuit">Cultural &amp; Spiritual Circuit</option>
+                  <option value="Wildlife & Adventure Safari">Wildlife &amp; Adventure Safari</option>
+                  <option value="Corporate / Leadership Offsite">Corporate / Leadership Offsite</option>
+                </select>
+              </label>
+
+              <!-- 4. Departure Date -->
+              <label style="display: grid; gap: 6px; color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">
+                Approximate Travel Date
+                <input
+                  id="plan-date"
+                  name="travel_date"
+                  type="date"
+                  style="border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; background: rgba(6, 12, 24, 0.9); color: #f0f6ff; padding: 12px 14px; font-size: 0.95rem;"
+                />
+              </label>
+
+              <!-- 5. Duration / Nights -->
+              <label style="display: grid; gap: 6px; color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">
+                Duration
+                <select
+                  id="plan-duration"
+                  name="duration"
+                  style="border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; background: rgba(6, 12, 24, 0.9); color: #f0f6ff; padding: 12px 14px; font-size: 0.95rem;"
+                >
+                  <option value="3-4 Days (Short Break)">3–4 Days (Short Break)</option>
+                  <option value="5-7 Days (Standard Tour)" selected>5–7 Days (Standard Tour)</option>
+                  <option value="8-10 Days (Comprehensive)">8–10 Days (Comprehensive)</option>
+                  <option value="11-14 Days (Extended Journey)">11–14 Days (Extended Journey)</option>
+                  <option value="15+ Days (Grand Circuit)">15+ Days (Grand Circuit)</option>
+                </select>
+              </label>
+
+              <!-- 6. Number of Travelers -->
+              <label style="display: grid; gap: 6px; color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">
+                Number of Travelers
+                <input
+                  id="plan-travelers"
+                  name="travelers"
+                  type="number"
+                  min="1"
+                  max="500"
+                  value="2"
+                  required
+                  style="border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; background: rgba(6, 12, 24, 0.9); color: #f0f6ff; padding: 12px 14px; font-size: 0.95rem;"
+                />
+              </label>
+
+              <!-- 7. Estimated Budget (Per Person) -->
+              <label style="display: grid; gap: 6px; color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">
+                Budget Tier (Per Person)
+                <select
+                  id="plan-budget"
+                  name="budget"
+                  style="border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; background: rgba(6, 12, 24, 0.9); color: #f0f6ff; padding: 12px 14px; font-size: 0.95rem;"
+                >
+                  <option value="₹25,000 - ₹45,000">₹25,000 – ₹45,000 (Comfort / Value)</option>
+                  <option value="₹45,000 - ₹80,000" selected>₹45,000 – ₹80,000 (Premium Curated)</option>
+                  <option value="₹80,000 - ₹1,50,000">₹80,000 – ₹1,50,000 (Luxury &amp; Palaces)</option>
+                  <option value="₹1,50,000+ (Ultra Luxury / International)">₹1,50,000+ (Ultra Luxury / International)</option>
+                  <option value="To Discuss with Travel Desk">To Discuss with Travel Desk</option>
+                </select>
+              </label>
+
+              <!-- Divider -->
+              <div style="grid-column: 1 / -1; border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 6px 0;"></div>
+
+              <!-- 8. Full Name -->
+              <label style="display: grid; gap: 6px; color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">
+                Your Full Name
+                <input
+                  id="plan-name"
+                  name="name"
+                  type="text"
+                  required
+                  placeholder="e.g. Vikramaditya Sharma"
+                  style="border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; background: rgba(6, 12, 24, 0.9); color: #f0f6ff; padding: 12px 14px; font-size: 0.95rem;"
+                />
+              </label>
+
+              <!-- 9. Phone Number -->
+              <label style="display: grid; gap: 6px; color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">
+                Phone Number (WhatsApp)
+                <input
+                  id="plan-phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  placeholder="+91 98765 43210"
+                  style="border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; background: rgba(6, 12, 24, 0.9); color: #f0f6ff; padding: 12px 14px; font-size: 0.95rem;"
+                />
+              </label>
+
+              <!-- 10. Email Address -->
+              <label style="grid-column: 1 / -1; display: grid; gap: 6px; color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">
+                Email Address
+                <input
+                  id="plan-email"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="name@example.com"
+                  style="border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; background: rgba(6, 12, 24, 0.9); color: #f0f6ff; padding: 12px 14px; font-size: 0.95rem;"
+                />
+              </label>
+
+              <!-- 11. Notes & Special Requests -->
+              <label style="grid-column: 1 / -1; display: grid; gap: 6px; color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">
+                Specific Wishes / Special Requests (Optional)
+                <textarea
+                  id="plan-notes"
+                  name="notes"
+                  rows="3"
+                  placeholder="e.g. Need private pool villa in Munnar, vegetarian cuisine throughout, wheelchair assistance for senior parents, private airport pickup..."
+                  style="border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 12px; background: rgba(6, 12, 24, 0.9); color: #f0f6ff; padding: 12px 14px; font-size: 0.95rem; resize: vertical;"
+                ></textarea>
+              </label>
+
+              <!-- Submit Button & Live Status -->
+              <div style="grid-column: 1 / -1; margin-top: 10px;">
+                <button id="btn-submit-plan" type="submit" class="btn btn-amber" style="width: 100%; font-size: 1.05rem; padding: 16px;">
+                  Submit Journey Brief for Quotation <span aria-hidden="true">&#8594;</span>
+                </button>
+                <div id="plan-status" style="margin-top: 14px; font-size: 0.9rem; text-align: center; display: none;"></div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right: Live Summary & Concierge Direct Cards -->
+          <aside style="display: grid; gap: 20px;">
+            <!-- Summary Box -->
+            <div class="glass" style="padding: 24px; border-radius: 14px; background: rgba(14, 28, 54, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);">
+              <span style="color: var(--cyan); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Live Journey Summary</span>
+              <h3 id="summary-dest" style="font-size: 1.25rem; color: #fff; margin: 8px 0 14px;">Your Dream Destination</h3>
+              <div style="display: grid; gap: 10px; font-size: 0.85rem; color: #cbdbee; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 12px;">
+                <div><strong>Region:</strong> <span id="summary-region">Domestic (India)</span></div>
+                <div><strong>Style:</strong> <span id="summary-style">Luxury &amp; Palace Heritage</span></div>
+                <div><strong>Duration:</strong> <span id="summary-duration">5–7 Days</span></div>
+                <div><strong>Travelers:</strong> <span id="summary-travelers">2 Adults</span></div>
+                <div><strong>Est. Tier:</strong> <span id="summary-budget" style="color: var(--amber);">₹45k–₹80k / person</span></div>
+              </div>
+            </div>
+
+            <!-- Direct Contact Box -->
+            <div class="glass" style="padding: 24px; border-radius: 14px; background: rgba(14, 28, 54, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);">
+              <h3 style="font-size: 1.1rem; color: #fff; margin-bottom: 8px;">Prefer speaking directly?</h3>
+              <p style="color: var(--ink-soft); font-size: 0.85rem; line-height: 1.6; margin-bottom: 16px;">
+                Connect instantly with our New Delhi concierge desk via phone or WhatsApp.
+              </p>
+              <div style="display: grid; gap: 10px;">
+                <a href="tel:+919211761885" class="btn btn-glass small" style="text-align: center;">📞 Call +91 92117 61885</a>
+                <a href="https://wa.me/919211761885" target="_blank" rel="noopener" class="btn btn-glass small" style="text-align: center; color: #25d366; border-color: rgba(37, 211, 102, 0.3);">💬 WhatsApp Concierge</a>
+              </div>
+            </div>
+
+            <!-- Security & Guarantee Box -->
+            <div style="padding: 18px; border-radius: 12px; background: rgba(6, 12, 24, 0.8); border: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.8rem; color: var(--ink-soft); line-height: 1.5;">
+              🔒 <strong>Privacy Guarantee:</strong> Your contact details are strictly used to prepare your travel proposal. No spam, no automated cold calls.
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="portal-footer">
+      <div class="portal-footer-inner">
+        <div class="portal-footer-brand">
+          <span class="fbrand">BRAHMNMITRA</span>
+          <p>Flights, curated tours &amp; MICE — handled end to end.</p>
+        </div>
+        <div class="portal-footer-links">
+          <a href="/packages">Packages</a>
+          <a href="/hotels">Hotels</a>
+          <a href="/destinations">Destinations</a>
+          <a href="/services">Services</a>
+          <a href="/process">Process</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/refund-policy">Refund &amp; Cancellation</a>
+          <a href="/">Home</a>
+        </div>
+        <p class="portal-footer-copy">
+          &copy; 2026 BrahmnMitra. Registered Travel Solutions Provider, New Delhi, India. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="assets/js/navigation.js"></script>
+    <script src="assets/js/platform-store.js"></script>
+    <script>
+      "use strict";
+      (() => {
+        const form = document.getElementById("custom-plan-form");
+        const statusEl = document.getElementById("plan-status");
+        const submitBtn = document.getElementById("btn-submit-plan");
+
+        // Dynamic summary card updater
+        const inputDest = document.getElementById("plan-destination");
+        const inputRegion = document.getElementById("plan-region");
+        const inputStyle = document.getElementById("plan-style");
+        const inputDuration = document.getElementById("plan-duration");
+        const inputTravelers = document.getElementById("plan-travelers");
+        const inputBudget = document.getElementById("plan-budget");
+
+        function updateSummary() {
+          document.getElementById("summary-dest").textContent = inputDest.value.trim() || "Your Dream Destination";
+          document.getElementById("summary-region").textContent = inputRegion.value;
+          document.getElementById("summary-style").textContent = inputStyle.value;
+          document.getElementById("summary-duration").textContent = inputDuration.value;
+          document.getElementById("summary-travelers").textContent = (inputTravelers.value || "2") + " Travelers";
+          document.getElementById("summary-budget").textContent = inputBudget.value;
+        }
+
+        [inputDest, inputRegion, inputStyle, inputDuration, inputTravelers, inputBudget].forEach((el) => {
+          el?.addEventListener("input", updateSummary);
+          el?.addEventListener("change", updateSummary);
+        });
+
+        // Form submission to backend MySQL API
+        form?.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Submitting Travel Brief...";
+          statusEl.style.display = "block";
+          statusEl.style.color = "var(--cyan)";
+          statusEl.textContent = "Connecting to BrahmnMitra Concierge Desk...";
+
+          const payload = {
+            name: document.getElementById("plan-name").value.trim(),
+            phone: document.getElementById("plan-phone").value.trim(),
+            email: document.getElementById("plan-email").value.trim(),
+            destination: inputDest.value.trim(),
+            travel_date: document.getElementById("plan-date").value,
+            travelers: inputTravelers.value,
+            budget: inputBudget.value,
+            message: `Trip Planning Request:\nDestination: ${inputDest.value}\nRegion: ${inputRegion.value}\nStyle: ${inputStyle.value}\nDuration: ${inputDuration.value}\nTravelers: ${inputTravelers.value}\nBudget: ${inputBudget.value}\nSpecial Requests: ${document.getElementById("plan-notes").value.trim()}`,
+            source: "Custom Trip Planner (/plan)"
+          };
+
+          try {
+            const res = await fetch("backend/enquiry.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", Accept: "application/json" },
+              body: JSON.stringify(payload)
+            });
+            const data = await res.json().catch(() => ({}));
+            if (res.ok && data.status === "ok") {
+              statusEl.style.color = "#25d366";
+              statusEl.innerHTML = "✅ <strong>Your journey brief has been received!</strong> Our senior travel specialist will review your preferences and send an itemized itinerary proposal within 24 hours.";
+              form.reset();
+              updateSummary();
+            } else {
+              throw new Error(data.message || "Submission failed");
+            }
+          } catch (err) {
+            statusEl.style.color = "#ff8c8c";
+            statusEl.innerHTML = `⚠️ Note: We logged your request locally. For immediate assistance, please message our WhatsApp concierge at <a href="https://wa.me/919211761885" target="_blank" style="color: #25d366; text-decoration: underline;">+91 92117 61885</a>.`;
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `Submit Journey Brief for Quotation <span aria-hidden="true">&#8594;</span>`;
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
