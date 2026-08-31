@@ -6,8 +6,10 @@
     if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
       return window.location.port === "8000" ? "/backend" : "https://brahmnmitra.com/backend";
     }
-    if (window.location.hostname.includes("brahmnmitra.com")) {
-      return "https://brahmnmitra.com/backend";
+    if (window.location.hostname.includes("brahmnmitra.com") || window.location.hostname.includes("imperioncapitals.com")) {
+      return window.location.hostname.includes("imperioncapitals.com")
+        ? "https://brahmnmitra.imperioncapitals.com/backend"
+        : "https://brahmnmitra.com/backend";
     }
     return "https://brahmnmitra.onrender.com";
   })();

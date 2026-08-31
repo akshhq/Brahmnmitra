@@ -2,18 +2,23 @@
 // BrahmnMitra — Backend API & Health Check Endpoint
 
 // Handle CORS
-$origin = isset($_SERVER['HTTP_ORIGIN']) ? trim($_SERVER['HTTP_ORIGIN']) : '';
+$origin_raw = isset($_SERVER['HTTP_ORIGIN']) ? trim($_SERVER['HTTP_ORIGIN']) : '';
+$origin_clean = rtrim($origin_raw, '/');
 $allowed = getenv('ALLOWED_ORIGIN') ?: '*';
 
 if ($allowed === '*') {
     header("Access-Control-Allow-Origin: *");
 } else {
-    $allowed_list = array_filter(array_map('trim', explode(',', $allowed)));
-    if (!empty($origin) && in_array($origin, $allowed_list, true)) {
-        header("Access-Control-Allow-Origin: " . $origin);
+    $allowed_list = array_map(function ($item) {
+        return rtrim(trim($item), '/');
+    }, explode(',', $allowed));
+    $allowed_list = array_values(array_filter($allowed_list));
+
+    if (!empty($origin_clean) && in_array($origin_clean, $allowed_list, true)) {
+        header("Access-Control-Allow-Origin: " . $origin_raw);
         header("Vary: Origin");
     } elseif (!empty($allowed_list)) {
-        header("Access-Control-Allow-Origin: " . reset($allowed_list));
+        header("Access-Control-Allow-Origin: " . $allowed_list[0]);
     } else {
         header("Access-Control-Allow-Origin: *");
     }

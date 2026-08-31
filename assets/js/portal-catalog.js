@@ -245,7 +245,7 @@
   });
 
   function loadData() {
-    fetch("backend/catalog.php")
+    fetch("/backend/catalog.php")
       .then((response) => (response.ok ? response.json() : Promise.reject()))
       .then((data) => {
         items = data[page] || [];
@@ -254,7 +254,7 @@
       })
       .catch(() => {
         // Fallback to static JSON file
-        return fetch("data/travel-catalog.json")
+        return fetch("/data/travel-catalog.json")
           .then((response) => (response.ok ? response.json() : Promise.reject()))
           .then((data) => {
             items = data[page] || [];

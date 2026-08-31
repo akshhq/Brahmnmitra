@@ -10,7 +10,7 @@ services:
       - key: TIMEZONE
         value: Asia/Kolkata
       - key: ALLOWED_ORIGIN
-        value: "https://brahmnmitra.com,https://admin.brahmnmitra.com"
+        value: "https://brahmnmitra.com,https://admin.brahmnmitra.com,https://brahmnmitra.imperioncapitals.com"
       - key: TO_EMAIL
         value: info@brahmnmitra.com
       - key: FROM_EMAIL

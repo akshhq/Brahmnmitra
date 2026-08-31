@@ -97,8 +97,7 @@ ErrorDocument 500 /500.html
   #   connect-src  'self' and backend API host (https://brahmnmitra.onrender.com)
   #   object-src, base-uri, form-action, frame-ancestors — locked down;
   #                this site embeds no plugins, no third-party forms, and
-  #                is never meant to be framed by another site.
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'sha256-sEhvVkTg2Yz7BCUk8wVA+YphR9LpcdjnbOFCw1gaItk='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://brahmnmitra.onrender.com; object-src 'none'; base-uri 'self'; form-action 'self' https://brahmnmitra.onrender.com; frame-ancestors 'self'; upgrade-insecure-requests"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'sha256-sEhvVkTg2Yz7BCUk8wVA+YphR9LpcdjnbOFCw1gaItk='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://brahmnmitra.onrender.com https://brahmnmitra.imperioncapitals.com https://brahmnmitra.com; object-src 'none'; base-uri 'self'; form-action 'self' https://brahmnmitra.onrender.com https://brahmnmitra.imperioncapitals.com https://brahmnmitra.com; frame-ancestors 'self'; upgrade-insecure-requests"
 </IfModule>
 
 # ---------- 4. compression ----------

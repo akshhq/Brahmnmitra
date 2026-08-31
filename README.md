@@ -312,7 +312,7 @@ backend/
    DB_PASS=Brahmnmitra@1234
    DB_PORT=3306
 
-   ALLOWED_ORIGIN=https://brahmnmitra.com,https://admin.brahmnmitra.com,http://localhost:8000
+   ALLOWED_ORIGIN=https://brahmnmitra.com,https://admin.brahmnmitra.com,https://brahmnmitra.imperioncapitals.com,http://localhost:8000
    ENVIRONMENT=production
    ```
 
