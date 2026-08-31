@@ -13,7 +13,7 @@ function bm_handle_cors()
     $origin_clean = rtrim($origin_raw, '/');
     $allowed = defined('ALLOWED_ORIGIN') ? ALLOWED_ORIGIN : '*';
 
-    if ($allowed === '*') {
+    if ($allowed === '*' || empty($origin_raw)) {
         header("Access-Control-Allow-Origin: *");
     } else {
         $allowed_list = array_map(function ($item) {
@@ -21,7 +21,23 @@ function bm_handle_cors()
         }, explode(',', $allowed));
         $allowed_list = array_values(array_filter($allowed_list));
 
-        if (!empty($origin_clean) && in_array($origin_clean, $allowed_list, true)) {
+        $origin_host = parse_url($origin_raw, PHP_URL_HOST);
+        $is_allowed = in_array($origin_clean, $allowed_list, true);
+
+        // Allow any subdomain of brahmnmitra.com, imperioncapitals.com, onrender.com, or local development
+        if (!$is_allowed && !empty($origin_host)) {
+            if (
+                preg_match('/(^|\.)brahmnmitra\.com$/i', $origin_host) ||
+                preg_match('/(^|\.)imperioncapitals\.com$/i', $origin_host) ||
+                preg_match('/(^|\.)onrender\.com$/i', $origin_host) ||
+                $origin_host === 'localhost' ||
+                $origin_host === '127.0.0.1'
+            ) {
+                $is_allowed = true;
+            }
+        }
+
+        if ($is_allowed) {
             header("Access-Control-Allow-Origin: " . $origin_raw);
             header("Vary: Origin");
         } elseif (!empty($allowed_list)) {
@@ -32,7 +48,7 @@ function bm_handle_cors()
     }
 
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type, Accept, X-Requested-With, Authorization");
+    header("Access-Control-Allow-Headers: Content-Type, Accept, X-Requested-With, Authorization, X-Custom-Header");
     header("Access-Control-Max-Age: 86400");
 
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {

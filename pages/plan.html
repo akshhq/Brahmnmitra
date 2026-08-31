@@ -376,11 +376,20 @@
           };
 
           try {
-            const res = await fetch("/backend/enquiry.php", {
+            let res = await fetch("/backend/enquiry.php", {
               method: "POST",
               headers: { "Content-Type": "application/json", Accept: "application/json" },
               body: JSON.stringify(payload)
-            });
+            }).catch(() => null);
+
+            if (!res || !res.ok) {
+              res = await fetch("https://brahmnmitra.onrender.com/enquiry.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify(payload)
+              });
+            }
+
             const data = await res.json().catch(() => ({}));
             if (res.ok && data.status === "ok") {
               statusEl.style.color = "#25d366";

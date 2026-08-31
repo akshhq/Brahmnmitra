@@ -609,13 +609,35 @@
         <!-- 10. PLATFORM SETUP & SETTINGS VIEW -->
         <section id="view-settings" class="admin-view" hidden>
           <article class="admin-panel">
-            <h2>Admin Portal &amp; Data Management</h2>
+            <h2>Backend API Connection &amp; Health</h2>
             <p>
-              This portal runs independently for operations management. All backend API communications (enquiries, mailers, catalog updates, audit logs) connect directly to your dedicated API service on Render.
+              Configure and test the backend API connection. By default, the admin panel connects to your live Render backend and synchronizes with Hostinger MySQL.
             </p>
-            <div class="admin-notice">
-              Data backups can be exported or imported locally as JSON files. Keep your backups secure.
+            <div style="display: grid; gap: 14px; margin: 18px 0; max-width: 680px;">
+              <label style="display: grid; gap: 6px; color: var(--ink-soft); font-size: 0.85rem; font-weight: 600;">
+                Active Backend Endpoint URL:
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                  <input id="cfg-api-endpoint" type="url" style="flex: 1; min-width: 260px; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: #fff; font-family: monospace;" value="https://brahmnmitra.onrender.com" />
+                  <button id="btn-test-api" class="admin-button secondary" type="button">🔄 Test Connection</button>
+                  <button id="btn-save-api" class="admin-button" type="button">Save &amp; Connect</button>
+                </div>
+              </label>
+              <div id="cfg-api-status-msg" style="font-size: 0.88rem; padding: 10px 14px; border-radius: 8px; display: none;"></div>
+
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px;">
+                <span style="font-size: 0.8rem; color: var(--ink-soft); align-self: center; margin-right: 4px;">Presets:</span>
+                <button id="preset-render" class="admin-button secondary small" type="button">Render Cloud (onrender.com)</button>
+                <button id="preset-hostinger" class="admin-button secondary small" type="button">Hostinger Direct (/backend)</button>
+                <button id="preset-imperion" class="admin-button secondary small" type="button">Imperion Staging (/backend)</button>
+              </div>
             </div>
+          </article>
+
+          <article class="admin-panel" style="margin-top: 20px;">
+            <h2>Admin Portal &amp; Workspace Management</h2>
+            <p>
+              Data backups can be exported or imported locally as JSON files. Keep your backups secure.
+            </p>
             <div class="admin-actions">
               <button id="export-workspace" class="admin-button secondary" type="button">Export full backup (JSON)</button>
               <label class="admin-button secondary import-button">

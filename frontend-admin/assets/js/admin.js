@@ -2,17 +2,16 @@
 
 (() => {
   const STORAGE_KEY = "bm_admin_workspace_v2";
-  const API_ENDPOINT = (() => {
-    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-      return window.location.port === "8000" ? "/backend" : "https://brahmnmitra.com/backend";
+  function getActiveApiEndpoint() {
+    const saved = localStorage.getItem("bm_custom_api_endpoint");
+    if (saved && saved.trim()) {
+      return saved.trim().replace(/\/+$/, "");
     }
-    if (window.location.hostname.includes("brahmnmitra.com") || window.location.hostname.includes("imperioncapitals.com")) {
-      return window.location.hostname.includes("imperioncapitals.com")
-        ? "https://brahmnmitra.imperioncapitals.com/backend"
-        : "https://brahmnmitra.com/backend";
-    }
+    // Default directly to live Render backend
     return "https://brahmnmitra.onrender.com";
-  })();
+  }
+
+  let API_ENDPOINT = getActiveApiEndpoint();
 
   let recycleBinItems = [];
   let currentRecycleFilter = "all";
@@ -1554,6 +1553,60 @@
   });
 
   // ==========================================
+  // BACKEND API ENDPOINT CONFIGURATION & TESTING
+  // ==========================================
+  const cfgEndpointInput = document.getElementById("cfg-api-endpoint");
+  const btnTestApi = document.getElementById("btn-test-api");
+  const btnSaveApi = document.getElementById("btn-save-api");
+
+  if (cfgEndpointInput) {
+    cfgEndpointInput.value = API_ENDPOINT;
+  }
+
+  btnTestApi?.addEventListener("click", async () => {
+    if (!cfgEndpointInput) return;
+    const targetUrl = cfgEndpointInput.value.trim();
+    btnTestApi.disabled = true;
+    btnTestApi.textContent = "Testing...";
+    const success = await checkApiLive(targetUrl);
+    btnTestApi.disabled = false;
+    btnTestApi.textContent = "🔄 Test Connection";
+    if (success) {
+      window.alert(`Connected successfully to backend API at: ${targetUrl}`);
+    } else {
+      window.alert(`Failed to connect to ${targetUrl}. Ensure the service is awake and CORS is permitted.`);
+    }
+  });
+
+  btnSaveApi?.addEventListener("click", async () => {
+    if (!cfgEndpointInput) return;
+    const targetUrl = cfgEndpointInput.value.trim().replace(/\/+$/, "");
+    if (!targetUrl) return;
+    localStorage.setItem("bm_custom_api_endpoint", targetUrl);
+    API_ENDPOINT = targetUrl;
+    btnSaveApi.disabled = true;
+    btnSaveApi.textContent = "Connecting...";
+    await checkApiLive(targetUrl);
+    btnSaveApi.disabled = false;
+    btnSaveApi.textContent = "Save & Connect";
+  });
+
+  document.getElementById("preset-render")?.addEventListener("click", () => {
+    if (cfgEndpointInput) cfgEndpointInput.value = "https://brahmnmitra.onrender.com";
+    btnSaveApi?.click();
+  });
+
+  document.getElementById("preset-hostinger")?.addEventListener("click", () => {
+    if (cfgEndpointInput) cfgEndpointInput.value = "https://brahmnmitra.com/backend";
+    btnSaveApi?.click();
+  });
+
+  document.getElementById("preset-imperion")?.addEventListener("click", () => {
+    if (cfgEndpointInput) cfgEndpointInput.value = "https://brahmnmitra.imperioncapitals.com/backend";
+    btnSaveApi?.click();
+  });
+
+  // ==========================================
   // MASTER RENDER
   // ==========================================
   function renderAll() {
@@ -1639,26 +1692,78 @@
   const apiStatusEl = document.getElementById("api-status");
   const apiTextEl = document.getElementById("api-status-text");
 
-  async function checkApiLive() {
-    if (!apiStatusEl || !apiTextEl) return;
-    try {
-      const res = await fetch(`${API_ENDPOINT}/`, { method: "GET", headers: { Accept: "application/json" } });
-      if (res.ok) {
-        const data = await res.json().catch(() => ({}));
-        if (data.status === "ok") {
-          apiStatusEl.className = "api-signal live";
-          apiStatusEl.title = `API Live: ${API_ENDPOINT} (${data.service || "backend"}) · Hostinger MySQL: ${data.database?.connected ? "Connected" : "Standby"}`;
-          apiTextEl.textContent = "API Live";
-          syncBackendData();
-          return;
+  async function checkApiLive(customTargetUrl) {
+    if (!apiStatusEl || !apiTextEl) return false;
+
+    const candidates = [
+      customTargetUrl,
+      localStorage.getItem("bm_custom_api_endpoint"),
+      "https://brahmnmitra.onrender.com",
+      "https://brahmnmitra.com/backend",
+      "https://brahmnmitra.imperioncapitals.com/backend",
+      (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") ? "/backend" : null
+    ];
+    const uniqueCandidates = [...new Set(candidates.filter(Boolean))];
+
+    for (const rawUrl of uniqueCandidates) {
+      const url = rawUrl.trim().replace(/\/+$/, "");
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+        const res = await fetch(`${url}/`, {
+          method: "GET",
+          headers: { Accept: "application/json" },
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (res.ok) {
+          const data = await res.json().catch(() => ({}));
+          if (data && data.status === "ok") {
+            API_ENDPOINT = url;
+            localStorage.setItem("bm_custom_api_endpoint", url);
+
+            apiStatusEl.className = "api-signal live";
+            const hostLabel = url.includes("render") ? "Render" : url.includes("imperion") ? "Imperion" : url.includes("localhost") ? "Local" : "Live";
+            const dbLabel = data.database?.connected ? "MySQL Connected" : "MySQL Standby";
+            apiStatusEl.title = `API Live (${hostLabel}): ${url} · ${dbLabel}`;
+            apiTextEl.textContent = `API Live (${hostLabel})`;
+
+            const cfgInput = document.getElementById("cfg-api-endpoint");
+            if (cfgInput) cfgInput.value = url;
+
+            const cfgMsg = document.getElementById("cfg-api-status-msg");
+            if (cfgMsg) {
+              cfgMsg.style.display = "block";
+              cfgMsg.style.background = "rgba(37, 211, 102, 0.15)";
+              cfgMsg.style.color = "#25d366";
+              cfgMsg.style.border = "1px solid rgba(37, 211, 102, 0.3)";
+              cfgMsg.textContent = `Connected successfully to ${url} (${dbLabel})`;
+            }
+
+            syncBackendData();
+            return true;
+          }
         }
+      } catch (_) {
+        // try next candidate
       }
-      throw new Error();
-    } catch (_) {
-      apiStatusEl.className = "api-signal offline";
-      apiStatusEl.title = `API Offline: ${API_ENDPOINT}`;
-      apiTextEl.textContent = "API Offline";
     }
+
+    apiStatusEl.className = "api-signal offline";
+    apiStatusEl.title = `API Offline: Could not reach ${API_ENDPOINT}`;
+    apiTextEl.textContent = "API Offline";
+
+    const cfgMsg = document.getElementById("cfg-api-status-msg");
+    if (cfgMsg && customTargetUrl) {
+      cfgMsg.style.display = "block";
+      cfgMsg.style.background = "rgba(255, 100, 100, 0.15)";
+      cfgMsg.style.color = "#ff8c8c";
+      cfgMsg.style.border = "1px solid rgba(255, 100, 100, 0.3)";
+      cfgMsg.textContent = `Could not connect to ${customTargetUrl}. Check service status.`;
+    }
+    return false;
   }
 
   async function syncBackendData() {
