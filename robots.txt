@@ -5,7 +5,9 @@ Allow: /
 
 # Disallow private backend scripts and customer accounts
 Disallow: /backend/
+Disallow: /account
 Disallow: /account.html
+Disallow: /platform
 Disallow: /platform.html
 
 Sitemap: https://brahmnmitra.com/sitemap.xml

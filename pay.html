@@ -8,7 +8,7 @@
       name="description"
       content="Secure online payment and deposit checkout for BrahmnMitra travel itineraries, flight ticketing, and corporate MICE offsites."
     />
-    <link rel="canonical" href="https://brahmnmitra.com/pay.html" />
+    <link rel="canonical" href="https://brahmnmitra.com/pay" />
     <link rel="icon" href="favicon.ico" sizes="any" />
     <link
       rel="icon"
@@ -68,88 +68,119 @@
         color: #fff;
         font: inherit;
         font-size: 0.85rem;
-        font-weight: 600;
         cursor: pointer;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        gap: 6px;
-        transition: all 0.2s ease;
+        gap: 8px;
+        transition: all 0.2s;
       }
-      .pay-method-btn.active, .pay-method-btn:hover {
+      .pay-method-btn:hover {
+        border-color: var(--amber);
+      }
+      .pay-method-btn.active {
         background: rgba(255, 179, 71, 0.15);
         border-color: var(--amber);
-        color: var(--amber);
+        color: #fff;
+        font-weight: 600;
       }
       .pay-field {
-        display: grid;
-        gap: 6px;
         margin-bottom: 14px;
+      }
+      .pay-field label {
+        display: block;
         font-size: 0.82rem;
-        font-weight: 600;
         color: var(--ink-soft);
+        margin-bottom: 6px;
+        font-weight: 500;
       }
       .pay-field input, .pay-field select {
-        background: rgba(6, 12, 24, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 100%;
+        background: rgba(6, 12, 24, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.16);
         border-radius: 10px;
         padding: 10px 14px;
         color: #fff;
         font: inherit;
         font-size: 0.9rem;
       }
-      .pay-field input:focus {
+      .pay-field input:focus, .pay-field select:focus {
         outline: none;
         border-color: var(--amber);
-        box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.2);
+        box-shadow: 0 0 0 2px rgba(255, 179, 71, 0.25);
+      }
+      .booking-summary-card {
+        background: rgba(8, 16, 32, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: var(--r-xl);
+        padding: 24px;
+        height: fit-content;
       }
       .summary-line {
         display: flex;
         justify-content: space-between;
-        padding: 8px 0;
+        padding: 10px 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         font-size: 0.88rem;
-        color: var(--ink-soft);
       }
-      .summary-line strong {
-        color: #fff;
-      }
-      .summary-total {
-        border-top: 2px solid rgba(255, 255, 255, 0.15);
-        border-bottom: none;
+      .summary-line.total {
+        border-bottom: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
+        margin-top: 10px;
         padding-top: 14px;
-        margin-top: 8px;
-        font-size: 1.15rem;
+        font-size: 1.05rem;
       }
-      .summary-total strong {
-        color: var(--amber);
+      .deposit-choice {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 12px;
+        margin: 14px 0;
       }
-      .btn-pay-now {
+      .deposit-choice label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.86rem;
+        cursor: pointer;
+        color: #fff;
+        margin-bottom: 6px;
+      }
+      .deposit-choice label:last-child {
+        margin-bottom: 0;
+      }
+      .btn-pay-action {
         width: 100%;
-        background: linear-gradient(135deg, var(--amber), #ff9800);
+        background: linear-gradient(135deg, #ffb347, #ff8c00);
         color: #04060c;
         border: 0;
-        padding: 14px;
         border-radius: 999px;
-        font-family: var(--body);
-        font-size: 1rem;
+        padding: 14px 20px;
         font-weight: 700;
+        font-size: 0.95rem;
         cursor: pointer;
-        margin-top: 18px;
-        box-shadow: 0 6px 20px rgba(255, 179, 71, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 8px 24px -6px rgba(255, 140, 0, 0.5);
         transition: transform 0.2s, box-shadow 0.2s;
+        margin-top: 18px;
       }
-      .btn-pay-now:hover {
+      .btn-pay-action:hover:not(:disabled) {
         transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(255, 179, 71, 0.5);
+        box-shadow: 0 12px 28px -6px rgba(255, 140, 0, 0.7);
+      }
+      .btn-pay-action:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
       }
       .success-receipt-card {
-        background: rgba(14, 28, 54, 0.95);
+        background: rgba(8, 18, 36, 0.95);
         border: 1px solid rgba(37, 211, 102, 0.4);
         border-radius: var(--r-xl);
-        padding: 36px;
+        padding: 36px 24px;
         text-align: center;
-        margin-top: 24px;
+        box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(37, 211, 102, 0.3);
       }
       @media (max-width: 768px) {
         .checkout-grid { grid-template-columns: 1fr; }
@@ -167,25 +198,25 @@
     </noscript>
   </head>
   <body class="portal-page">
-    <a class="skip" href="#checkout-main">Skip to content</a>
+    <a class="skip" href="#checkout-main">Skip to checkout</a>
 
     <!-- Global Header -->
     <header id="site-header">
-      <a class="brand" href="index.html" aria-label="BrahmnMitra — home">
+      <a class="brand" href="/" aria-label="BrahmnMitra — home">
         <span class="dot" aria-hidden="true"></span>BRAHMNMITRA
       </a>
 
       <nav id="nav" aria-label="Main">
-        <a href="packages.html">Packages</a>
-        <a href="hotels.html">Hotels</a>
-        <a href="destinations.html">Destinations</a>
-        <a href="index.html#services">Services</a>
-        <a href="index.html#process">Process</a>
-        <a href="index.html#about">About</a>
-        <a href="travel-assistant.html">Itinerary Builder</a>
-        <a href="contact.html">Contact</a>
-        <a href="account.html">My Account</a>
-        <a class="nav-cta" href="index.html#plan">Plan a Trip &#8594;</a>
+        <a href="/packages">Packages</a>
+        <a href="/hotels">Hotels</a>
+        <a href="/destinations">Destinations</a>
+        <a href="/#services">Services</a>
+        <a href="/#process">Process</a>
+        <a href="/#about">About</a>
+        <a href="/travel-assistant">Itinerary Builder</a>
+        <a href="/contact">Contact</a>
+        <a href="/account">My Account</a>
+        <a class="nav-cta" href="/#plan">Plan a Trip &#8594;</a>
       </nav>
 
       <button
@@ -362,8 +393,8 @@
 
         <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
           <button type="button" class="btn btn-amber" onclick="window.print()">🖨️ Print Tax Receipt</button>
-          <a href="account.html" class="btn btn-glass">View in My Account</a>
-          <a href="index.html" class="btn btn-glass">Back to Homepage</a>
+          <a href="/account" class="btn btn-glass">View in My Account</a>
+          <a href="/" class="btn btn-glass">Back to Homepage</a>
         </div>
       </div>
     </main>

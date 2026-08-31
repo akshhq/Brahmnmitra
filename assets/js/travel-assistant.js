@@ -62,7 +62,7 @@
     });
     window.BMPlatform?.addActivity(
       `Planned a ${days}-day ${place} journey`,
-      "account.html",
+      "account",
     );
     if (window.BMPlatform?.toast) {
       window.BMPlatform.toast(
@@ -80,7 +80,7 @@
       escape(budget) +
       ". A BrahmnMitra expert will confirm live pricing, stays, transfers and availability.</p><ol>" +
       steps.map((step) => `<li>${escape(step)}</li>`).join("") +
-      '</ol><div class="portal-cta"><p>Saved to this browser and added 25 planning points. Send the brief to a travel expert when you are ready.</p><a class="btn btn-amber" href="index.html#contact">Request a confirmed quote</a></div>';
+      '</ol><div class="portal-cta"><p>Saved to this browser and added 25 planning points. Send the brief to a travel expert when you are ready.</p><a class="btn btn-amber" href="/#contact">Request a confirmed quote</a></div>';
     result.scrollIntoView({ behavior: "smooth", block: "start" });
     if (plan) result.dataset.planId = plan.id;
   });

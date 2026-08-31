@@ -74,7 +74,7 @@ BM.initTravelDiscovery = function () {
       /* storage is optional */
     }
     if (window.BMPlatform) {
-      window.BMPlatform.addActivity(`Explored ${item}`, "account.html");
+      window.BMPlatform.addActivity(`Explored ${item}`, "account");
     }
     renderRecent();
   }

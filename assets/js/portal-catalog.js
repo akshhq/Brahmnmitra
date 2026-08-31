@@ -130,7 +130,7 @@
         esc(item.highlights.join(" · ")) +
         '</p><p class="portal-card-price"><strong>From ' +
         money.format(item.price) +
-        '</strong> per person*</p><a class="text-button" href="travel-assistant.html?destination=' +
+        '</strong> per person*</p><a class="text-button" href="travel-assistant?destination=' +
         encodeURIComponent(destination) +
         "&journey=" +
         encodeURIComponent(item.name) +
@@ -164,7 +164,7 @@
         esc(item.description) +
         '</p><p class="portal-card-price"><strong>From ' +
         money.format(item.price) +
-        '</strong> per night*</p><a class="text-button" href="travel-assistant.html?destination=' +
+        '</strong> per night*</p><a class="text-button" href="travel-assistant?destination=' +
         encodeURIComponent(destination) +
         "&stay=" +
         encodeURIComponent(item.name) +
@@ -195,7 +195,7 @@
       esc(item.tagline) +
       '</p><p class="portal-card-meta"><strong>Best time:</strong> ' +
       esc(item.bestTime) +
-      '</p><a class="text-button" href="travel-assistant.html?destination=' +
+      '</p><a class="text-button" href="travel-assistant?destination=' +
       encodeURIComponent(item.name) +
       '">Build an itinerary →</a></div></article>'
     );
@@ -254,7 +254,7 @@
       })
       .catch(() => {
         grid.innerHTML =
-          '<div class="portal-empty glass"><h2>Catalogue temporarily unavailable</h2><p>We could not load the latest travel listings. Please retry or speak with our travel desk directly.</p><div style="display: flex; gap: 12px; justify-content: center; margin-top: 16px;"><button id="catalog-retry" class="btn btn-amber" type="button">Retry Loading</button><a class="btn btn-glass" href="index.html#contact">Contact Desk</a></div></div>';
+          '<div class="portal-empty glass"><h2>Catalogue temporarily unavailable</h2><p>We could not load the latest travel listings. Please retry or speak with our travel desk directly.</p><div style="display: flex; gap: 12px; justify-content: center; margin-top: 16px;"><button id="catalog-retry" class="btn btn-amber" type="button">Retry Loading</button><a class="btn btn-glass" href="/#contact">Contact Desk</a></div></div>';
         if (status) status.textContent = "Catalogue temporarily unavailable";
         const retryBtn = document.getElementById("catalog-retry");
         if (retryBtn) {
