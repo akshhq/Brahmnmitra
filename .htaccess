@@ -39,6 +39,11 @@
   RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/([^.]+)\.html(\?[^\s]*)?\s [NC]
   RewriteRule ^ %1%2 [R=301,L]
 
+  # Clean URL aliases (301 SEO redirects)
+  RewriteRule ^corporate/?$ /corporate-capability [R=301,L]
+  RewriteRule ^itinerary-builder/?$ /travel-assistant [R=301,L]
+  RewriteRule ^refunds/?$ /refund-policy [R=301,L]
+
   # Internally rewrite /page to /page.html if page.html exists
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
