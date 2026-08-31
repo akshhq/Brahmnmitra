@@ -31,7 +31,7 @@
               '<li class="saved-item-row">' +
               '<img src="' +
               escape(item.image || "assets/images/sample.webp") +
-              '" alt="" class="saved-thumb" onerror="this.src=\'sample.webp\'" />' +
+              '" alt="" class="saved-thumb" onerror="this.src=\'assets/images/sample.webp\'" />' +
               '<div class="saved-info"><strong>' +
               escape(item.name) +
               "</strong><br><small>" +

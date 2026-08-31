@@ -111,7 +111,7 @@
         esc(imgSrc) +
         '" alt="' +
         esc(item.name) +
-        '" loading="lazy" width="400" height="240" class="portal-card-img" onerror="this.src=\'sample.webp\'" />' +
+        '" loading="lazy" width="400" height="240" class="portal-card-img" onerror="this.src=\'assets/images/sample.webp\'" />' +
         '<div class="card-actions">' +
         saveButton +
         "</div>" +
@@ -145,7 +145,7 @@
         esc(imgSrc) +
         '" alt="' +
         esc(item.name) +
-        '" loading="lazy" width="400" height="240" class="portal-card-img" onerror="this.src=\'sample.webp\'" />' +
+        '" loading="lazy" width="400" height="240" class="portal-card-img" onerror="this.src=\'assets/images/sample.webp\'" />' +
         '<div class="card-actions">' +
         saveButton +
         "</div>" +
@@ -178,7 +178,7 @@
       esc(imgSrc) +
       '" alt="' +
       esc(item.name) +
-      '" loading="lazy" width="400" height="240" class="portal-card-img" onerror="this.src=\'sample.webp\'" />' +
+      '" loading="lazy" width="400" height="240" class="portal-card-img" onerror="this.src=\'assets/images/sample.webp\'" />' +
       '<div class="card-actions">' +
       saveButton +
       "</div>" +
