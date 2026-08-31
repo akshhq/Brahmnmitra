@@ -31,17 +31,33 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS
 http_response_code(200);
 header('Content-Type: application/json; charset=utf-8');
 
+$dbAvailable = false;
+if (file_exists(__DIR__ . '/includes/config.php') && file_exists(__DIR__ . '/includes/db.php')) {
+    define('BM_OK', true);
+    require_once __DIR__ . '/includes/config.php';
+    require_once __DIR__ . '/includes/db.php';
+    $dbAvailable = bm_db_is_available();
+}
+
 echo json_encode([
     'status' => 'ok',
     'service' => 'brahmnmitra-backend',
-    'version' => '1.0.0',
+    'version' => '2.0.0',
     'php_version' => PHP_VERSION,
+    'database' => [
+        'configured_db' => defined('DB_NAME') ? DB_NAME : 'u844555645_brahmnmitra',
+        'host' => defined('DB_HOST') ? DB_HOST : 'localhost',
+        'connected' => $dbAvailable
+    ],
     'timestamp' => date('c'),
     'endpoints' => [
         'health' => '/',
+        'auth' => '/auth.php',
         'enquiry' => '/enquiry.php',
         'catalog' => '/catalog.php',
         'payments' => '/payments.php',
-        'logs' => '/logs.php'
+        'logs' => '/logs.php',
+        'migration' => '/migrate.php'
     ]
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+

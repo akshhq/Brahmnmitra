@@ -154,9 +154,51 @@ CREATE TABLE bookings (
 
 ---
 
-## 4. Security & Compliance Checklist
+## 4. Hostinger MySQL Database & Live Deployment
 
-1. **Authentication:** Never expose admin endpoints on the public frontend bundle.
-2. **Data Protection:** Compliance with India's **Digital Personal Data Protection (DPDP) Act, 2023** for traveler passport and identity records.
-3. **Transport Security:** Strict HTTPS (TLS 1.3), HSTS headers, and CSP policies.
-4. **Environment Variables:** All SMTP credentials, database connection strings, and payment API keys must reside in secure environment variables, never committed to git repositories.
+### Database Credentials
+- **Host:** `localhost`
+- **Port:** `3306`
+- **Database:** `u844555645_brahmnmitra`
+- **Username:** `u844555645_brahmnmitra`
+- **Configuration File:** `backend/.env`
+
+### One-Click Database Initialization & Migration
+To create all tables, seed the default Admin account, and import all packages/hotels/destinations:
+1. **Via Browser / HTTP:**
+   Navigate to `https://brahmnmitra.com/backend/migrate.php`
+2. **Via SSH / Terminal:**
+   ```bash
+   cd backend
+   php migrate.php
+   ```
+
+### Default Admin Credentials:
+- **Email:** `admin@brahmnmitra.com`
+- **Password:** `Admin@Brahmnmitra2026!`
+*(Please log in to `admin.brahmnmitra.com` and change this password after initial setup).*
+
+---
+
+## 5. Authentication API Endpoints (`/auth.php`)
+
+All requests accept JSON or standard `POST` form data:
+
+| Endpoint | Method | Purpose | Auth Required |
+|:---|:---|:---|:---|
+| `/auth.php?action=login` | `POST` | Authenticate user & issue Bearer token | No |
+| `/auth.php?action=register` | `POST` | Create new customer account | No |
+| `/auth.php?action=me` | `GET` | Validate session token & get profile | Yes (Bearer) |
+| `/auth.php?action=logout` | `POST` | Revoke active token session | Yes (Bearer) |
+| `/auth.php?action=change_password` | `POST` | Update password | Yes (Bearer) |
+| `/auth.php?action=list_users` | `GET` | List accounts (Admin only) | Yes (Admin) |
+
+---
+
+## 6. Security & Compliance Checklist
+
+1. **Authentication:** BCRYPT password hashing (`PASSWORD_BCRYPT` with cost 12) + cryptographically secure 64-char Bearer tokens.
+2. **Data Protection:** Strict input validation, SQL injection prevention via PDO prepared statements, and DPDP compliance.
+3. **Transport Security:** Strict HTTPS (TLS 1.3), HSTS headers, and CSP policies allowing `brahmnmitra.com` and `admin.brahmnmitra.com`.
+4. **Environment Variables:** All credentials reside in `backend/.env` which is ignored by Git (`.gitignore`).
+

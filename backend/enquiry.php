@@ -1,10 +1,11 @@
 <?php
-// BrahmnMitra — Enquiry Form Endpoint
+// BrahmnMitra — Enquiry Form Endpoint (Hostinger MySQL & SMTP)
 
 define("BM_OK", true);
 
 require_once __DIR__ . "/includes/config.php";
 require_once __DIR__ . "/includes/helpers.php";
+require_once __DIR__ . "/includes/db.php";
 require_once __DIR__ . "/includes/mailer.php";
 
 // Handle CORS and preflight OPTIONS requests
@@ -36,6 +37,7 @@ $phone = bm_field("phone", 20);
 $company = bm_field("company", 120);
 $service = bm_field("service", 40);
 $message = bm_text("message", 2000);
+$destination = bm_field("destination", 100);
 
 // Flight specific fields
 $trip = bm_field("trip_type", 20);
@@ -117,6 +119,7 @@ $data = [
     "company" => $company,
     "service" => $service,
     "service_label" => $SERVICES[$service],
+    "destination" => $destination ?: ($to ?: ""),
     "message" => $message,
 
     "is_flight" => $isFlight,
@@ -133,13 +136,44 @@ $data = [
     "referer" => $referer,
 ];
 
-// Log to backup file first
+// 1. Insert into Hostinger MySQL Database if connected
+$db = bm_get_db();
+if ($db) {
+    try {
+        $travelDate = !empty($depart) && bm_valid_date($depart) ? $depart : null;
+        $stmt = $db->prepare("
+            INSERT INTO enquiries (name, phone, email, service, service_name, destination, travel_date, company, message, ip_address, status)
+            VALUES (:name, :phone, :email, :service, :service_name, :destination, :travel_date, :company, :message, :ip, 'new')
+        ");
+        $stmt->execute([
+            ':name' => $name,
+            ':phone' => $phone,
+            ':email' => $email,
+            ':service' => $service,
+            ':service_name' => $SERVICES[$service] ?? $service,
+            ':destination' => $destination ?: ($to ?: null),
+            ':travel_date' => $travelDate,
+            ':company' => $company ?: null,
+            ':message' => $message ?: null,
+            ':ip' => $ip
+        ]);
+        $data["db_id"] = (int)$db->lastInsertId();
+    } catch (PDOException $e) {
+        error_log("[BM_DB_ENQUIRY_INSERT_ERROR] " . $e->getMessage());
+    }
+}
+
+// 2. Backup file log
 bm_log($data);
 
-// Send email
+// 3. Send email via SMTP / PHP mail
 if ($bm_mail_result = bm_send_enquiry($data)) {
     bm_respond(true, "", 200);
 }
 
-bm_respond(false, "We could not email your enquiry just now.", 500);
+// If mail fails, still acknowledge receipt if successfully recorded in DB/log
+if (!empty($data["db_id"])) {
+    bm_respond(true, "", 200);
+}
 
+bm_respond(false, "We could not submit your enquiry just now.", 500);

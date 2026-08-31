@@ -37,6 +37,7 @@ php_error.log
 
 # --- Database & Backups ---
 *.sql
+!backend/schema.sql
 *.sql.gz
 *.sqlite
 *.sqlite3
