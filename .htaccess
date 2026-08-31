@@ -35,6 +35,10 @@
   RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/index(\.html)?(\?[^\s]*)?\s [NC]
   RewriteRule ^index(\.html)?$ /%2 [R=301,L]
 
+  # Redirect direct request for /pages/page.html or /pages/page to clean /page (301 SEO redirect)
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/pages/([^.]+)(\.html)?(\?[^\s]*)?\s [NC]
+  RewriteRule ^ %1%3 [R=301,L]
+
   # Redirect direct request for /page.html to /page (301 SEO redirect)
   RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/([^.]+)\.html(\?[^\s]*)?\s [NC]
   RewriteRule ^ %1%2 [R=301,L]
@@ -44,7 +48,14 @@
   RewriteRule ^itinerary-builder/?$ /travel-assistant [R=301,L]
   RewriteRule ^refunds/?$ /refund-policy [R=301,L]
 
-  # Internally rewrite /page to /page.html if page.html exists
+  # Internally rewrite clean URL /page to pages/page.html if it exists in pages/
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{DOCUMENT_ROOT}/pages/$1.html -f [OR]
+  RewriteCond pages/$1.html -f
+  RewriteRule ^([a-zA-Z0-9_-]+)$ pages/$1.html [L]
+
+  # Internally rewrite /page to page.html if root page.html exists
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME}.html -f
