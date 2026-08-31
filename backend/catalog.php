@@ -1,5 +1,6 @@
 <?php
 // BrahmnMitra — Catalog & Inventory Management Endpoint (Hostinger MySQL)
+// Supports Item CRUD, Active Inventory Queries, and 15-Day Soft Deletion
 
 define("BM_OK", true);
 
@@ -21,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 SELECT category, slug, name, region, destination, duration, price, stars, type, tagline, description, 
                        highlights_json, amenities_json, places_json, image, is_active
                 FROM catalog_items
-                WHERE is_active = 1
+                WHERE is_active = 1 AND deleted_at IS NULL
                 ORDER BY id ASC
             ");
             $rows = $stmt->fetchAll();
@@ -92,23 +93,123 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $input = file_get_contents("php://input");
-    $data = json_decode($input, true);
+    $data = json_decode($input, true) ?: $_POST;
 
+    $action = isset($_GET["action"]) ? $_GET["action"] : ($data["action"] ?? "save_all");
+
+    // 1. Soft Delete Single Item (Move to Recycle Bin)
+    if ($action === "delete_item") {
+        $category = isset($data["category"]) ? trim($data["category"]) : "";
+        $slug = isset($data["slug"]) ? trim($data["slug"]) : "";
+
+        if (empty($slug)) {
+            bm_respond(false, "Item slug is required.", 422);
+        }
+
+        if ($db) {
+            try {
+                $stmt = $db->prepare("UPDATE catalog_items SET deleted_at = NOW() WHERE slug = :slug");
+                $stmt->execute([':slug' => $slug]);
+                echo json_encode([
+                    "ok" => true,
+                    "message" => "Item moved to Recycle Bin (15-day retention policy active)."
+                ], JSON_PRETTY_PRINT);
+                exit;
+            } catch (PDOException $e) {
+                bm_respond(false, "Database error: " . $e->getMessage(), 500);
+            }
+        }
+        bm_respond(true, "Item deleted (offline mode)", 200);
+    }
+
+    // 2. Save / Update Single Item
+    if ($action === "save_item") {
+        $category = isset($data["category"]) ? trim($data["category"]) : "package";
+        $slug = isset($data["slug"]) ? trim($data["slug"]) : substr(md5(microtime()), 0, 10);
+        $name = isset($data["name"]) ? trim($data["name"]) : "New Item";
+        $region = isset($data["region"]) ? trim($data["region"]) : "";
+        $destination = isset($data["destination"]) ? trim($data["destination"]) : "";
+        $duration = isset($data["duration"]) ? trim($data["duration"]) : "";
+        $price = isset($data["price"]) ? (float)$data["price"] : 0;
+        $stars = isset($data["stars"]) ? (int)$data["stars"] : 5;
+        $type = isset($data["type"]) ? trim($data["type"]) : "";
+        $tagline = isset($data["tagline"]) ? trim($data["tagline"]) : "";
+        $description = isset($data["description"]) ? trim($data["description"]) : "";
+        $image = isset($data["image"]) ? trim($data["image"]) : "assets/images/sample.webp";
+        $highlights = isset($data["highlights"]) ? (is_array($data["highlights"]) ? $data["highlights"] : explode("\n", $data["highlights"])) : [];
+        $amenities = isset($data["amenities"]) ? (is_array($data["amenities"]) ? $data["amenities"] : explode("\n", $data["amenities"])) : [];
+        $places = isset($data["places"]) ? (is_array($data["places"]) ? $data["places"] : explode("\n", $data["places"])) : [];
+
+        if ($db) {
+            try {
+                $stmt = $db->prepare("
+                    INSERT INTO catalog_items (category, slug, name, region, destination, duration, price, stars, type, tagline, description, highlights_json, amenities_json, places_json, image, deleted_at, is_active)
+                    VALUES (:cat, :slug, :name, :reg, :dest, :dur, :price, :stars, :type, :tagline, :desc, :high, :amen, :places, :img, NULL, 1)
+                    ON DUPLICATE KEY UPDATE 
+                        name = VALUES(name),
+                        region = VALUES(region),
+                        destination = VALUES(destination),
+                        duration = VALUES(duration),
+                        price = VALUES(price),
+                        stars = VALUES(stars),
+                        type = VALUES(type),
+                        tagline = VALUES(tagline),
+                        description = VALUES(description),
+                        highlights_json = VALUES(highlights_json),
+                        amenities_json = VALUES(amenities_json),
+                        places_json = VALUES(places_json),
+                        image = VALUES(image),
+                        deleted_at = NULL,
+                        is_active = 1,
+                        updated_at = NOW()
+                ");
+                $stmt->execute([
+                    ':cat' => $category,
+                    ':slug' => $slug,
+                    ':name' => $name,
+                    ':reg' => $region,
+                    ':dest' => $destination,
+                    ':dur' => $duration,
+                    ':price' => $price,
+                    ':stars' => $stars,
+                    ':type' => $type,
+                    ':tagline' => $tagline,
+                    ':desc' => $description,
+                    ':high' => json_encode(array_values(array_filter($highlights))),
+                    ':amen' => json_encode(array_values(array_filter($amenities))),
+                    ':places' => json_encode(array_values(array_filter($places))),
+                    ':img' => $image
+                ]);
+
+                echo json_encode([
+                    "ok" => true,
+                    "message" => "Catalog item saved successfully to database.",
+                    "slug" => $slug
+                ], JSON_PRETTY_PRINT);
+                exit;
+            } catch (PDOException $e) {
+                bm_respond(false, "Database error: " . $e->getMessage(), 500);
+            }
+        }
+
+        bm_respond(true, "Catalog item saved (offline mode)", 200, ["slug" => $slug]);
+    }
+
+    // 3. Bulk Save
     if (!$data || !is_array($data)) {
         bm_respond(false, "Invalid JSON payload.", 400);
     }
 
     $updatedTime = date("Y-m-d H:i:s");
 
-    // Persist to MySQL if available
     if ($db) {
         try {
             // Packages
             if (isset($data['packages']) && is_array($data['packages'])) {
                 $stmt = $db->prepare("
-                    INSERT INTO catalog_items (category, slug, name, region, destination, duration, price, highlights_json, image)
-                    VALUES ('package', :slug, :name, :region, :destination, :duration, :price, :highlights, :image)
-                    ON DUPLICATE KEY UPDATE name = VALUES(name), price = VALUES(price), duration = VALUES(duration), image = VALUES(image), updated_at = NOW()
+                    INSERT INTO catalog_items (category, slug, name, region, destination, duration, price, highlights_json, image, deleted_at)
+                    VALUES ('package', :slug, :name, :region, :destination, :duration, :price, :highlights, :image, NULL)
+                    ON DUPLICATE KEY UPDATE name = VALUES(name), price = VALUES(price), duration = VALUES(duration), image = VALUES(image), deleted_at = NULL, updated_at = NOW()
                 ");
                 foreach ($data['packages'] as $pkg) {
                     $stmt->execute([
@@ -127,9 +228,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Hotels
             if (isset($data['hotels']) && is_array($data['hotels'])) {
                 $stmt = $db->prepare("
-                    INSERT INTO catalog_items (category, slug, name, destination, price, stars, type, description, amenities_json, image)
-                    VALUES ('hotel', :slug, :name, :destination, :price, :stars, :type, :description, :amenities, :image)
-                    ON DUPLICATE KEY UPDATE name = VALUES(name), price = VALUES(price), stars = VALUES(stars), image = VALUES(image), updated_at = NOW()
+                    INSERT INTO catalog_items (category, slug, name, destination, price, stars, type, description, amenities_json, image, deleted_at)
+                    VALUES ('hotel', :slug, :name, :destination, :price, :stars, :type, :description, :amenities, :image, NULL)
+                    ON DUPLICATE KEY UPDATE name = VALUES(name), price = VALUES(price), stars = VALUES(stars), image = VALUES(image), deleted_at = NULL, updated_at = NOW()
                 ");
                 foreach ($data['hotels'] as $htl) {
                     $stmt->execute([
@@ -149,9 +250,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Destinations
             if (isset($data['destinations']) && is_array($data['destinations'])) {
                 $stmt = $db->prepare("
-                    INSERT INTO catalog_items (category, slug, name, region, tagline, places_json, image)
-                    VALUES ('destination', :slug, :name, :region, :tagline, :places, :image)
-                    ON DUPLICATE KEY UPDATE name = VALUES(name), tagline = VALUES(tagline), image = VALUES(image), updated_at = NOW()
+                    INSERT INTO catalog_items (category, slug, name, region, tagline, places_json, image, deleted_at)
+                    VALUES ('destination', :slug, :name, :region, :tagline, :places, :image, NULL)
+                    ON DUPLICATE KEY UPDATE name = VALUES(name), tagline = VALUES(tagline), image = VALUES(image), deleted_at = NULL, updated_at = NOW()
                 ");
                 foreach ($data['destinations'] as $dest) {
                     $stmt->execute([

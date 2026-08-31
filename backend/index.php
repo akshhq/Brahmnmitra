@@ -55,8 +55,10 @@ echo json_encode([
         'auth' => '/auth.php',
         'enquiry' => '/enquiry.php',
         'catalog' => '/catalog.php',
+        'bookings' => '/bookings.php',
         'payments' => '/payments.php',
         'logs' => '/logs.php',
+        'recycle_bin' => '/recycle_bin.php',
         'migration' => '/migrate.php'
     ]
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);

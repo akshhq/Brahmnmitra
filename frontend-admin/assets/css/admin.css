@@ -1055,11 +1055,195 @@ body.admin-page {
   }
 }
 
+/* Recycle Bin Specific Styles */
+.badge-recycle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffb347;
+  color: #0b0f19;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 99px;
+  margin-left: auto;
+}
+
+.recycle-bin-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  background: rgba(18, 24, 38, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+.recycle-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.recycle-filter-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--admin-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.recycle-filter-btn:hover, .recycle-filter-btn.active {
+  background: var(--admin-panel);
+  color: #fff;
+  border-color: var(--admin-accent);
+}
+
+.recycle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.recycle-card {
+  background: rgba(15, 22, 36, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.recycle-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 179, 71, 0.4);
+}
+
+.recycle-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.recycle-type-tag {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--admin-cyan);
+}
+
+.days-left-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 99px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.days-left-badge.retained {
+  background: rgba(37, 211, 102, 0.15);
+  color: #25d366;
+  border: 1px solid rgba(37, 211, 102, 0.3);
+}
+
+.days-left-badge.expiring_soon {
+  background: rgba(255, 107, 107, 0.15);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 107, 107, 0.4);
+  animation: pulse-warn 1.5s infinite;
+}
+
+@keyframes pulse-warn {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.recycle-card h4 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.recycle-card-meta {
+  font-size: 0.8rem;
+  color: var(--admin-muted);
+  margin-bottom: 12px;
+}
+
+.recycle-card-dates {
+  font-size: 0.75rem;
+  color: #8899ac;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-top: auto;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.recycle-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.recycle-card-actions button {
+  flex: 1;
+  font-size: 0.82rem;
+  padding: 8px 12px;
+}
+
+.restore-btn {
+  background: rgba(37, 211, 102, 0.15);
+  color: #25d366;
+  border: 1px solid rgba(37, 211, 102, 0.4);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.restore-btn:hover {
+  background: #25d366;
+  color: #0b0f19;
+}
+
+.hard-delete-btn {
+  background: rgba(255, 107, 107, 0.15);
+  color: #ff8c8c;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hard-delete-btn:hover {
+  background: #ff5252;
+  color: #fff;
+}
+
 /* Responsive */
 @media (max-width: 1180px) {
   .metric-grid { grid-template-columns: repeat(3, 1fr); }
   .finance-metric-strip { grid-template-columns: repeat(3, 1fr); }
   .catalog-admin-grid { grid-template-columns: repeat(2, 1fr); }
+  .recycle-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 900px) {
@@ -1082,6 +1266,7 @@ body.admin-page {
   .admin-grid { grid-template-columns: 1fr; }
   .metric-grid, .finance-metric-strip { grid-template-columns: repeat(2, 1fr); }
   .catalog-admin-grid { grid-template-columns: 1fr; }
+  .recycle-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 600px) {
@@ -1089,3 +1274,4 @@ body.admin-page {
   .admin-form { grid-template-columns: 1fr; }
   .admin-form .wide { grid-column: auto; }
 }
+

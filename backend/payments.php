@@ -1,5 +1,6 @@
 <?php
 // BrahmnMitra — Payment Gateway & Ledger Endpoint (Hostinger MySQL)
+// Supports Dev Gateway Verifications, Two-Way Ledger Queries, Manual Disbursements, and 15-Day Soft Deletes
 
 define("BM_OK", true);
 
@@ -21,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 SELECT id, transaction_id, order_id, booking_id, customer_name, customer_email, customer_phone, 
                        amount, currency, payment_method, utr_reference, invoice_number, status, notes, created_at
                 FROM payments
+                WHERE deleted_at IS NULL
                 ORDER BY id DESC
                 LIMIT 500
             ");
@@ -65,7 +67,6 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         }
     }
 
-    // Fallback to JSON file if MySQL not yet migrated
     if (file_exists($paymentsFile)) {
         echo file_get_contents($paymentsFile);
     } else {
@@ -89,9 +90,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $input = file_get_contents("php://input");
     $req = json_decode($input, true) ?: $_POST;
 
-    $action = isset($req["action"]) ? $req["action"] : "create_order";
+    $action = isset($_GET["action"]) ? $_GET["action"] : ($req["action"] ?? "create_order");
 
-    // 1. Create Dev Payment Gateway Order
+    // A. Soft Delete Payment Record (Move to Recycle Bin)
+    if ($action === "delete_payment") {
+        $txnId = isset($req["id"]) ? trim($req["id"]) : (isset($req["transaction_id"]) ? trim($req["transaction_id"]) : "");
+        if (empty($txnId)) {
+            bm_respond(false, "Transaction ID required.", 422);
+        }
+
+        if ($db) {
+            try {
+                $stmt = $db->prepare("UPDATE payments SET deleted_at = NOW() WHERE transaction_id = :txn");
+                $stmt->execute([':txn' => $txnId]);
+                echo json_encode(["ok" => true, "message" => "Payment moved to Recycle Bin (15 days retention)"], JSON_PRETTY_PRINT);
+                exit;
+            } catch (PDOException $e) {
+                bm_respond(false, "Database error: " . $e->getMessage(), 500);
+            }
+        }
+        bm_respond(true, "Payment removed", 200);
+    }
+
+    // B. Create Dev Payment Gateway Order
     if ($action === "create_order") {
         $amount = isset($req["amount"]) ? (float)$req["amount"] : 0;
         $customer = isset($req["customer"]) ? trim($req["customer"]) : "Valued Traveler";
@@ -130,9 +151,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    // 2. Verify / Process Mock Gateway Payment
-    if ($action === "verify_payment") {
-        $orderId = isset($req["order_id"]) ? trim($req["order_id"]) : "";
+    // C. Verify / Process Mock Gateway Payment or Admin Manual Inflow
+    if ($action === "verify_payment" || $action === "record_payment") {
+        $orderId = isset($req["order_id"]) ? trim($req["order_id"]) : ("manual-" . time());
         $method = isset($req["method"]) ? trim($req["method"]) : "UPI";
         $simulate = isset($req["simulate"]) ? trim($req["simulate"]) : "success";
         $amount = isset($req["amount"]) ? (float)$req["amount"] : 0;
@@ -140,21 +161,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $bookingId = isset($req["booking_id"]) ? trim($req["booking_id"]) : "BM-BK-" . time();
         $email = isset($req["email"]) ? trim($req["email"]) : null;
         $phone = isset($req["phone"]) ? trim($req["phone"]) : null;
+        $utrInput = isset($req["utr"]) ? trim($req["utr"]) : null;
 
         if ($simulate === "fail") {
             bm_respond(false, "Simulated payment failure: Transaction declined by issuing bank.", 400);
         }
 
         $txnId = "pay_test_BM" . time() . rand(1000, 9999);
-        $utrRef = "UTR-" . date("Ymd") . "-" . rand(100000, 999999);
+        $utrRef = $utrInput ?: ("UTR-" . date("Ymd") . "-" . rand(100000, 999999));
         $invoiceNo = "BM-INV-" . date("Y") . "-" . rand(1000, 9999);
 
         // Save to Hostinger MySQL Database
         if ($db) {
             try {
                 $stmt = $db->prepare("
-                    INSERT INTO payments (transaction_id, order_id, booking_id, customer_name, customer_email, customer_phone, amount, currency, payment_method, utr_reference, invoice_number, status, ip_address)
-                    VALUES (:txn, :oid, :bid, :cust, :email, :phone, :amt, 'INR', :method, :utr, :inv, 'verified', :ip)
+                    INSERT INTO payments (transaction_id, order_id, booking_id, customer_name, customer_email, customer_phone, amount, currency, payment_method, utr_reference, invoice_number, status, ip_address, deleted_at)
+                    VALUES (:txn, :oid, :bid, :cust, :email, :phone, :amt, 'INR', :method, :utr, :inv, 'verified', :ip, NULL)
                 ");
                 $stmt->execute([
                     ':txn' => $txnId,

@@ -2,7 +2,18 @@
 
 (() => {
   const STORAGE_KEY = "bm_admin_workspace_v2";
-  const API_ENDPOINT = "https://brahmnmitra.onrender.com";
+  const API_ENDPOINT = (() => {
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      return window.location.port === "8000" ? "/backend" : "https://brahmnmitra.com/backend";
+    }
+    if (window.location.hostname.includes("brahmnmitra.com")) {
+      return "https://brahmnmitra.com/backend";
+    }
+    return "https://brahmnmitra.onrender.com";
+  })();
+
+  let recycleBinItems = [];
+  let currentRecycleFilter = "all";
 
   const blankState = {
     leads: [],
@@ -98,6 +109,7 @@
     invoices: { title: "GST Tax Invoices (SAC 9985)", subtitle: "Generate, review, and print compliant corporate & leisure tax invoices." },
     logs: { title: "System Audit & Activity Trail", subtitle: "Immutable timestamped record of operational actions and system transactions." },
     gateway: { title: "Payment Gateway Sandbox", subtitle: "Developer test mode for checkout simulations, UPI test handles & webhook syncing." },
+    "recycle-bin": { title: "15-Day Recycle Bin & Soft Deletions", subtitle: "Recover or permanently purge deleted catalog items, leads, bookings, and payments (15-day retention limit)." },
     settings: { title: "Platform Setup & Backups", subtitle: "Data export, workspace backup restore, and API configuration." }
   };
 
@@ -121,6 +133,167 @@
       renderAll();
     })
   );
+
+  // ==========================================
+  // UNIVERSAL RECYCLE BIN CONTROLLER (15-DAY LIMIT)
+  // ==========================================
+  async function moveToRecycleBin(type, id, title) {
+    // 1. Optimistic local state update
+    if (["package", "packages", "hotel", "hotels", "deals", "flights", "destination"].includes(type)) {
+      const cat = type.endsWith("s") ? type : (type === "destination" ? "destinations" : type + "s");
+      if (Array.isArray(state[cat])) {
+        state[cat] = state[cat].filter((i) => i.id !== id && i.slug !== id);
+      }
+    } else if (type === "lead" || type === "enquiry") {
+      state.leads = state.leads.filter((l) => String(l.id) !== String(id));
+    } else if (type === "booking") {
+      state.bookings = state.bookings.filter((b) => b.bookingId !== id && b.id !== id);
+    } else if (type === "payment" || type === "inflow") {
+      state.inflow = state.inflow.filter((p) => p.id !== id);
+    }
+
+    save();
+    renderAll();
+    logAction("RECYCLE_BIN", `Moved ${type} to Recycle Bin (15-day retention): ${title || id}`, { type, id });
+
+    // 2. Push soft deletion to Hostinger MySQL
+    try {
+      await fetch(`${API_ENDPOINT}/recycle_bin.php?action=soft_delete`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ type, id })
+      });
+      fetchRecycleBin();
+    } catch (_) {}
+  }
+
+  async function fetchRecycleBin() {
+    try {
+      const res = await fetch(`${API_ENDPOINT}/recycle_bin.php`, {
+        method: "GET",
+        headers: { Accept: "application/json" }
+      });
+      if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (Array.isArray(data.items)) {
+          recycleBinItems = data.items;
+          updateRecycleBadge();
+          renderRecycleBin();
+        }
+      }
+    } catch (_) {}
+  }
+
+  function updateRecycleBadge() {
+    const badge = document.getElementById("recycle-bin-badge");
+    const count = recycleBinItems.length;
+    if (badge) {
+      badge.textContent = count;
+      badge.style.display = count > 0 ? "inline-flex" : "none";
+    }
+    const metricTotal = document.getElementById("metric-recycle-total");
+    if (metricTotal) metricTotal.textContent = count;
+
+    const expiringCount = recycleBinItems.filter((i) => i.days_remaining <= 3).length;
+    const metricExpiring = document.getElementById("metric-recycle-expiring");
+    if (metricExpiring) metricExpiring.textContent = expiringCount;
+  }
+
+  function renderRecycleBin() {
+    updateRecycleBadge();
+    const container = document.getElementById("recycle-bin-container");
+    if (!container) return;
+
+    const filtered = recycleBinItems.filter((item) => {
+      if (currentRecycleFilter === "all") return true;
+      if (currentRecycleFilter === "catalog") return ["package", "hotel", "destination", "packages", "hotels", "deals", "flights"].includes(item.type);
+      if (currentRecycleFilter === "lead") return item.type === "lead" || item.type === "enquiry";
+      if (currentRecycleFilter === "booking") return item.type === "booking";
+      if (currentRecycleFilter === "payment") return item.type === "payment" || item.type === "inflow";
+      return true;
+    });
+
+    if (!filtered.length) {
+      container.innerHTML = `<p class="empty-state" style="grid-column: 1 / -1; padding: 40px; text-align: center;">No items found in this Recycle Bin view. Deleted records are retained here for 15 days before automatic purge.</p>`;
+      return;
+    }
+
+    container.innerHTML = filtered
+      .map((item) => {
+        const days = Number(item.days_remaining) || 0;
+        const isExpiring = days <= 3;
+        const badgeClass = isExpiring ? "expiring_soon" : "retained";
+        const badgeText = days === 0 ? "Purging Today" : `${days} day${days > 1 ? "s" : ""} left`;
+        const delDate = item.deleted_at ? item.deleted_at.split("T")[0] : "Recently";
+        const expDate = item.expires_at ? item.expires_at.split("T")[0] : "15 days limit";
+
+        return `
+          <article class="recycle-card">
+            <div class="recycle-card-head">
+              <span class="recycle-type-tag">${safe(item.type_label || item.type)}</span>
+              <span class="days-left-badge ${badgeClass}">⏱️ ${badgeText}</span>
+            </div>
+            <h4>${safe(item.title)}</h4>
+            <div class="recycle-card-meta">${safe(item.meta || "")}</div>
+            <div class="recycle-card-dates">
+              <span>Deleted: <strong>${safe(delDate)}</strong></span>
+              <span>Auto-Purge: <strong>${safe(expDate)}</strong></span>
+            </div>
+            <div class="recycle-card-actions">
+              <button class="restore-btn" type="button" data-restore-type="${safe(item.type)}" data-restore-id="${safe(item.identifier || item.id)}">
+                ↺ Restore
+              </button>
+              <button class="hard-delete-btn" type="button" data-hard-delete-type="${safe(item.type)}" data-hard-delete-id="${safe(item.identifier || item.id)}">
+                ✕ Delete Permanently
+              </button>
+            </div>
+          </article>
+        `;
+      })
+      .join("");
+  }
+
+  async function restoreRecycleItem(type, id) {
+    try {
+      const res = await fetch(`${API_ENDPOINT}/recycle_bin.php?action=restore`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ type, id })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (data.ok) {
+        recycleBinItems = recycleBinItems.filter((i) => i.identifier !== id && String(i.id) !== String(id));
+        updateRecycleBadge();
+        renderRecycleBin();
+        logAction("RECYCLE_BIN", `Restored ${type} from Recycle Bin: ${id}`, { type, id });
+        syncBackendData();
+        window.alert(`✅ Restored "${id}" back to active database inventory!`);
+      } else {
+        window.alert(`Could not restore: ${data.error || "Unknown error"}`);
+      }
+    } catch (_) {
+      window.alert("Could not connect to backend to restore item.");
+    }
+  }
+
+  async function hardDeleteRecycleItem(type, id) {
+    try {
+      const res = await fetch(`${API_ENDPOINT}/recycle_bin.php?action=hard_delete`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ type, id })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (data.ok) {
+        recycleBinItems = recycleBinItems.filter((i) => i.identifier !== id && String(i.id) !== String(id));
+        updateRecycleBadge();
+        renderRecycleBin();
+        logAction("RECYCLE_BIN", `Permanently erased ${type}: ${id}`, { type, id });
+      }
+    } catch (_) {
+      window.alert("Could not connect to backend to delete item.");
+    }
+  }
 
   // ==========================================
   // 1. OVERVIEW RENDERING
@@ -224,6 +397,38 @@
           .join("")
       : `<tr><td colspan="6" class="empty-state">No matching leads found.</td></tr>`;
   }
+
+  // Lead inline status change & deletion listeners
+  document.getElementById("lead-list")?.addEventListener("change", async (e) => {
+    const select = e.target.closest("[data-lead-status]");
+    if (!select) return;
+    const id = select.dataset.leadStatus;
+    const newStatus = select.value;
+    const lead = state.leads.find((l) => String(l.id) === String(id));
+    if (lead) {
+      lead.status = newStatus;
+      save();
+      logAction("LEAD_STATUS", `Updated lead status for ${lead.name} to ${newStatus}`, { id, status: newStatus });
+      renderOverview();
+      try {
+        await fetch(`${API_ENDPOINT}/enquiry.php?action=update_lead`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: Number(id) || id, status: newStatus })
+        });
+      } catch (_) {}
+    }
+  });
+
+  document.getElementById("lead-list")?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-delete-lead]");
+    if (!btn) return;
+    const id = btn.dataset.deleteLead;
+    const lead = state.leads.find((l) => String(l.id) === String(id));
+    const name = lead ? lead.name : id;
+    if (!window.confirm(`Move lead "${name}" to Recycle Bin? (Retained for 15 days)`)) return;
+    moveToRecycleBin("lead", id, name);
+  });
 
   // ==========================================
   // 3. CATALOGUE & INVENTORY MANAGEMENT (CRUD)
@@ -461,24 +666,26 @@
     logAction("CATALOG_EDIT", `Saved ${cat.slice(0, -1)} "${name}"`, { price, destination: dest, status });
     renderAll();
 
-    // Async push to backend catalog endpoint
+    // Async push to backend catalog endpoint (individual item & bulk)
+    try {
+      fetch(`${API_ENDPOINT}/catalog.php?action=save_item`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(record)
+      });
+    } catch (_) {}
     syncCatalogueToBackend();
   });
 
-  // Delete from modal
+  // Delete from modal (Moves to 15-day Recycle Bin)
   document.getElementById("btn-delete-modal-item")?.addEventListener("click", () => {
     const id = document.getElementById("modal-item-id").value;
     const cat = document.getElementById("modal-item-category").value;
-    if (!window.confirm("Are you sure you want to delete this inventory item?")) return;
+    const name = document.getElementById("modal-item-name").value || id;
+    if (!window.confirm(`Move "${name}" to Recycle Bin? (Retained for 15 days)`)) return;
 
-    if (Array.isArray(state[cat])) {
-      state[cat] = state[cat].filter((i) => (i.id !== id && i.slug !== id));
-    }
-    save();
     itemModal.hidden = true;
-    logAction("CATALOG_EDIT", `Deleted item (${id}) from ${cat}`, { id });
-    renderAll();
-    syncCatalogueToBackend();
+    moveToRecycleBin(cat, id, name);
   });
 
   // Edit/Delete click delegation in Catalog Grid
@@ -497,14 +704,11 @@
     if (delBtn) {
       const id = delBtn.dataset.delItem;
       const type = delBtn.dataset.delType;
-      if (!window.confirm(`Delete this ${type} item?`)) return;
-      if (Array.isArray(state[type])) {
-        state[type] = state[type].filter((i) => (i.id !== id && i.slug !== id));
-      }
-      save();
-      logAction("CATALOG_EDIT", `Deleted ${type} item: ${id}`, { id });
-      renderAll();
-      syncCatalogueToBackend();
+      const all = getAllCatalogueItems();
+      const found = all.find((i) => (i.id === id || i.slug === id));
+      const name = found ? (found.name || found.title || id) : id;
+      if (!window.confirm(`Move ${type} "${name}" to Recycle Bin? (Retained for 15 days)`)) return;
+      moveToRecycleBin(type, id, name);
     }
   });
 
@@ -548,6 +752,7 @@
                 <td>
                   <button class="admin-button secondary small" type="button" data-gen-invoice-bk="${safe(b.bookingId)}">🧾 GST Inv</button>
                   <button class="admin-button secondary small" type="button" data-gw-pay-bk="${safe(b.bookingId)}">⚡ Pay</button>
+                  <button class="admin-delete small" type="button" data-delete-booking="${safe(b.bookingId)}" title="Move to Recycle Bin">🗑️</button>
                 </td>
               </tr>
             `;
@@ -563,8 +768,21 @@
     }
   }
 
-  // Booking form
-  document.getElementById("booking-form")?.addEventListener("submit", (e) => {
+  // Booking click delegation (Delete booking to Recycle Bin)
+  document.getElementById("booking-list")?.addEventListener("click", (e) => {
+    const delBtn = e.target.closest("[data-delete-booking]");
+    if (delBtn) {
+      const bkId = delBtn.dataset.deleteBooking;
+      const b = state.bookings.find((item) => item.bookingId === bkId || item.id === bkId);
+      const title = b ? `${b.trip} (${b.customer})` : bkId;
+      if (!window.confirm(`Move booking "${title}" to Recycle Bin? (Retained for 15 days)`)) return;
+      moveToRecycleBin("booking", bkId, title);
+      return;
+    }
+  });
+
+  // Booking form submission (Saves to MySQL)
+  document.getElementById("booking-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
     const bkId = formValue(form, "bookingId") || `BM-BK-${Date.now().toString().slice(-6)}`;
@@ -574,7 +792,7 @@
     const adv = Number(formValue(form, "advance")) || 0;
     const status = formValue(form, "status");
 
-    state.bookings.push({
+    const newBooking = {
       id: bkId,
       bookingId: bkId,
       customer: cust,
@@ -582,7 +800,8 @@
       value: val,
       advance: adv,
       status
-    });
+    };
+    state.bookings.push(newBooking);
 
     if (adv > 0) {
       state.inflow.push({
@@ -601,6 +820,22 @@
     form.reset();
     logAction("CUSTOMER_PAYMENT", `Created booking ${bkId} for ${cust}`, { trip, value: val, advance: adv });
     renderAll();
+
+    // Push to backend bookings API
+    try {
+      await fetch(`${API_ENDPOINT}/bookings.php?action=save_booking`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          booking_id: bkId,
+          customer_name: cust,
+          trip_title: trip,
+          total_amount: val,
+          paid_amount: adv,
+          status
+        })
+      });
+    } catch (_) {}
   });
 
   // ==========================================
@@ -770,20 +1005,15 @@
     renderAll();
   });
 
-  // Delete ledger item delegation
+  // Delete ledger item delegation (Moves to 15-day Recycle Bin)
   document.getElementById("finance-ledger-list")?.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-del-ledger]");
     if (!btn) return;
     const id = btn.dataset.delLedger;
     const kind = btn.dataset.ledgerKind;
-    if (!window.confirm("Remove this transaction record from the ledger?")) return;
+    if (!window.confirm(`Move this ${kind} record (${id}) to Recycle Bin? (Retained for 15 days)`)) return;
 
-    if (kind === "inflow") state.inflow = state.inflow.filter((i) => i.id !== id);
-    if (kind === "outflow") state.outflow = state.outflow.filter((o) => o.id !== id);
-
-    save();
-    logAction(kind === "inflow" ? "CUSTOMER_PAYMENT" : "VENDOR_PAYOUT", `Removed ledger record ${id}`, { id });
-    renderAll();
+    moveToRecycleBin("payment", id, `${kind.toUpperCase()} ${id}`);
   });
 
   // ==========================================
@@ -1332,7 +1562,76 @@
     renderFinance();
     renderInvoices();
     renderLogs();
+    renderRecycleBin();
   }
+
+  // ==========================================
+  // RECYCLE BIN UI EVENT LISTENERS
+  // ==========================================
+  // Filter tabs
+  document.querySelectorAll("[data-recycle-filter]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("[data-recycle-filter]").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentRecycleFilter = btn.dataset.recycleFilter;
+      renderRecycleBin();
+    });
+  });
+
+  // Recycle action clicks (Restore & Hard Delete)
+  document.getElementById("recycle-bin-container")?.addEventListener("click", async (e) => {
+    const restoreBtn = e.target.closest("[data-restore-type]");
+    if (restoreBtn) {
+      const type = restoreBtn.dataset.restoreType;
+      const id = restoreBtn.dataset.restoreId;
+      await restoreRecycleItem(type, id);
+      return;
+    }
+
+    const hardDelBtn = e.target.closest("[data-hard-delete-type]");
+    if (hardDelBtn) {
+      const type = hardDelBtn.dataset.hardDeleteType;
+      const id = hardDelBtn.dataset.hardDeleteId;
+      if (!window.confirm("⚠️ PERMANENT DELETE WARNING: This item will be permanently wiped from the Hostinger database and cannot be recovered. Proceed?")) return;
+      await hardDeleteRecycleItem(type, id);
+      return;
+    }
+  });
+
+  // Purge expired (>15 days retention limit)
+  document.getElementById("btn-purge-expired-recycle")?.addEventListener("click", async () => {
+    try {
+      const res = await fetch(`${API_ENDPOINT}/recycle_bin.php?action=purge_expired`, {
+        method: "POST",
+        headers: { Accept: "application/json" }
+      });
+      const data = await res.json().catch(() => ({}));
+      window.alert(data.message || "Expired items purged successfully.");
+      fetchRecycleBin();
+      logAction("RECYCLE_BIN", "Purged expired items exceeding 15-day limit", data);
+    } catch (_) {
+      window.alert("Failed to purge expired items. Check connection.");
+    }
+  });
+
+  // Empty entire recycle bin
+  document.getElementById("btn-empty-recycle-bin")?.addEventListener("click", async () => {
+    if (!window.confirm("⚠️ EMPTY RECYCLE BIN: Are you sure you want to permanently erase ALL items in the recycle bin? This cannot be undone.")) return;
+    try {
+      const res = await fetch(`${API_ENDPOINT}/recycle_bin.php?action=empty_bin`, {
+        method: "POST",
+        headers: { Accept: "application/json" }
+      });
+      const data = await res.json().catch(() => ({}));
+      recycleBinItems = [];
+      updateRecycleBadge();
+      renderRecycleBin();
+      window.alert("Recycle bin emptied.");
+      logAction("RECYCLE_BIN", "Emptied entire recycle bin", data);
+    } catch (_) {
+      window.alert("Failed to empty recycle bin.");
+    }
+  });
 
   // Backend API Signal & Multi-Service Sync
   const apiStatusEl = document.getElementById("api-status");
@@ -1346,7 +1645,7 @@
         const data = await res.json().catch(() => ({}));
         if (data.status === "ok") {
           apiStatusEl.className = "api-signal live";
-          apiStatusEl.title = `API Live: ${API_ENDPOINT} (${data.service || "backend"}) · Click to re-check`;
+          apiStatusEl.title = `API Live: ${API_ENDPOINT} (${data.service || "backend"}) · Hostinger MySQL: ${data.database?.connected ? "Connected" : "Standby"}`;
           apiTextEl.textContent = "API Live";
           syncBackendData();
           return;
@@ -1362,7 +1661,69 @@
 
   async function syncBackendData() {
     try {
-      // 1. Sync Payments & Inflows from Backend API
+      // 1. Sync Live Catalog Items from Hostinger MySQL
+      const catRes = await fetch(`${API_ENDPOINT}/catalog.php`, {
+        method: "GET",
+        headers: { Accept: "application/json" }
+      });
+      if (catRes.ok) {
+        const catData = await catRes.json().catch(() => ({}));
+        if (catData && (Array.isArray(catData.packages) || Array.isArray(catData.hotels))) {
+          defaultCatalogue = Object.assign({}, defaultCatalogue, catData);
+          renderCatalogue();
+          renderOverview();
+        }
+      }
+
+      // 2. Sync Leads from Hostinger MySQL
+      const leadRes = await fetch(`${API_ENDPOINT}/enquiry.php`, {
+        method: "GET",
+        headers: { Accept: "application/json" }
+      });
+      if (leadRes.ok) {
+        const leadData = await leadRes.json().catch(() => ({}));
+        if (Array.isArray(leadData.leads) && leadData.leads.length) {
+          state.leads = leadData.leads.map((l) => ({
+            id: l.id,
+            name: l.name || "Customer",
+            phone: l.phone || "",
+            email: l.email || "",
+            destination: l.destination || "Trip",
+            travelDate: l.travelDate || l.travel_date || "Flexible",
+            budget: Number(l.budget) || 0,
+            status: l.status || "New",
+            notes: l.notes || ""
+          }));
+          save();
+          renderLeads();
+          renderOverview();
+        }
+      }
+
+      // 3. Sync Bookings from Hostinger MySQL
+      const bkRes = await fetch(`${API_ENDPOINT}/bookings.php`, {
+        method: "GET",
+        headers: { Accept: "application/json" }
+      });
+      if (bkRes.ok) {
+        const bkData = await bkRes.json().catch(() => ({}));
+        if (Array.isArray(bkData.bookings) && bkData.bookings.length) {
+          state.bookings = bkData.bookings.map((b) => ({
+            id: b.booking_id || b.id,
+            bookingId: b.booking_id || b.id,
+            customer: b.customer_name || b.customer,
+            trip: b.trip_title || b.trip,
+            value: Number(b.total_amount || b.value) || 0,
+            advance: Number(b.paid_amount || b.advance) || 0,
+            status: b.status || "Quoted"
+          }));
+          save();
+          renderBookings();
+          renderOverview();
+        }
+      }
+
+      // 4. Sync Payments & Inflows from Backend API
       const payRes = await fetch(`${API_ENDPOINT}/payments.php`, {
         method: "GET",
         headers: { Accept: "application/json" }
@@ -1396,7 +1757,7 @@
         }
       }
 
-      // 2. Sync System Audit Logs from Backend API
+      // 5. Sync System Audit Logs from Backend API
       const logRes = await fetch(`${API_ENDPOINT}/logs.php`, {
         method: "GET",
         headers: { Accept: "application/json" }
@@ -1421,6 +1782,9 @@
           }
         }
       }
+
+      // 6. Sync 15-Day Recycle Bin Items
+      await fetchRecycleBin();
     } catch (_) {
       // Backend offline or unreachable
     }

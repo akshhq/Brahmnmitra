@@ -487,10 +487,10 @@ BM.initTravelDiscovery = function () {
   }
 
   function loadCatalog() {
-    fetch(catalogUrl)
-      .then((response) => {
-        if (!response.ok) throw new Error("Catalogue request failed");
-        return response.json();
+    fetch("backend/catalog.php")
+      .then((response) => (response.ok ? response.json() : Promise.reject()))
+      .catch(() => {
+        return fetch("data/travel-catalog.json").then((res) => (res.ok ? res.json() : Promise.reject()));
       })
       .then((catalogue) => {
         data = catalogue;

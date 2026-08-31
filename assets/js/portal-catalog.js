@@ -245,12 +245,22 @@
   });
 
   function loadData() {
-    fetch("data/travel-catalog.json")
+    fetch("backend/catalog.php")
       .then((response) => (response.ok ? response.json() : Promise.reject()))
       .then((data) => {
         items = data[page] || [];
         renderControls(items);
         render();
+      })
+      .catch(() => {
+        // Fallback to static JSON file
+        return fetch("data/travel-catalog.json")
+          .then((response) => (response.ok ? response.json() : Promise.reject()))
+          .then((data) => {
+            items = data[page] || [];
+            renderControls(items);
+            render();
+          });
       })
       .catch(() => {
         grid.innerHTML =

@@ -1,6 +1,7 @@
 -- =========================================================
 -- BrahmnMitra Database Schema for Hostinger MySQL
 -- Database: u844555645_brahmnmitra
+-- Supports 15-Day Retention Recycle Bin (Soft Delete & Restore)
 -- =========================================================
 
 SET FOREIGN_KEY_CHECKS = 0;
@@ -15,11 +16,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   `role` ENUM('admin', 'staff', 'customer') NOT NULL DEFAULT 'customer',
   `status` ENUM('active', 'inactive', 'suspended') NOT NULL DEFAULT 'active',
   `metadata_json` JSON DEFAULT NULL,
+  `deleted_at` DATETIME DEFAULT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   INDEX `idx_users_email` (`email`),
   INDEX `idx_users_role` (`role`),
-  INDEX `idx_users_status` (`status`)
+  INDEX `idx_users_status` (`status`),
+  INDEX `idx_users_deleted` (`deleted_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 2. Auth Session Tokens
@@ -53,13 +56,39 @@ CREATE TABLE IF NOT EXISTS `enquiries` (
   `ip_address` VARCHAR(45) DEFAULT NULL,
   `assigned_to` INT UNSIGNED DEFAULT NULL,
   `notes` TEXT DEFAULT NULL,
+  `deleted_at` DATETIME DEFAULT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX `idx_enquiries_status` (`status`),
   INDEX `idx_enquiries_created` (`created_at`),
-  INDEX `idx_enquiries_service` (`service`)
+  INDEX `idx_enquiries_service` (`service`),
+  INDEX `idx_enquiries_deleted` (`deleted_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 4. Payments & Transactions Ledger Table
+-- 4. Bookings & Quotations Proposals Table
+CREATE TABLE IF NOT EXISTS `bookings` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `booking_id` VARCHAR(100) NOT NULL UNIQUE,
+  `customer_name` VARCHAR(100) NOT NULL,
+  `customer_email` VARCHAR(150) DEFAULT NULL,
+  `customer_phone` VARCHAR(25) DEFAULT NULL,
+  `trip_title` VARCHAR(150) NOT NULL,
+  `destination` VARCHAR(100) DEFAULT NULL,
+  `travel_date` DATE DEFAULT NULL,
+  `passengers` INT UNSIGNED NOT NULL DEFAULT 1,
+  `total_amount` DECIMAL(12, 2) NOT NULL DEFAULT '0.00',
+  `paid_amount` DECIMAL(12, 2) NOT NULL DEFAULT '0.00',
+  `status` ENUM('draft', 'confirmed', 'in_progress', 'completed', 'cancelled') NOT NULL DEFAULT 'draft',
+  `notes` TEXT DEFAULT NULL,
+  `details_json` JSON DEFAULT NULL,
+  `deleted_at` DATETIME DEFAULT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX `idx_bookings_id` (`booking_id`),
+  INDEX `idx_bookings_status` (`status`),
+  INDEX `idx_bookings_deleted` (`deleted_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 5. Payments & Transactions Ledger Table
 CREATE TABLE IF NOT EXISTS `payments` (
   `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `transaction_id` VARCHAR(100) NOT NULL UNIQUE,
@@ -76,14 +105,16 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `status` ENUM('pending', 'verified', 'failed', 'refunded') NOT NULL DEFAULT 'verified',
   `notes` TEXT DEFAULT NULL,
   `ip_address` VARCHAR(45) DEFAULT NULL,
+  `deleted_at` DATETIME DEFAULT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX `idx_payments_txn` (`transaction_id`),
   INDEX `idx_payments_booking` (`booking_id`),
   INDEX `idx_payments_status` (`status`),
-  INDEX `idx_payments_created` (`created_at`)
+  INDEX `idx_payments_created` (`created_at`),
+  INDEX `idx_payments_deleted` (`deleted_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 5. Catalog Items (Packages, Curated Stays, Destinations)
+-- 6. Catalog Items (Packages, Curated Stays, Destinations)
 CREATE TABLE IF NOT EXISTS `catalog_items` (
   `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `category` ENUM('package', 'hotel', 'destination') NOT NULL,
@@ -102,14 +133,16 @@ CREATE TABLE IF NOT EXISTS `catalog_items` (
   `places_json` JSON DEFAULT NULL,
   `image` VARCHAR(255) NOT NULL DEFAULT 'assets/images/sample.webp',
   `is_active` TINYINT(1) NOT NULL DEFAULT '1',
+  `deleted_at` DATETIME DEFAULT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY `uk_cat_slug` (`category`, `slug`),
   INDEX `idx_cat_category` (`category`),
-  INDEX `idx_cat_active` (`is_active`)
+  INDEX `idx_cat_active` (`is_active`),
+  INDEX `idx_cat_deleted` (`deleted_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 6. Audit Trail & Activity Logs Table
+-- 7. Audit Trail & Activity Logs Table
 CREATE TABLE IF NOT EXISTS `audit_logs` (
   `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `log_id` VARCHAR(100) NOT NULL,

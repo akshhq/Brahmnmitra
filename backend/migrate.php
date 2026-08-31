@@ -1,5 +1,6 @@
 <?php
 // BrahmnMitra — Database Migration & Seed Runner (Hostinger MySQL)
+// Supports Schema Init & 15-Day Recycle Bin Updates
 
 define("BM_OK", true);
 
@@ -51,7 +52,22 @@ if (file_exists($schemaFile)) {
     output_log("schema.sql not found.", "warning");
 }
 
-// 2. Seed Default Admin Account
+// 2. Ensure deleted_at column exists in all tables for 15-Day Recycle Bin
+$tablesToCheck = ['catalog_items', 'enquiries', 'payments', 'users', 'bookings'];
+foreach ($tablesToCheck as $tbl) {
+    try {
+        $colCheck = $db->query("SHOW COLUMNS FROM `{$tbl}` LIKE 'deleted_at'")->fetch();
+        if (!$colCheck) {
+            $db->exec("ALTER TABLE `{$tbl}` ADD COLUMN `deleted_at` DATETIME DEFAULT NULL");
+            $db->exec("ALTER TABLE `{$tbl}` ADD INDEX `idx_{$tbl}_deleted` (`deleted_at`)");
+            output_log("Added deleted_at column to {$tbl} table for Recycle Bin support.", "success");
+        }
+    } catch (Exception $e) {
+        // Table might not exist yet if schema failed
+    }
+}
+
+// 3. Seed Default Admin Account
 $adminEmail = "admin@brahmnmitra.com";
 $adminPass = "Admin@Brahmnmitra2026!";
 
@@ -73,7 +89,7 @@ try {
     output_log("Error creating admin user: " . $e->getMessage(), "error");
 }
 
-// 3. Seed Catalog Inventory from data/travel-catalog.json
+// 4. Seed Catalog Inventory from data/travel-catalog.json
 $catalogJsonFile = __DIR__ . "/../data/travel-catalog.json";
 if (file_exists($catalogJsonFile)) {
     $catalogData = json_decode(file_get_contents($catalogJsonFile), true);
@@ -149,6 +165,15 @@ if (file_exists($catalogJsonFile)) {
     }
 }
 
+// 5. Run initial 15-Day Recycle Bin Purge
+try {
+    $purgeDate = date('Y-m-d H:i:s', strtotime('-15 days'));
+    foreach ($tablesToCheck as $tbl) {
+        $db->exec("DELETE FROM `{$tbl}` WHERE `deleted_at` IS NOT NULL AND `deleted_at` < '{$purgeDate}'");
+    }
+    output_log("Recycle Bin retention policy verified (15-day limit active).", "success");
+} catch (Exception $e) {}
+
 output_log("Database migration complete and verified.", "success");
 
 if (!$isCli) {
@@ -159,6 +184,7 @@ if (!$isCli) {
         'database' => DB_NAME,
         'host' => DB_HOST,
         'admin_account' => $adminEmail,
+        'recycle_bin_retention_days' => 15,
         'logs' => $results
     ], JSON_PRETTY_PRINT);
 }
