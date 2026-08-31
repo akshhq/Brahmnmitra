@@ -4,6 +4,9 @@ FROM php:8.2-apache
 # Enable Apache mod_rewrite and mod_headers for routing, security, and CORS
 RUN a2enmod rewrite headers
 
+# Install PHP extensions required for MySQL database connectivity
+RUN docker-php-ext-install pdo pdo_mysql mysqli
+
 # Configure Apache Directory permissions to allow .htaccess overrides
 RUN sed -ri -e 's!/var/www/html!/var/www/html!g' /etc/apache2/sites-available/*.conf \
     && sed -ri -e 's!/var/www/!/var/www/html!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \

@@ -53,11 +53,17 @@ http_response_code(200);
 header('Content-Type: application/json; charset=utf-8');
 
 $dbAvailable = false;
-if (file_exists(__DIR__ . '/includes/config.php') && file_exists(__DIR__ . '/includes/db.php')) {
-    define('BM_OK', true);
-    require_once __DIR__ . '/includes/config.php';
-    require_once __DIR__ . '/includes/db.php';
-    $dbAvailable = bm_db_is_available();
+try {
+    if (file_exists(__DIR__ . '/includes/config.php') && file_exists(__DIR__ . '/includes/db.php')) {
+        if (!defined('BM_OK')) {
+            define('BM_OK', true);
+        }
+        require_once __DIR__ . '/includes/config.php';
+        require_once __DIR__ . '/includes/db.php';
+        $dbAvailable = bm_db_is_available();
+    }
+} catch (Throwable $e) {
+    $dbAvailable = false;
 }
 
 echo json_encode([

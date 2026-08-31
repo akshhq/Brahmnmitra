@@ -49,6 +49,7 @@
   RewriteRule ^refunds/?$ /refund-policy [R=301,L]
 
   # Internally rewrite clean URL /page to pages/page.html if it exists in pages/
+  RewriteCond %{REQUEST_URI} !^/(frontend-admin|backend|assets|data)/? [NC]
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{DOCUMENT_ROOT}/pages/$1.html -f [OR]
@@ -56,6 +57,7 @@
   RewriteRule ^([a-zA-Z0-9_-]+)$ pages/$1.html [L]
 
   # Internally rewrite /page to page.html if root page.html exists
+  RewriteCond %{REQUEST_URI} !^/(frontend-admin|backend|assets|data)/? [NC]
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME}.html -f

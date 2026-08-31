@@ -1,5 +1,12 @@
 # Hostinger Apache Configuration for BrahmnMitra Admin Subdomain (admin.brahmnmitra.com)
 Options -Indexes
+DirectoryIndex index.html index.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/frontend-admin/index(\.html)?(\?[^\s]*)?\s [NC]
+  RewriteRule ^index(\.html)?$ /frontend-admin/ [R=301,L]
+</IfModule>
 
 # Security Headers & Content Security Policy
 <IfModule mod_headers.c>

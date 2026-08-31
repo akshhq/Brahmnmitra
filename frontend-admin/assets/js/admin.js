@@ -1695,6 +1695,9 @@
   async function checkApiLive(customTargetUrl) {
     if (!apiStatusEl || !apiTextEl) return false;
 
+    apiStatusEl.className = "api-signal standby";
+    apiTextEl.textContent = "Connecting...";
+
     const candidates = [
       customTargetUrl,
       localStorage.getItem("bm_custom_api_endpoint"),
@@ -1709,16 +1712,24 @@
       const url = rawUrl.trim().replace(/\/+$/, "");
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-        const res = await fetch(`${url}/`, {
+        let res = await fetch(`${url}/`, {
           method: "GET",
           headers: { Accept: "application/json" },
           signal: controller.signal
-        });
+        }).catch(() => null);
+
+        if (!res || !res.ok) {
+          res = await fetch(`${url}/index.php`, {
+            method: "GET",
+            headers: { Accept: "application/json" },
+            signal: controller.signal
+          }).catch(() => null);
+        }
         clearTimeout(timeoutId);
 
-        if (res.ok) {
+        if (res && res.ok) {
           const data = await res.json().catch(() => ({}));
           if (data && data.status === "ok") {
             API_ENDPOINT = url;
