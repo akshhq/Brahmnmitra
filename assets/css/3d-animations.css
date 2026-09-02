@@ -1,0 +1,266 @@
+/* ==========================================================================
+   BrahmnMitra — High-Performance 3D Animation & Spatial Depth Engine
+   Smooth GPU-accelerated 3D micro-interactions for Mobile and Desktop
+   ========================================================================== */
+
+:root {
+  --perspective-stage: 1200px;
+  --perspective-card: 900px;
+  --3d-max-tilt: 10deg;
+  --3d-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --3d-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --3d-shadow-base: 0 16px 36px -12px rgba(4, 6, 12, 0.6);
+  --3d-shadow-lifted: 0 28px 64px -16px rgba(4, 6, 12, 0.85), 0 0 30px -4px rgba(95, 233, 245, 0.18);
+}
+
+/* --------------------------------------------------------------------------
+   1. 3D Perspective Wrappers
+   -------------------------------------------------------------------------- */
+.viewport-3d,
+.portal-grid,
+.workspace-grid,
+.cards-grid,
+.services-grid,
+.highlights-grid,
+.package-grid,
+.hotel-grid,
+.catalog-grid,
+.stat-grid,
+.process-grid,
+.capability-grid,
+.search-layout {
+  perspective: var(--perspective-stage);
+  transform-style: preserve-3d;
+}
+
+/* --------------------------------------------------------------------------
+   2. 3D Interactive Card Foundation
+   -------------------------------------------------------------------------- */
+.portal-card,
+.workspace-card,
+.service-card,
+.why-card,
+.step-card,
+.tour-card,
+.stat-card,
+.stat,
+.checkout-card,
+.travel-card,
+.destination-card,
+.trip-planner-panel,
+.assistant-card,
+.card-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+  transition:
+    transform 0.45s var(--3d-ease),
+    box-shadow 0.45s var(--3d-ease),
+    border-color 0.3s ease;
+  box-shadow: var(--3d-shadow-base);
+}
+
+/* Specular 3D Optical Glare Sheen */
+.glare-sheen-3d {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  mix-blend-mode: overlay;
+  background: radial-gradient(
+    circle 280px at var(--glare-x, 50%) var(--glare-y, 50%),
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(95, 233, 245, 0.15) 40%,
+    transparent 80%
+  );
+  transition: opacity 0.35s ease;
+}
+
+/* --------------------------------------------------------------------------
+   3. Stereoscopic 3D Layer Elevation (Depth Parallax inside cards)
+   -------------------------------------------------------------------------- */
+.portal-card-media,
+.service-card-media,
+.tour-card-media {
+  transform: translateZ(16px);
+  transform-style: preserve-3d;
+  transition: transform 0.45s var(--3d-ease);
+}
+
+.portal-card-badge,
+.card-tag-3d,
+.tag {
+  transform: translateZ(32px);
+  backface-visibility: hidden;
+  transition: transform 0.45s var(--3d-ease);
+}
+
+.portal-card-content h2,
+.service-card h3,
+.workspace-card h2,
+.why-card h3 {
+  transform: translateZ(22px);
+  transition: transform 0.45s var(--3d-ease);
+}
+
+.portal-card-price,
+.card-actions,
+.btn-3d-pop {
+  transform: translateZ(36px);
+  transition: transform 0.45s var(--3d-ease);
+}
+
+.portal-card-content p,
+.workspace-card p {
+  transform: translateZ(12px);
+  transition: transform 0.45s var(--3d-ease);
+}
+
+/* --------------------------------------------------------------------------
+   4. Desktop Pointer Hover & Tilt Dynamics
+   -------------------------------------------------------------------------- */
+@media (hover: hover) and (pointer: fine) {
+  .portal-card:hover,
+  .workspace-card:hover,
+  .service-card:hover,
+  .why-card:hover,
+  .step-card:hover,
+  .checkout-card:hover,
+  .card-3d:hover {
+    box-shadow: var(--3d-shadow-lifted);
+    border-color: rgba(95, 233, 245, 0.4);
+  }
+
+  .portal-card:hover .glare-sheen-3d,
+  .workspace-card:hover .glare-sheen-3d,
+  .service-card:hover .glare-sheen-3d,
+  .card-3d:hover .glare-sheen-3d {
+    opacity: 1;
+  }
+
+  .portal-card:hover .portal-card-img {
+    transform: scale(1.08) translateZ(8px);
+  }
+
+  .portal-card:hover .portal-card-badge {
+    transform: translateZ(42px) scale(1.04);
+  }
+
+  .portal-card:hover .portal-card-price {
+    transform: translateZ(44px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Mobile & Touch Screen Fluid 3D Dynamics
+   -------------------------------------------------------------------------- */
+@media (hover: none) {
+  /* Subtle ambient 3D breathing for cards on mobile */
+  .portal-card,
+  .workspace-card,
+  .service-card {
+    transition:
+      transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.3s ease;
+  }
+
+  /* Responsive 3D Touch Press (Depression Feedback) */
+  .portal-card:active,
+  .workspace-card:active,
+  .service-card:active,
+  .btn:active,
+  .nav-cta:active {
+    transform: perspective(800px) scale(0.975) translateZ(-14px) rotateX(2deg);
+    box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.75);
+  }
+
+  /* Keep media scaled smoothly on mobile viewports */
+  .portal-card-media {
+    transform: translateZ(10px);
+  }
+
+  .portal-card-badge {
+    transform: translateZ(20px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. 3D Scroll Reveal & Entrance Cascades
+   -------------------------------------------------------------------------- */
+.reveal-3d {
+  opacity: 0;
+  transform: perspective(var(--perspective-stage)) translateY(38px) translateZ(-45px) rotateX(8deg) scale(0.96);
+  transition:
+    opacity 0.75s var(--3d-ease),
+    transform 0.75s var(--3d-ease);
+  will-change: opacity, transform;
+}
+
+.reveal-3d.is-revealed {
+  opacity: 1;
+  transform: perspective(var(--perspective-stage)) translateY(0) translateZ(0) rotateX(0deg) scale(1);
+}
+
+/* Staggered delay helper */
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-5 { transition-delay: 0.40s; }
+
+/* --------------------------------------------------------------------------
+   7. Ambient 3D Floating Orbs & Background Depth
+   -------------------------------------------------------------------------- */
+@keyframes float3d {
+  0%, 100% {
+    transform: translateY(0) translateZ(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-8px) translateZ(14px) rotate(0.8deg);
+  }
+  66% {
+    transform: translateY(6px) translateZ(-10px) rotate(-0.6deg);
+  }
+}
+
+.float-3d-ambient {
+  animation: float3d 8s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+/* 3D Glass Pill Navigation Micro-Lift */
+#site-header {
+  transform-style: preserve-3d;
+  transition: transform 0.4s var(--3d-ease), background 0.3s ease, box-shadow 0.4s ease;
+}
+
+#site-header.scrolled {
+  transform: translateY(4px) scale(0.99) translateZ(10px);
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   8. Reduced Motion Safety (WCAG 2.1 AAA Compliance)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transform: none !important;
+    perspective: none !important;
+  }
+
+  .reveal-3d {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .glare-sheen-3d {
+    display: none !important;
+  }
+}

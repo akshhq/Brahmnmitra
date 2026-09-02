@@ -176,6 +176,17 @@ BM.initNavigation = function () {
   checkBackToTop();
 };
 
+// Universal 3D Spatial Animation Bootstrap
+(() => {
+  if (!window._bm3DAnimationsLoaded && !document.querySelector('script[src*="3d-animations.js"]')) {
+    window._bm3DAnimationsLoaded = true;
+    const s = document.createElement("script");
+    s.src = "/assets/js/3d-animations.js";
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+})();
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", BM.initNavigation);
 } else {
