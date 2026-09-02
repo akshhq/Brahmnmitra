@@ -114,9 +114,10 @@
     if (!bookingsContainer || !email) return;
     bookingsContainer.innerHTML = '<p style="color: var(--cyan); font-size: 0.88rem;">Loading your verified travel records…</p>';
 
+    const apiBase = window.BM?.API_BASE || "https://brahmnmitra.onrender.com";
     const urls = [
-      `/backend/bookings.php?email=${encodeURIComponent(email)}`,
-      `https://brahmnmitra.onrender.com/bookings.php?email=${encodeURIComponent(email)}`
+      `${apiBase}/bookings.php?email=${encodeURIComponent(email)}`,
+      `/backend/bookings.php?email=${encodeURIComponent(email)}`
     ];
 
     let bookings = [];
@@ -185,9 +186,10 @@
     if (loginAlert) loginAlert.style.display = "none";
     if (btn) { btn.disabled = true; btn.textContent = "Signing in…"; }
 
+    const apiBase = window.BM?.API_BASE || "https://brahmnmitra.onrender.com";
     const endpoints = [
-      "/backend/auth.php?action=login",
-      "https://brahmnmitra.onrender.com/auth.php?action=login"
+      `${apiBase}/auth.php?action=login`,
+      "/backend/auth.php?action=login"
     ];
 
     let success = false;
@@ -233,9 +235,10 @@
     if (regAlert) regAlert.style.display = "none";
     if (btn) { btn.disabled = true; btn.textContent = "Creating Account…"; }
 
+    const apiBase = window.BM?.API_BASE || "https://brahmnmitra.onrender.com";
     const endpoints = [
-      "/backend/auth.php?action=register",
-      "https://brahmnmitra.onrender.com/auth.php?action=register"
+      `${apiBase}/auth.php?action=register`,
+      "/backend/auth.php?action=register"
     ];
 
     let success = false;

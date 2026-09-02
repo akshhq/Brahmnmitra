@@ -487,10 +487,11 @@ BM.initTravelDiscovery = function () {
   }
 
   function loadCatalog() {
-    fetch("/backend/catalog.php")
+    const apiBase = window.BM?.API_BASE || "https://brahmnmitra.onrender.com";
+    fetch(`${apiBase}/catalog.php`)
       .then((response) => (response.ok ? response.json() : Promise.reject()))
       .catch(() => {
-        return fetch("https://brahmnmitra.onrender.com/catalog.php").then((res) => (res.ok ? res.json() : Promise.reject()));
+        return fetch("/backend/catalog.php").then((res) => (res.ok ? res.json() : Promise.reject()));
       })
       .catch(() => {
         return fetch("/data/travel-catalog.json").then((res) => (res.ok ? res.json() : Promise.reject()));

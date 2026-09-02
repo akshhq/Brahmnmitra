@@ -2,6 +2,7 @@
 // BrahmnMitra — Universal Header and Navigation
 
 window.BM = window.BM || {};
+window.BM.API_BASE = "https://brahmnmitra.onrender.com";
 
 BM.initNavigation = function () {
   const header = document.getElementById("site-header");

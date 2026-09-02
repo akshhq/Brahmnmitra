@@ -519,9 +519,10 @@
           const invNo = `BM-INV-2026-${Math.floor(1000 + Math.random() * 9000)}`;
 
           // Dispatch payment verification directly to backend APIs
+          const apiBase = window.BM?.API_BASE || "https://brahmnmitra.onrender.com";
           const backendEndpoints = [
-            "/backend/payments.php",
-            "https://brahmnmitra.onrender.com/payments.php"
+            `${apiBase}/payments.php`,
+            "/backend/payments.php"
           ];
 
           for (const ep of backendEndpoints) {

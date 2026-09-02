@@ -378,14 +378,15 @@
           };
 
           try {
-            let res = await fetch("/backend/enquiry.php", {
+            const apiBase = window.BM?.API_BASE || "https://brahmnmitra.onrender.com";
+            let res = await fetch(`${apiBase}/enquiry.php`, {
               method: "POST",
               headers: { "Content-Type": "application/json", Accept: "application/json" },
               body: JSON.stringify(payload)
             }).catch(() => null);
 
             if (!res || !res.ok) {
-              res = await fetch("https://brahmnmitra.onrender.com/enquiry.php", {
+              res = await fetch("/backend/enquiry.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Accept: "application/json" },
                 body: JSON.stringify(payload)
