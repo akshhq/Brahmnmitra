@@ -72,11 +72,63 @@
         <h1>Your travels, in one considered place.</h1>
         <p>
           Keep your saved travel ideas, planning drafts and preferences together
-          while you explore. This private workspace is stored only in this
-          browser; use the contact form for active booking support.
+          while you explore. Sign in to sync your bookings, download tax invoices, and access private vouchers.
         </p>
       </section>
+
+      <!-- Customer Authentication Card -->
+      <section id="customer-auth-card" class="workspace-card glass" style="max-width: 680px; margin: 0 auto 36px; padding: 28px;">
+        <!-- Auth Tabs -->
+        <div style="display: flex; gap: 12px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 12px;">
+          <button id="tab-auth-login" type="button" class="btn btn-amber" style="padding: 8px 18px; font-size: 0.85rem;">Traveler Sign In</button>
+          <button id="tab-auth-register" type="button" class="btn btn-glass" style="padding: 8px 18px; font-size: 0.85rem;">Create Account</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="customer-login-form" class="account-form">
+          <div id="customer-login-alert" class="portal-note" style="color: #ff8c8c; display: none;"></div>
+          <label>Email Address<input id="cust-login-email" name="email" type="email" autocomplete="username" required placeholder="your@email.com" /></label>
+          <label>Password<input id="cust-login-password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••••••" /></label>
+          <button id="cust-login-btn" class="btn btn-amber" type="submit" style="margin-top: 10px;">Sign In to Account →</button>
+        </form>
+
+        <!-- Register Form (Hidden by default) -->
+        <form id="customer-register-form" class="account-form" style="display: none;">
+          <div id="customer-reg-alert" class="portal-note" style="color: #ff8c8c; display: none;"></div>
+          <label>Full Name<input id="cust-reg-name" name="name" type="text" autocomplete="name" required placeholder="e.g. Rajesh Sharma" /></label>
+          <label>Email Address<input id="cust-reg-email" name="email" type="email" autocomplete="email" required placeholder="your@email.com" /></label>
+          <label>Phone Number<input id="cust-reg-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 98765 43210" /></label>
+          <label>Create Password<input id="cust-reg-password" name="password" type="password" autocomplete="new-password" required minlength="6" placeholder="At least 6 characters" /></label>
+          <button id="cust-reg-btn" class="btn btn-amber" type="submit" style="margin-top: 10px;">Create Traveler Account →</button>
+        </form>
+
+        <!-- Authenticated Profile View (Hidden when logged out) -->
+        <div id="customer-logged-in-view" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+            <div>
+              <span style="font-size: 0.75rem; color: var(--cyan); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;">Club BrahmnMitra · Verified Member</span>
+              <h2 id="logged-user-name" style="margin: 4px 0 2px; font-size: 1.25rem;">Traveler</h2>
+              <p id="logged-user-email" style="margin: 0; color: var(--ink-soft); font-size: 0.88rem;">traveler@example.com</p>
+            </div>
+            <button id="customer-signout-btn" class="btn btn-glass" type="button" style="color: #ff8c8c; border-color: rgba(255,100,100,0.3); padding: 8px 16px; font-size: 0.82rem;">Sign Out</button>
+          </div>
+        </div>
+      </section>
+
       <section id="account-workspace" class="workspace-grid">
+        <!-- Live Bookings & Quotations Card -->
+        <article class="workspace-card glass wide" style="grid-column: 1 / -1;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <h2>Your Bookings &amp; Documents</h2>
+            <a class="btn btn-amber" href="/plan" style="font-size: 0.8rem; padding: 6px 14px;">+ Plan New Journey</a>
+          </div>
+          <div id="customer-bookings-container" style="margin-top: 14px;">
+            <p style="color: var(--ink-soft); font-size: 0.9rem;">
+              Sign in above to view confirmed itineraries, travel vouchers, and tax invoices.
+            </p>
+          </div>
+        </article>
+
         <article class="workspace-card glass">
           <h2>Your preferences</h2>
           <form id="profile-form" class="account-form">
@@ -90,11 +142,11 @@
             <label
               >Travel style<select name="travelStyle">
                 <option value="">Choose one</option>
-                <option>Family & leisure</option>
-                <option>Couples & honeymoon</option>
-                <option>Luxury & wellness</option>
-                <option>Adventure & nature</option>
-                <option>Culture & heritage</option>
+                <option>Family &amp; leisure</option>
+                <option>Couples &amp; honeymoon</option>
+                <option>Luxury &amp; wellness</option>
+                <option>Adventure &amp; nature</option>
+                <option>Culture &amp; heritage</option>
               </select></label
             >
             <button class="btn btn-amber" type="submit">
@@ -118,23 +170,13 @@
             browser. Save a draft itinerary to earn 25 points.
           </p>
           <p>
-            Membership, referrals and redemption will be enabled with your
+            Membership, referrals and redemption are active with your
             confirmed customer account.
           </p>
         </article>
         <article class="workspace-card glass">
           <h2>Recently explored</h2>
           <ul id="activity-list"></ul>
-        </article>
-        <article class="workspace-card glass">
-          <h2>Bookings &amp; Documents</h2>
-          <p>
-            Review active booking vouchers, SAC 9985 tax invoices, or make an online deposit settlement via our secure checkout gateway.
-          </p>
-          <div style="display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
-            <a class="btn btn-amber" href="/pay" style="font-size: 0.85rem; padding: 8px 16px;">Pay Deposit / Invoice →</a>
-            <a class="text-button" href="/contact">Contact Travel Desk →</a>
-          </div>
         </article>
       </section>
       <section class="portal-cta glass">

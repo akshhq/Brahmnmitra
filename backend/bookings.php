@@ -14,16 +14,29 @@ header("Content-Type: application/json; charset=utf-8");
 $db = bm_get_db();
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
+    $email = isset($_GET["email"]) ? strtolower(trim($_GET["email"])) : "";
     if ($db) {
         try {
-            $stmt = $db->query("
-                SELECT id, booking_id, customer_name, customer_email, customer_phone, trip_title, destination, 
-                       travel_date, passengers, total_amount, paid_amount, status, notes, details_json, created_at, updated_at
-                FROM bookings
-                WHERE deleted_at IS NULL
-                ORDER BY id DESC
-                LIMIT 200
-            ");
+            if (!empty($email)) {
+                $stmt = $db->prepare("
+                    SELECT id, booking_id, customer_name, customer_email, customer_phone, trip_title, destination, 
+                           travel_date, passengers, total_amount, paid_amount, status, notes, details_json, created_at, updated_at
+                    FROM bookings
+                    WHERE customer_email = :email AND deleted_at IS NULL
+                    ORDER BY id DESC
+                    LIMIT 50
+                ");
+                $stmt->execute([':email' => $email]);
+            } else {
+                $stmt = $db->query("
+                    SELECT id, booking_id, customer_name, customer_email, customer_phone, trip_title, destination, 
+                           travel_date, passengers, total_amount, paid_amount, status, notes, details_json, created_at, updated_at
+                    FROM bookings
+                    WHERE deleted_at IS NULL
+                    ORDER BY id DESC
+                    LIMIT 200
+                ");
+            }
             $bookings = $stmt->fetchAll();
             echo json_encode(["status" => "ok", "source" => "hostinger_mysql", "bookings" => $bookings], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
             exit;

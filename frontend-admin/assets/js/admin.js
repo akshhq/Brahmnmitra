@@ -2,6 +2,8 @@
 
 (() => {
   const STORAGE_KEY = "bm_admin_workspace_v2";
+  const AUTH_STORAGE_KEY = "bm_admin_session_v1";
+
   function getActiveApiEndpoint() {
     const saved = localStorage.getItem("bm_custom_api_endpoint");
     if (saved && saved.trim()) {
@@ -12,6 +14,33 @@
   }
 
   let API_ENDPOINT = getActiveApiEndpoint();
+
+  function getAdminAuth() {
+    try {
+      const data = sessionStorage.getItem(AUTH_STORAGE_KEY) || localStorage.getItem(AUTH_STORAGE_KEY);
+      return data ? JSON.parse(data) : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function setAdminAuth(authData) {
+    if (authData && authData.token) {
+      sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authData));
+    } else {
+      sessionStorage.removeItem(AUTH_STORAGE_KEY);
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+    }
+  }
+
+  function getAuthHeaders(extraHeaders = {}) {
+    const auth = getAdminAuth();
+    const headers = { "Content-Type": "application/json", "Accept": "application/json", ...extraHeaders };
+    if (auth && auth.token) {
+      headers["Authorization"] = `Bearer ${auth.token}`;
+    }
+    return headers;
+  }
 
   let recycleBinItems = [];
   let currentRecycleFilter = "all";
@@ -1782,7 +1811,7 @@
       // 1. Sync Live Catalog Items from Hostinger MySQL
       const catRes = await fetch(`${API_ENDPOINT}/catalog.php`, {
         method: "GET",
-        headers: { Accept: "application/json" }
+        headers: getAuthHeaders()
       });
       if (catRes.ok) {
         const catData = await catRes.json().catch(() => ({}));
@@ -1796,7 +1825,7 @@
       // 2. Sync Leads from Hostinger MySQL
       const leadRes = await fetch(`${API_ENDPOINT}/enquiry.php`, {
         method: "GET",
-        headers: { Accept: "application/json" }
+        headers: getAuthHeaders()
       });
       if (leadRes.ok) {
         const leadData = await leadRes.json().catch(() => ({}));
@@ -1821,7 +1850,7 @@
       // 3. Sync Bookings from Hostinger MySQL
       const bkRes = await fetch(`${API_ENDPOINT}/bookings.php`, {
         method: "GET",
-        headers: { Accept: "application/json" }
+        headers: getAuthHeaders()
       });
       if (bkRes.ok) {
         const bkData = await bkRes.json().catch(() => ({}));
@@ -1844,7 +1873,7 @@
       // 4. Sync Payments & Inflows from Backend API
       const payRes = await fetch(`${API_ENDPOINT}/payments.php`, {
         method: "GET",
-        headers: { Accept: "application/json" }
+        headers: getAuthHeaders()
       });
       if (payRes.ok) {
         const payData = await payRes.json().catch(() => ({}));
@@ -1878,7 +1907,7 @@
       // 5. Sync System Audit Logs from Backend API
       const logRes = await fetch(`${API_ENDPOINT}/logs.php`, {
         method: "GET",
-        headers: { Accept: "application/json" }
+        headers: getAuthHeaders()
       });
       if (logRes.ok) {
         const logData = await logRes.json().catch(() => ({}));
@@ -1907,6 +1936,98 @@
       // Backend offline or unreachable
     }
   }
+
+  // ==========================================
+  // 10. ADMIN AUTHENTICATION GATEWAY
+  // ==========================================
+  const authOverlay = document.getElementById("admin-auth-overlay");
+  const authForm = document.getElementById("admin-login-form");
+  const authEmail = document.getElementById("admin-login-email");
+  const authPass = document.getElementById("admin-login-password");
+  const authSubmit = document.getElementById("admin-login-submit");
+  const authAlert = document.getElementById("admin-auth-alert");
+  const userProfile = document.getElementById("admin-user-profile");
+  const userNameEl = document.getElementById("admin-user-name");
+  const userRoleEl = document.getElementById("admin-user-role");
+  const logoutBtn = document.getElementById("admin-logout-btn");
+
+  function renderAdminAuthUI() {
+    const auth = getAdminAuth();
+    if (auth && auth.token && auth.user) {
+      if (authOverlay) authOverlay.style.display = "none";
+      if (userProfile) userProfile.style.display = "flex";
+      if (userNameEl) userNameEl.textContent = auth.user.name || auth.user.email || "Administrator";
+      if (userRoleEl) userRoleEl.textContent = (auth.user.role || "Admin").toUpperCase();
+    } else {
+      if (authOverlay) authOverlay.style.display = "flex";
+      if (userProfile) userProfile.style.display = "none";
+    }
+  }
+
+  authForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!authEmail || !authPass) return;
+
+    const email = authEmail.value.trim();
+    const password = authPass.value;
+
+    if (authAlert) {
+      authAlert.style.display = "none";
+      authAlert.textContent = "";
+    }
+
+    if (authSubmit) {
+      authSubmit.disabled = true;
+      authSubmit.textContent = "Verifying Credentials...";
+    }
+
+    try {
+      const res = await fetch(`${API_ENDPOINT}/auth.php?action=login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok && data.token) {
+        if (data.user && data.user.role !== "admin" && data.user.role !== "staff") {
+          throw new Error("Access denied. Customer accounts cannot access the operational desk.");
+        }
+
+        setAdminAuth(data);
+        renderAdminAuthUI();
+        logAction("AUTH", `Signed in as ${data.user.email} (${data.user.role})`);
+        checkApiLive();
+      } else {
+        throw new Error(data.message || "Invalid operational credentials.");
+      }
+    } catch (err) {
+      if (authAlert) {
+        authAlert.style.display = "block";
+        authAlert.textContent = err.message || "Login failed. Check credentials.";
+      }
+    } finally {
+      if (authSubmit) {
+        authSubmit.disabled = false;
+        authSubmit.textContent = "Sign In to Operations Portal →";
+      }
+    }
+  });
+
+  logoutBtn?.addEventListener("click", async () => {
+    if (!window.confirm("Are you sure you want to sign out of the operations portal?")) return;
+    try {
+      await fetch(`${API_ENDPOINT}/auth.php?action=logout`, {
+        method: "POST",
+        headers: getAuthHeaders()
+      }).catch(() => null);
+    } catch (_) {}
+    setAdminAuth(null);
+    renderAdminAuthUI();
+  });
+
+  renderAdminAuthUI();
 
   apiStatusEl?.addEventListener("click", () => {
     checkApiLive();

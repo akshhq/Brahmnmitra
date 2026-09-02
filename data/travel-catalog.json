@@ -9,10 +9,19 @@
       "region": "Domestic",
       "tagline": "Backwaters, tea country and quiet coastlines.",
       "bestTime": "October to March",
-      "places": ["Kochi", "Munnar", "Alleppey", "Kovalam"],
-      "experiences": ["Houseboat stay", "Tea estates", "Ayurveda"],
+      "places": [
+        "Kochi",
+        "Munnar",
+        "Alleppey",
+        "Kovalam"
+      ],
+      "experiences": [
+        "Houseboat stay",
+        "Tea estates",
+        "Ayurveda"
+      ],
       "travelTip": "Plan the hills and coast as separate, unhurried stays.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/kerala.webp"
     },
     {
       "slug": "goa",
@@ -20,10 +29,19 @@
       "region": "Domestic",
       "tagline": "Beach days, heritage lanes and slow sunsets.",
       "bestTime": "November to February",
-      "places": ["Panaji", "Assagao", "Palolem", "Old Goa"],
-      "experiences": ["Coastal dining", "Water sports", "Heritage walks"],
+      "places": [
+        "Panaji",
+        "Assagao",
+        "Palolem",
+        "Old Goa"
+      ],
+      "experiences": [
+        "Coastal dining",
+        "Water sports",
+        "Heritage walks"
+      ],
       "travelTip": "Choose north or south Goa based on the pace you want.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/goa.webp"
     },
     {
       "slug": "rajasthan",
@@ -31,10 +49,19 @@
       "region": "Domestic",
       "tagline": "Palaces, desert horizons and living craft traditions.",
       "bestTime": "October to March",
-      "places": ["Jaipur", "Udaipur", "Jodhpur", "Jaisalmer"],
-      "experiences": ["Fort visits", "Desert camp", "Craft trails"],
+      "places": [
+        "Jaipur",
+        "Udaipur",
+        "Jodhpur",
+        "Jaisalmer"
+      ],
+      "experiences": [
+        "Fort visits",
+        "Desert camp",
+        "Craft trails"
+      ],
       "travelTip": "Add a buffer day between city stays for road travel.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/rajasthan.webp"
     },
     {
       "slug": "kashmir",
@@ -42,10 +69,19 @@
       "region": "Domestic",
       "tagline": "Alpine valleys, lakes and mountain air.",
       "bestTime": "April to October",
-      "places": ["Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
-      "experiences": ["Shikara ride", "Gondola", "Meadow walks"],
+      "places": [
+        "Srinagar",
+        "Gulmarg",
+        "Pahalgam",
+        "Sonamarg"
+      ],
+      "experiences": [
+        "Shikara ride",
+        "Gondola",
+        "Meadow walks"
+      ],
       "travelTip": "Weather changes quickly; keep the plan flexible.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/kashmir.webp"
     },
     {
       "slug": "dubai",
@@ -53,10 +89,19 @@
       "region": "International",
       "tagline": "City energy, desert landscapes and family-friendly experiences.",
       "bestTime": "November to March",
-      "places": ["Downtown", "Palm Jumeirah", "Old Dubai", "Desert Reserve"],
-      "experiences": ["Desert safari", "Museum of the Future", "Creek dinner"],
+      "places": [
+        "Downtown",
+        "Palm Jumeirah",
+        "Old Dubai",
+        "Desert Reserve"
+      ],
+      "experiences": [
+        "Desert safari",
+        "Museum of the Future",
+        "Creek dinner"
+      ],
       "travelTip": "Plan major attractions in advance during school holidays.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/dubai.webp"
     },
     {
       "slug": "bali",
@@ -64,10 +109,19 @@
       "region": "International",
       "tagline": "Temples, rice terraces and restorative beach stays.",
       "bestTime": "April to October",
-      "places": ["Ubud", "Seminyak", "Nusa Dua", "Uluwatu"],
-      "experiences": ["Temple visits", "Wellness", "Sunset dining"],
+      "places": [
+        "Ubud",
+        "Seminyak",
+        "Nusa Dua",
+        "Uluwatu"
+      ],
+      "experiences": [
+        "Temple visits",
+        "Wellness",
+        "Sunset dining"
+      ],
       "travelTip": "Split a stay between inland Ubud and the coast.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/bali.webp"
     },
     {
       "slug": "thailand",
@@ -75,10 +129,19 @@
       "region": "International",
       "tagline": "Island escapes, great food and warm hospitality.",
       "bestTime": "November to February",
-      "places": ["Bangkok", "Phuket", "Krabi", "Chiang Mai"],
-      "experiences": ["Island hopping", "Street food", "Spa time"],
+      "places": [
+        "Bangkok",
+        "Phuket",
+        "Krabi",
+        "Chiang Mai"
+      ],
+      "experiences": [
+        "Island hopping",
+        "Street food",
+        "Spa time"
+      ],
       "travelTip": "Match the island choice to the season and sea conditions.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/thailand.webp"
     },
     {
       "slug": "maldives",
@@ -86,10 +149,18 @@
       "region": "International",
       "tagline": "A deliberately slower escape over clear blue water.",
       "bestTime": "November to April",
-      "places": ["North Male Atoll", "South Ari Atoll", "Baa Atoll"],
-      "experiences": ["Snorkelling", "Sandbank picnic", "Diving"],
+      "places": [
+        "North Male Atoll",
+        "South Ari Atoll",
+        "Baa Atoll"
+      ],
+      "experiences": [
+        "Snorkelling",
+        "Sandbank picnic",
+        "Diving"
+      ],
       "travelTip": "Consider seaplane timing when choosing a resort.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/maldives.webp"
     }
   ],
   "packages": [
@@ -107,9 +178,13 @@
         "Munnar tea country",
         "Alleppey houseboat"
       ],
-      "includes": ["Curated stays", "Private transfers", "Breakfast"],
+      "includes": [
+        "Curated stays",
+        "Private transfers",
+        "Breakfast"
+      ],
       "availability": "Enquire for dates",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/kerala.webp"
     },
     {
       "slug": "goa-slow-escape",
@@ -120,10 +195,18 @@
       "price": 29800,
       "bestTime": "November to February",
       "style": "Beach & culture",
-      "highlights": ["Old Goa", "Coastal stay", "Sunset cruise"],
-      "includes": ["Curated stay", "Airport transfers", "Breakfast"],
+      "highlights": [
+        "Old Goa",
+        "Coastal stay",
+        "Sunset cruise"
+      ],
+      "includes": [
+        "Curated stay",
+        "Airport transfers",
+        "Breakfast"
+      ],
       "availability": "Enquire for dates",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/goa.webp"
     },
     {
       "slug": "rajasthan-royal-route",
@@ -134,10 +217,18 @@
       "price": 58900,
       "bestTime": "October to March",
       "style": "Culture & heritage",
-      "highlights": ["Jaipur", "Jodhpur", "Udaipur"],
-      "includes": ["Hotels", "Private transport", "Selected experiences"],
+      "highlights": [
+        "Jaipur",
+        "Jodhpur",
+        "Udaipur"
+      ],
+      "includes": [
+        "Hotels",
+        "Private transport",
+        "Selected experiences"
+      ],
       "availability": "Enquire for dates",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/rajasthan.webp"
     },
     {
       "slug": "kashmir-valley-escape",
@@ -148,10 +239,18 @@
       "price": 46800,
       "bestTime": "April to October",
       "style": "Mountains & nature",
-      "highlights": ["Srinagar", "Gulmarg", "Pahalgam"],
-      "includes": ["Stays", "Transfers", "Breakfast and dinner"],
+      "highlights": [
+        "Srinagar",
+        "Gulmarg",
+        "Pahalgam"
+      ],
+      "includes": [
+        "Stays",
+        "Transfers",
+        "Breakfast and dinner"
+      ],
       "availability": "Enquire for dates",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/kashmir.webp"
     },
     {
       "slug": "dubai-city-desert",
@@ -162,10 +261,18 @@
       "price": 64900,
       "bestTime": "November to March",
       "style": "City break",
-      "highlights": ["Burj district", "Desert safari", "Old Dubai"],
-      "includes": ["Hotel", "Airport transfers", "Selected experiences"],
+      "highlights": [
+        "Burj district",
+        "Desert safari",
+        "Old Dubai"
+      ],
+      "includes": [
+        "Hotel",
+        "Airport transfers",
+        "Selected experiences"
+      ],
       "availability": "Enquire for dates",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/dubai.webp"
     },
     {
       "slug": "bali-two-sides",
@@ -176,10 +283,18 @@
       "price": 72800,
       "bestTime": "April to October",
       "style": "Wellness & beaches",
-      "highlights": ["Ubud", "Uluwatu", "Nusa Dua"],
-      "includes": ["Stays", "Private transfers", "Breakfast"],
+      "highlights": [
+        "Ubud",
+        "Uluwatu",
+        "Nusa Dua"
+      ],
+      "includes": [
+        "Stays",
+        "Private transfers",
+        "Breakfast"
+      ],
       "availability": "Enquire for dates",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/bali.webp"
     },
     {
       "slug": "thailand-island-rhythm",
@@ -190,10 +305,18 @@
       "price": 59800,
       "bestTime": "November to February",
       "style": "Island escape",
-      "highlights": ["Bangkok", "Phuket", "Island day trip"],
-      "includes": ["Hotels", "Transfers", "Selected excursions"],
+      "highlights": [
+        "Bangkok",
+        "Phuket",
+        "Island day trip"
+      ],
+      "includes": [
+        "Hotels",
+        "Transfers",
+        "Selected excursions"
+      ],
       "availability": "Enquire for dates",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/thailand.webp"
     },
     {
       "slug": "maldives-overwater-days",
@@ -204,10 +327,18 @@
       "price": 114900,
       "bestTime": "November to April",
       "style": "Luxury & honeymoon",
-      "highlights": ["Resort stay", "Snorkelling", "Sandbank experience"],
-      "includes": ["Resort", "Transfers", "Breakfast and dinner"],
+      "highlights": [
+        "Resort stay",
+        "Snorkelling",
+        "Sandbank experience"
+      ],
+      "includes": [
+        "Resort",
+        "Transfers",
+        "Breakfast and dinner"
+      ],
       "availability": "Enquire for dates",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/maldives.webp"
     }
   ],
   "hotels": [
@@ -218,9 +349,13 @@
       "type": "Resort",
       "stars": 5,
       "price": 8500,
-      "amenities": ["Breakfast", "Pool", "Spa"],
+      "amenities": [
+        "Breakfast",
+        "Pool",
+        "Spa"
+      ],
       "description": "A peaceful base for backwater and coast itineraries.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/kerala.webp"
     },
     {
       "slug": "goa-courtyard-house",
@@ -229,9 +364,13 @@
       "type": "Boutique stay",
       "stars": 4,
       "price": 7200,
-      "amenities": ["Breakfast", "Pool", "Wi-Fi"],
+      "amenities": [
+        "Breakfast",
+        "Pool",
+        "Wi-Fi"
+      ],
       "description": "A relaxed, design-led stay close to Goa's heritage lanes.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/goa.webp"
     },
     {
       "slug": "rajasthan-haveli-stay",
@@ -240,9 +379,13 @@
       "type": "Heritage hotel",
       "stars": 4,
       "price": 9800,
-      "amenities": ["Breakfast", "Restaurant", "Transfers"],
+      "amenities": [
+        "Breakfast",
+        "Restaurant",
+        "Transfers"
+      ],
       "description": "A characterful city base with thoughtful local details.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/rajasthan.webp"
     },
     {
       "slug": "kashmir-lake-residence",
@@ -251,9 +394,13 @@
       "type": "Boutique stay",
       "stars": 4,
       "price": 10400,
-      "amenities": ["Breakfast", "Lake view", "Heating"],
+      "amenities": [
+        "Breakfast",
+        "Lake view",
+        "Heating"
+      ],
       "description": "Comfortable access to Srinagar's lake-side experiences.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/kashmir.webp"
     },
     {
       "slug": "dubai-marina-residence",
@@ -262,9 +409,13 @@
       "type": "City hotel",
       "stars": 5,
       "price": 15800,
-      "amenities": ["Breakfast", "Pool", "Gym"],
+      "amenities": [
+        "Breakfast",
+        "Pool",
+        "Gym"
+      ],
       "description": "A well-connected stay for a city and beach itinerary.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/dubai.webp"
     },
     {
       "slug": "bali-ricefield-villas",
@@ -273,9 +424,13 @@
       "type": "Villa",
       "stars": 5,
       "price": 14200,
-      "amenities": ["Breakfast", "Pool", "Spa"],
+      "amenities": [
+        "Breakfast",
+        "Pool",
+        "Spa"
+      ],
       "description": "An intimate retreat between Ubud's rice terraces and cafés.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/bali.webp"
     },
     {
       "slug": "thailand-shoreline-retreat",
@@ -284,9 +439,13 @@
       "type": "Beach resort",
       "stars": 4,
       "price": 11800,
-      "amenities": ["Breakfast", "Beach access", "Pool"],
+      "amenities": [
+        "Breakfast",
+        "Beach access",
+        "Pool"
+      ],
       "description": "An easy-going base for island time and local dining.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/thailand.webp"
     },
     {
       "slug": "maldives-atoll-resort",
@@ -295,9 +454,13 @@
       "type": "Island resort",
       "stars": 5,
       "price": 35200,
-      "amenities": ["Breakfast", "Snorkelling", "Water villa"],
+      "amenities": [
+        "Breakfast",
+        "Snorkelling",
+        "Water villa"
+      ],
       "description": "A considered island stay with reef access and warm service.",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/maldives.webp"
     }
   ],
   "deals": [
@@ -311,10 +474,14 @@
       "originalPrice": 42900,
       "dealPrice": 36465,
       "validTill": "2026-10-31",
-      "inclusions": ["Complimentary Ayurvedic therapy", "Private houseboat upgrade", "Airport transfers"],
+      "inclusions": [
+        "Complimentary Ayurvedic therapy",
+        "Private houseboat upgrade",
+        "Airport transfers"
+      ],
       "badge": "Monsoon Exclusive",
       "status": "Active",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/kerala.webp"
     },
     {
       "id": "deal-dubai-expo-offsite",
@@ -326,10 +493,14 @@
       "originalPrice": 64900,
       "dealPrice": 55800,
       "validTill": "2026-12-15",
-      "inclusions": ["Marina yacht dinner upgrade", "Expedited UAE e-visas", "Consolidated SAC 9985 GST billing"],
+      "inclusions": [
+        "Marina yacht dinner upgrade",
+        "Expedited UAE e-visas",
+        "Consolidated SAC 9985 GST billing"
+      ],
       "badge": "Corporate MICE",
       "status": "Active",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/dubai.webp"
     },
     {
       "id": "deal-rajasthan-heritage-palace",
@@ -341,10 +512,14 @@
       "originalPrice": 58900,
       "dealPrice": 47120,
       "validTill": "2026-11-30",
-      "inclusions": ["Private fort illumination dinner", "Chauffeur sedan throughout", "Daily royal breakfast"],
+      "inclusions": [
+        "Private fort illumination dinner",
+        "Chauffeur sedan throughout",
+        "Daily royal breakfast"
+      ],
       "badge": "Heritage Luxury",
       "status": "Active",
-      "image": "assets/images/sample.webp"
+      "image": "assets/images/destinations/rajasthan.webp"
     }
   ],
   "flights": [

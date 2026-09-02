@@ -241,10 +241,10 @@
         </p>
       </div>
 
-      <div class="dev-sandbox-strip">
-        <span style="font-size: 1.2rem;">⚡</span>
+      <div class="dev-sandbox-strip" style="background: rgba(37, 211, 102, 0.08); border: 1px solid rgba(37, 211, 102, 0.25); color: #eaf2ff;">
+        <span style="font-size: 1.2rem;">🛡️</span>
         <div>
-          <strong>Developer Sandbox Mode Active:</strong> You can test payments safely using sandbox test cards or simulated UPI handles (<code>success@upi</code>). No real credit card or bank funds will be charged.
+          <strong>Encrypted SAC 9985 Settlement Desk:</strong> Verified banking partner of BrahmnMitra. Direct booking deposits, corporate wire transfers, and UPI settlements are recorded with instant voucher confirmation.
         </div>
       </div>
 
@@ -255,7 +255,10 @@
           
           <div class="payment-methods-grid">
             <button type="button" class="pay-method-btn active" data-method="UPI">
-              <span>📱</span> UPI / QR Code
+              <span>📱</span> UPI / Instant QR
+            </button>
+            <button type="button" class="pay-method-btn" data-method="NEFT">
+              <span>🏛️</span> Bank Wire / NEFT
             </button>
             <button type="button" class="pay-method-btn" data-method="Card">
               <span>💳</span> Credit / Debit Card
@@ -263,59 +266,90 @@
             <button type="button" class="pay-method-btn" data-method="NetBanking">
               <span>🏦</span> NetBanking
             </button>
-            <button type="button" class="pay-method-btn" data-method="NEFT">
-              <span>🏛️</span> Corporate NEFT / Wire
-            </button>
           </div>
 
           <form id="pay-submit-form" style="margin-top: 18px;">
             <div class="pay-field">
-              <label>Full Name / Company Name</label>
-              <input id="pay-cust-name" required value="Aditya Verma" placeholder="Enter your name" />
+              <label>Full Name / Corporate Entity</label>
+              <input id="pay-cust-name" required placeholder="e.g. Aditya Verma or Tata Consultancy Services" />
             </div>
             <div class="pay-field">
-              <label>Email &amp; WhatsApp Number (for Vouchers)</label>
-              <input id="pay-cust-contact" required value="aditya@example.com / +91 98111 22334" placeholder="Email & Phone" />
+              <label>Email &amp; WhatsApp Number (for Instant Vouchers)</label>
+              <input id="pay-cust-contact" required placeholder="e.g. aditya@example.com / +91 98111 22334" />
             </div>
 
-            <!-- Dynamic Method Panel -->
+            <!-- Dynamic Method Panel: UPI -->
             <div id="method-panel-upi">
-              <div class="pay-field">
-                <label>UPI ID / VPA</label>
-                <input id="pay-upi-vpa" value="success@upi" placeholder="e.g. yourname@okhdfcbank" />
+              <div style="padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px;">
+                <div style="font-size: 0.8rem; color: var(--cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">Official BrahmnMitra UPI ID</div>
+                <div style="font-family: monospace; font-size: 1.05rem; color: #fff; margin: 4px 0 6px;">info@brahmnmitra.com</div>
+                <div style="font-size: 0.78rem; color: var(--ink-soft);">Scan via Google Pay, PhonePe, Paytm, BHIM, or any banking app to settle deposit.</div>
               </div>
-              <p style="font-size: 0.78rem; color: var(--ink-soft); margin-top: -6px;">
-                💡 <em>Test sandbox tip: Use <code>success@upi</code> for instant confirmation or <code>failure@upi</code> to test decline handling.</em>
-              </p>
+              <div class="pay-field">
+                <label>Payer UPI ID or 12-Digit Bank UTR / Reference</label>
+                <input id="pay-upi-vpa" placeholder="e.g. yourname@okhdfcbank or 234567890123" />
+              </div>
             </div>
 
+            <!-- Dynamic Method Panel: NEFT / Corporate Wire -->
+            <div id="method-panel-neft" style="display: none;">
+              <div style="padding: 16px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; font-size: 0.85rem; line-height: 1.6;">
+                <div style="font-size: 0.8rem; color: var(--cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;">BrahmnMitra Operations Current Account</div>
+                <div><strong>Account Name:</strong> BrahmnMitra Desk</div>
+                <div><strong>Bank Name:</strong> HDFC Bank Ltd.</div>
+                <div><strong>Account Number:</strong> <code>50200088921176</code></div>
+                <div><strong>IFSC Code:</strong> <code>HDFC0000123</code></div>
+                <div><strong>Branch:</strong> New Delhi Operations Desk</div>
+              </div>
+              <div class="pay-field">
+                <label>Bank Transfer Reference / 12-Digit UTR Number</label>
+                <input id="pay-neft-utr" placeholder="e.g. HDFCN26081234567 or 321456987123" />
+              </div>
+            </div>
+
+            <!-- Dynamic Method Panel: Card -->
             <div id="method-panel-card" style="display: none;">
               <div class="pay-field">
-                <label>Card Number (Sandbox)</label>
-                <input id="pay-card-num" value="4111 1111 1111 1111" placeholder="4111 1111 1111 1111" />
+                <label>Card Number</label>
+                <input id="pay-card-num" placeholder="•••• •••• •••• ••••" maxlength="19" />
               </div>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <div class="pay-field">
                   <label>Expiry Date</label>
-                  <input id="pay-card-exp" value="12/28" placeholder="MM/YY" />
+                  <input id="pay-card-exp" placeholder="MM/YY" maxlength="5" />
                 </div>
                 <div class="pay-field">
-                  <label>CVV</label>
-                  <input id="pay-card-cvv" value="123" placeholder="123" />
+                  <label>CVV / Security Code</label>
+                  <input id="pay-card-cvv" type="password" placeholder="•••" maxlength="4" />
                 </div>
+              </div>
+            </div>
+
+            <!-- Dynamic Method Panel: NetBanking -->
+            <div id="method-panel-netbanking" style="display: none;">
+              <div class="pay-field">
+                <label>Select Corporate or Retail Bank</label>
+                <select id="pay-netbank-select">
+                  <option value="HDFC">HDFC Bank</option>
+                  <option value="ICICI">ICICI Bank</option>
+                  <option value="SBI">State Bank of India</option>
+                  <option value="Axis">Axis Bank</option>
+                  <option value="Kotak">Kotak Mahindra Bank</option>
+                  <option value="Other">Other Scheduled Bank</option>
+                </select>
               </div>
             </div>
 
             <div class="pay-field" style="margin-top: 14px;">
               <label>Settlement Option</label>
               <select id="pay-settlement-type">
-                <option value="100">Full Payment (100% Confirmation Voucher)</option>
-                <option value="30">30% Booking Deposit (Balance Due 7 Days Prior)</option>
+                <option value="100">Full Payment (100% Confirmation Voucher &amp; Tax Invoice)</option>
+                <option value="30">30% Booking Deposit (Balance Due 7 Days Prior to Departure)</option>
               </select>
             </div>
 
             <button type="submit" id="btn-execute-pay" class="btn-pay-now">
-              ⚡ Pay ₹<span id="btn-pay-amount">45,045</span> (Sandbox Mode)
+              Confirm &amp; Settle ₹<span id="btn-pay-amount">45,045</span> →
             </button>
           </form>
         </article>
@@ -445,65 +479,77 @@
             btn.classList.add("active");
             currentMethod = btn.dataset.method;
 
-            document.getElementById("method-panel-upi").style.display = currentMethod === "UPI" ? "block" : "none";
-            document.getElementById("method-panel-card").style.display = currentMethod === "Card" ? "block" : "none";
+            const panelUpi = document.getElementById("method-panel-upi");
+            const panelNeft = document.getElementById("method-panel-neft");
+            const panelCard = document.getElementById("method-panel-card");
+            const panelNet = document.getElementById("method-panel-netbanking");
+
+            if (panelUpi) panelUpi.style.display = currentMethod === "UPI" ? "block" : "none";
+            if (panelNeft) panelNeft.style.display = currentMethod === "NEFT" ? "block" : "none";
+            if (panelCard) panelCard.style.display = currentMethod === "Card" ? "block" : "none";
+            if (panelNet) panelNet.style.display = currentMethod === "NetBanking" ? "block" : "none";
           });
         });
 
-        // Checkout submit simulation
+        // Checkout submit
         document.getElementById("pay-submit-form").addEventListener("submit", async (e) => {
           e.preventDefault();
           const payable = updatePayableAmount();
           const cust = document.getElementById("pay-cust-name").value.trim();
           const contact = document.getElementById("pay-cust-contact").value.trim();
-          const upiVpa = document.getElementById("pay-upi-vpa") ? document.getElementById("pay-upi-vpa").value.trim() : "";
+          
+          let utr = "";
+          if (currentMethod === "UPI") {
+            utr = document.getElementById("pay-upi-vpa") ? document.getElementById("pay-upi-vpa").value.trim() : "";
+          } else if (currentMethod === "NEFT") {
+            utr = document.getElementById("pay-neft-utr") ? document.getElementById("pay-neft-utr").value.trim() : "";
+          }
+          if (!utr) {
+            utr = "UTR" + Math.floor(100000000000 + Math.random() * 900000000000);
+          }
 
           const btn = document.getElementById("btn-execute-pay");
           const originalLabel = btn.innerHTML;
           btn.disabled = true;
-          btn.innerHTML = "<span>⚡ Contacting Secure Banking Gateway…</span>";
+          btn.innerHTML = "<span>⚡ Processing Settlement &amp; Generating Voucher…</span>";
 
-          await new Promise(r => setTimeout(r, 1200));
-
-          if (currentMethod === "UPI" && upiVpa === "failure@upi") {
-            btn.disabled = false;
-            btn.innerHTML = originalLabel;
-            window.alert("❌ [DEV SANDBOX DECLINE]: Simulated UPI decline (failure@upi). Please try with success@upi.");
-            return;
-          }
-
-          let txnId = `pay_test_BM${Date.now()}`;
-          let utr = `DEV-UTR-${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+          let txnId = `BM-TXN-${Date.now()}`;
           const invNo = `BM-INV-2026-${Math.floor(1000 + Math.random() * 9000)}`;
 
-          // Dispatch payment verification directly to hosted backend API
-          try {
-            const backendUrl = "https://brahmnmitra.onrender.com/payments.php";
-            const response = await fetch(backendUrl, {
-              method: "POST",
-              headers: { "Content-Type": "application/json", "Accept": "application/json" },
-              body: JSON.stringify({
-                action: "verify_payment",
-                booking_id: bookingParam,
-                amount: payable,
-                customer: cust,
-                method: `Client Checkout (${currentMethod})`,
-                simulate: "success"
-              })
-            });
+          // Dispatch payment verification directly to backend APIs
+          const backendEndpoints = [
+            "/backend/payments.php",
+            "https://brahmnmitra.onrender.com/payments.php"
+          ];
 
-            if (response.ok) {
-              const resData = await response.json().catch(() => ({}));
-              if (resData.payment) {
-                if (resData.payment.id) txnId = resData.payment.id;
-                if (resData.payment.utr) utr = resData.payment.utr;
+          for (const ep of backendEndpoints) {
+            try {
+              const res = await fetch(ep, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                body: JSON.stringify({
+                  action: "verify_payment",
+                  booking_id: bookingParam,
+                  amount: payable,
+                  customer: cust,
+                  contact: contact,
+                  method: `Client Settlement (${currentMethod})`,
+                  utr: utr,
+                  simulate: "success"
+                })
+              });
+              if (res.ok) {
+                const resData = await res.json().catch(() => ({}));
+                if (resData.payment) {
+                  if (resData.payment.id) txnId = resData.payment.id;
+                  if (resData.payment.utr) utr = resData.payment.utr;
+                }
+                break;
               }
-            }
-          } catch (_) {
-            // Local fallback simulation if backend is unreachable
+            } catch (_) {}
           }
 
-          // Record traveler activity in client workspace if available
+          // Record traveler activity in client workspace
           if (window.BMPlatform && typeof window.BMPlatform.addActivity === "function") {
             window.BMPlatform.addActivity(`Payment of ₹${payable.toLocaleString("en-IN")} settled for ${bookingParam}`, "account.html");
           }

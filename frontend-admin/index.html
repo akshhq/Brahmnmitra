@@ -44,6 +44,15 @@
             <span class="nav-icon">⚙️</span> Platform Setup
           </button>
         </nav>
+
+        <div id="admin-user-profile" class="admin-user-profile" style="display: none;">
+          <div class="admin-user-info">
+            <span id="admin-user-name" class="admin-user-name">Administrator</span>
+            <span id="admin-user-role" class="admin-user-role">Super Admin</span>
+          </div>
+          <button id="admin-logout-btn" class="admin-logout-btn" type="button" title="Sign out of operations desk">Logout</button>
+        </div>
+
         <div class="admin-sidebar-footer">
           BrahmnMitra Enterprise Desk<br />
           <small>SAC 9985 · GST Compliant</small>
@@ -732,6 +741,39 @@
           </div>
         </div>
         <div id="invoice-printable-doc" class="invoice-printable-wrapper"></div>
+      </div>
+    <!-- ADMIN AUTHENTICATION GATE -->
+    <div id="admin-auth-overlay" class="admin-auth-overlay">
+      <div class="admin-auth-box">
+        <div class="admin-auth-brand">
+          BRAHMNMITRA
+          <span>OPERATIONS &amp; FINANCE DESK</span>
+        </div>
+        <p class="admin-auth-desc">
+          Authorized personnel access only. Please sign in with your BrahmnMitra operational credentials to manage bookings, leads, invoices, and inventory.
+        </p>
+
+        <form id="admin-login-form" class="admin-auth-form">
+          <div id="admin-auth-alert" class="admin-auth-alert"></div>
+
+          <label>
+            Operational Email
+            <input type="email" id="admin-login-email" name="email" placeholder="admin@brahmnmitra.com" required autocomplete="username" />
+          </label>
+
+          <label>
+            Security Password
+            <input type="password" id="admin-login-password" name="password" placeholder="••••••••••••" required autocomplete="current-password" />
+          </label>
+
+          <button id="admin-login-submit" class="admin-auth-submit" type="submit">
+            Sign In to Operations Portal →
+          </button>
+        </form>
+
+        <div class="admin-auth-footer">
+          SAC 9985 Registered · Hostinger MySQL Secure Cluster · Encrypted JWT Sessions
+        </div>
       </div>
     </div>
 

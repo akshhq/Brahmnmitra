@@ -226,7 +226,10 @@ function bm_respond($ok, $message = "", $http = 200)
         http_response_code($http);
         header("Content-Type: application/json; charset=utf-8");
         echo json_encode(
-            $ok ? ["ok" => true] : ["ok" => false, "error" => $message],
+            $ok
+                ? ["ok" => true, "status" => "ok", "message" => $message ?: "Success"]
+                : ["ok" => false, "status" => "error", "error" => $message, "message" => $message],
+            JSON_PRETTY_PRINT
         );
         exit();
     }
