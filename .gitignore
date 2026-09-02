@@ -2,17 +2,33 @@
 # BrahmnMitra Project .gitignore
 # ==========================================
 
-# --- Environment & Credentials ---
+# --- Environment & Secret Credentials ---
 .env
 .env.*
-!.env.example
+.env.local
+.env.development
+.env.test
+.env.production
+backend/.env
+backend/.env.*
+backend/.env.local
+backend/.env.production
 *.env
+!.env.example
+!backend/.env.example
+
+# --- Certificates, Keys & Secrets ---
 *.pem
 *.key
 *.cert
 *.p12
 *.crt
 credentials.json
+auth_tokens.json
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
 
 # --- Dependencies ---
 node_modules/
