@@ -10,7 +10,9 @@ require_once __DIR__ . "/includes/db.php";
 
 bm_handle_cors();
 
-$catalogFile = __DIR__ . "/../data/travel-catalog.json";
+$catalogFile = file_exists(__DIR__ . "/data/travel-catalog.json") 
+    ? (__DIR__ . "/data/travel-catalog.json") 
+    : (file_exists(__DIR__ . "/../data/travel-catalog.json") ? (__DIR__ . "/../data/travel-catalog.json") : (__DIR__ . "/travel-catalog.json"));
 $db = bm_get_db();
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
