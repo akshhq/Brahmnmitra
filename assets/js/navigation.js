@@ -52,6 +52,52 @@ BM.initNavigation = function () {
     if (e.target.closest("a")) closeNav();
   });
 
+  /* ---------- Local Dev vs Production Routing Adapter ---------- */
+  const isLocalDev = Boolean(
+    location.hostname === "localhost" ||
+    location.hostname === "127.0.0.1" ||
+    location.protocol === "file:" ||
+    (location.port && location.port !== "80" && location.port !== "443")
+  );
+
+  if (isLocalDev) {
+    const localRouteMap = {
+      "/packages": "/pages/packages.html",
+      "/hotels": "/pages/hotels.html",
+      "/destinations": "/pages/destinations.html",
+      "/services": "/pages/services.html",
+      "/process": "/pages/process.html",
+      "/about": "/pages/about.html",
+      "/travel-assistant": "/pages/travel-assistant.html",
+      "/contact": "/pages/contact.html",
+      "/account": "/pages/account.html",
+      "/plan": "/pages/plan.html",
+      "/pay": "/pages/pay.html",
+      "/terms": "/pages/terms.html",
+      "/privacy": "/pages/privacy.html",
+      "/refund-policy": "/pages/refund-policy.html",
+      "/corporate-capability": "/pages/corporate-capability.html",
+      "/corporate": "/pages/corporate-capability.html",
+      "/itinerary-builder": "/pages/travel-assistant.html"
+    };
+
+    document.addEventListener("click", (e) => {
+      const anchor = e.target.closest("a");
+      if (!anchor) return;
+
+      const href = anchor.getAttribute("href");
+      if (!href || href.startsWith("#") || href.startsWith("javascript:") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("http")) return;
+
+      const [pathPart] = href.split(/[?#]/);
+      const suffix = href.slice(pathPart.length);
+
+      if (localRouteMap[pathPart]) {
+        e.preventDefault();
+        window.location.href = localRouteMap[pathPart] + suffix;
+      }
+    });
+  }
+
   // Modal keyboard handling: Escape to close + Tab focus trap
   document.addEventListener("keydown", (e) => {
     const isOpen = toggle.getAttribute("aria-expanded") === "true";

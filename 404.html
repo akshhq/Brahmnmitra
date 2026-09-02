@@ -7,6 +7,33 @@
     <title>Page not found — BrahmnMitra</title>
     <meta name="theme-color" content="#04060C" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
+    <script>
+      (function () {
+        var path = window.location.pathname.replace(/\/$/, "");
+        var map = {
+          "/packages": "/pages/packages.html",
+          "/hotels": "/pages/hotels.html",
+          "/destinations": "/pages/destinations.html",
+          "/services": "/pages/services.html",
+          "/process": "/pages/process.html",
+          "/about": "/pages/about.html",
+          "/travel-assistant": "/pages/travel-assistant.html",
+          "/contact": "/pages/contact.html",
+          "/account": "/pages/account.html",
+          "/plan": "/pages/plan.html",
+          "/pay": "/pages/pay.html",
+          "/terms": "/pages/terms.html",
+          "/privacy": "/pages/privacy.html",
+          "/refund-policy": "/pages/refund-policy.html",
+          "/corporate-capability": "/pages/corporate-capability.html",
+          "/corporate": "/pages/corporate-capability.html",
+          "/itinerary-builder": "/pages/travel-assistant.html"
+        };
+        if (map[path]) {
+          window.location.replace(map[path] + window.location.search + window.location.hash);
+        }
+      })();
+    </script>
     <style>
       * {
         margin: 0;
